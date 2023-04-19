@@ -1,0 +1,167 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+skinparam LineType Ortho
+skinparam Ranksep 50
+skinparam Nodesep 50
+skinparam minClassWidth 150
+skinparam minClassHeight 150
+skinparam maxClassHeight {
+    Expr 100
+}
+
+'Class Program
+class Program {
+    -klassen: List<Class>
+}
+
+Program o--> Class
+
+'Class Class
+class Class {
+    name: String
+    attribut: List<IField>
+    methoden: List<IMethod>
+    access: Access
+}
+
+Class --> Method
+Method -> IStmt
+
+Class --> Field
+
+'Class Field
+class Field {
+    name: String
+    type: Type
+    access: Access
+}
+
+'Class Method
+class Method {
+    name: String
+    type: Type
+    parameter: List<IVar>
+    statement: IStmt
+}
+
+Method o-> Parameter
+
+'Class Parameter
+class Parameter {
+    +name:String
+    +type:Type
+}
+
+'Interface Statement
+interface IStmt {
+}
+
+Class --> While
+Class --> Return
+Class --> If
+Class --> LocalOrFieldVar
+Class --> StmtExprStmt
+Class --> Block
+
+class While {
+}
+
+class Return {
+    +expression:IExpr
+    +type:String
+}
+
+class If {
+    +expression:IExpr
+    +stmt1:IStmt
+    +stmt2:IStmt
+}
+
+class LocalOrFieldVar {
+}
+
+class StmtExprStmt {
+}
+
+class Block {
+    +statements: IStmt[]
+    +type:String
+}
+
+'Interface Statement Expression
+interface IStmtExpr {
+}
+
+class MethodCall {
+}
+
+class Assign {
+    varName:String
+    expression:IExpr
+}
+
+class New {
+}
+
+IStmtExpr <|-- MethodCall
+IStmtExpr <|-- Assign
+IStmtExpr <|-- New
+
+'Inteface Expressions
+interface IExpr {
+}
+
+class String {
+}
+
+class Integer {
+}
+
+class Bool {
+}
+
+class Char {
+}
+
+class Binary {
+}
+
+class Unary {
+}
+
+class LocalOrFieldVar {
+}
+
+class StmtExprExpr {
+}
+
+class Super {
+}
+
+class This {
+}
+
+class JNull {
+}
+
+class InstVar {
+    +varName:String
+    +expression:IExpr
+    +type: String
+}
+
+IExpr <|-- String
+IExpr <|-- Integer
+IExpr <|-- Bool
+IExpr <|-- Char
+IExpr <|-- Binary
+IExpr <|-- Unary
+IExpr <|-- LocalOrFieldVar
+IExpr <|-- StmtExprExpr
+IExpr <|-- Super
+IExpr <|-- This
+IExpr <|-- JNull
+IExpr <|-- InstVar
+
+@enduml

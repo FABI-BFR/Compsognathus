@@ -1,0 +1,194 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+skinparam LineType Ortho
+skinparam Ranksep 50
+skinparam Nodesep 50
+skinparam minClassWidth 150
+skinparam minClassHeight 150
+skinparam maxClassHeight{
+    Expr 100
+}
+
+
+
+'Class Program
+class Program{
+-klassen: List<Class>
+--
+}
+Program o--> Class
+
+'Class Class
+class Class{
+name:String
+attribut:List<IField>
+methoden: List<IMethod>
+access: Access
+--
+}
+ Method <--o Class
+ Method -> IStmt
+
+'Class Field
+class Field{
+name: String
+type: Type
+access: Access
+--
+}
+ Field <--o Class
+
+'Class Method
+class Method{
+name: String
+type: Type
+parameter: List<IVar>
+statement: IStmt
+--
+}
+Method o-> Parameter
+
+'Class Parameter
+class Parameter{
++name:String
++type:Type
+--
+}
+
+
+
+
+
+
+'Interface Statement
+interface IStmt{
+}
+
+class While{
+}
+While ---|> IStmt
+
+class Return{
++expression:IExpr
++type:String
+--
+}
+Return ---|> IStmt
+
+class If{
++expression:IExpr
++stmt1:IStmt
++stmt2:IStmt
+--
+}
+If ---|> IStmt
+
+class LocalOrFieldVar{
+}
+LocalOrFieldVar ---|> IStmt
+
+class StmtExprStmt{
+}
+StmtExprStmt ---|> IStmt
+StmtExprStmt -> IStmtExpr
+
+class Block{
++statements: IStmt[]
++type:String
+--
+}
+Block ---|> IStmt
+
+
+
+
+
+
+
+
+'Interface Statement Expression
+interface IStmtExpr{
+}
+
+class MethodCall{
+}
+IStmtExpr <|-- MethodCall
+
+class Assign{
+varName:String
+expression:IExpr
+}
+IStmtExpr <|-- Assign
+
+class New{
+}
+IStmtExpr <|-- New
+
+
+
+
+
+
+
+
+'Inteface Expressions
+interface IExpr{
+    --
+}
+
+class String{
+}
+String ---|> IExpr
+
+
+class Integer{
+}
+Integer ---|> IExpr
+
+class Bool{
+}
+Bool ---|> IExpr
+
+class Char{
+}
+Char ---|> IExpr
+
+class Binary{
+}
+Binary ---|> IExpr
+
+class Unary{
+}
+Unary --|> IExpr
+
+class LocalOrFieldVar{
+}
+LocalOrFieldVar --|>  IExpr
+
+class StmtExprExpr{
+}
+StmtExprExpr --|> IExpr
+StmtExprExpr -> IStmtExpr
+
+class Super{
+}
+Super --|> IExpr
+
+class This{
+}
+This --|>IExpr
+
+class JNull{
+}
+JNull --|>IExpr
+
+class InstVar{
+    --
+    +varName:String
+    +expression:IExpr
+    +type: String
+}
+InstVar --|> IExpr
+
+@enduml

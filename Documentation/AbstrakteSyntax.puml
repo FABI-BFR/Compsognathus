@@ -1,27 +1,172 @@
+
 @startuml
-'https://plantuml.com/class-diagram
-
-abstract class AbstractList
-abstract AbstractCollection
-interface List
-interface Collection
-
-List <|-- AbstractList
-Collection <|-- AbstractCollection
-
-Collection <|- List
-AbstractCollection <|- AbstractList
-AbstractList <|-- ArrayList
-
-class ArrayList {
-Object[] elementData
-size()
+skinparam LineType Ortho
+skinparam Ranksep 50
+skinparam Nodesep 50
+skinparam minClassWidth 150
+skinparam minClassHeight 150
+skinparam maxClassHeight{
+    Expr 100
 }
 
-enum TimeUnit {
-DAYS
-HOURS
-MINUTES
+class Class {
+  - type: Type
+  - fields: List<FieldDecl>
+  - methods: List<MethodDecl>
 }
+
+class FieldDecl {
+  - type: Type
+  - name: String
+}
+
+class MethodDecl {
+  - type: Type
+  - name: String
+  - para: Parameter
+  - body: Stmt
+}
+
+class Parameter {
+   -type: Type
+   -name: String
+}
+
+class Stmt {
+}
+
+class Block {
+  - statements: List<Stmt>
+}
+
+class Return {
+  - expression: Expr
+}
+
+class While {
+  - condition: Expr
+  - body: Stmt
+}
+
+class LocalVarDecl {
+  - type: Type
+  - name: String
+}
+
+class If {
+  - condition: Expr
+  - thenStmt: Stmt
+  - elseStmt: Stmt
+}
+
+class StmtExprStmt {
+  - statementExpression: StmtExpr
+}
+
+class StmtExpr {
+}
+
+class Assign {
+  - variableName: String
+  - expression: Expr
+}
+
+class New {
+  - type: Type
+  - arguments: List<Expr>
+}
+
+class MethodCall {
+  - receiver: Expr
+  - methodName: String
+  - arguments: List<Expr>
+}
+
+interface Expr{
+ \n
+ \n
+}
+
+class This {
+}
+
+class Super {
+}
+
+class LocalOrFieldVar {
+  - name: String
+}
+
+class InstVar {
+  - receiver: Expr
+  - name: String
+}
+
+class Unary {
+  - operator: String
+  - operand: Expr
+}
+
+class Binary {
+  - operator: String
+  - left: Expr
+  - right: Expr
+}
+
+class Integer {
+  - value: Integer
+}
+
+class Bool {
+  - value: Bool
+}
+
+class Char {
+  - value: Char
+}
+
+class String {
+  - value: String
+}
+
+class Jnull {
+}
+
+Class "1" *-- "*" FieldDecl
+Class "1" *-- "*" MethodDecl
+MethodDecl "1" *-- "*" Stmt
+MethodDecl "1" *-- "*" Parameter
+Stmt "*" *-- "*" Block
+Stmt "1" *-- "*"  Return
+Stmt "1" *-- "*"  While
+Stmt "1" *-- "*"  LocalVarDecl
+Stmt "1" *-- "*"  If
+Stmt "1" *-- "*"  StmtExprStmt
+StmtExprStmt "1" -- "1" StmtExpr
+StmtExpr "1" *-- "*" Assign
+StmtExpr "1" *-- "*" New
+StmtExpr "1" *-- "*" MethodCall
+
+While  ..> Expr :<<use>>
+If ..>  Expr :<<use>>
+Return ..> Expr :<<use>>
+
+Assign  ..> Expr :<<use>>
+New ..> Expr :<<use>>
+MethodCall ..> Expr :<<use>>
+
+Expr <|.. This
+Expr <|.. Super
+Expr <|.. LocalOrFieldVar
+Expr <|.. InstVar
+Expr <|.. Unary
+Expr <|.. Binary
+Expr <|.. Integer
+Expr <|.. Bool
+Expr <|.. Char
+Expr <|.. String
+Expr <|.. Jnull
 
 @enduml
+
+

@@ -66,6 +66,8 @@ interface IStmt{
 }
 
 class While{
++expression:IExpr
++ stmt : IStmt
 }
 While ---|> IStmt
 
@@ -85,6 +87,8 @@ class If{
 If ---|> IStmt
 
 class LocalOrFieldVar{
++type : Type
++name : String
 }
 LocalOrFieldVar ---|> IStmt
 
@@ -138,27 +142,36 @@ interface IExpr{
 }
 
 class String{
++value String
 }
 String ---|> IExpr
 
 
 class Integer{
++value Integer
 }
 Integer ---|> IExpr
 
 class Bool{
++value Boolean
 }
 Bool ---|> IExpr
 
 class Char{
++value Char
 }
 Char ---|> IExpr
 
 class Binary{
++operator : String
++expression1 : IExpr
++expression2 : IExpr
 }
 Binary ---|> IExpr
 
 class Unary{
++operator : String
++expression1 : IExpr
 }
 Unary --|> IExpr
 

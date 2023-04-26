@@ -1,4 +1,8 @@
 package semantikCheck.expr;
 
-public class Binary {
+
+import semantikCheck.interfaces.IExpr;
+
+import java.util.List;
+public class Binary implements IExpr {
 }

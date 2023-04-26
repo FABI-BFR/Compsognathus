@@ -18,4 +18,10 @@ public class Program {
              this.classes.addAll(_classes);
         }
     }
+
+    public List<Class> getClasses()
+    {
+        return classes;
+    }
+
 }

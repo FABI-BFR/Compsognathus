@@ -17,7 +17,7 @@ class Program{
 -klassen: List<Class>
 --
 }
-Program o--> Class
+Program o-> Class
 
 'Class Class
 class Class{
@@ -27,8 +27,9 @@ methoden: List<IMethod>
 access: Access
 --
 }
- Method <--o Class
- Method -> IStmt
+Class o-> Method
+
+
 
 'Class Field
 class Field{
@@ -43,11 +44,12 @@ access: Access
 class Method{
 name: String
 type: Type
-parameter: List<IVar>
-statement: IStmt
+parameter: List<IExpr>
+statement: Block
 --
 }
 Method o-> Parameter
+Method -r> Block
 
 'Class Parameter
 class Parameter{
@@ -64,14 +66,20 @@ class Parameter{
 'Interface Statement
 interface IStmt{
 }
-
+class TypedStmt{
+stmt : IStmt
+type : Type
+}
+TypedStmt -|> IStmt
 class While{
++expression:IExpr
++ stmt : IStmt
 }
 While ---|> IStmt
 
 class Return{
 +expression:IExpr
-+type:String
++type:Type
 --
 }
 Return ---|> IStmt
@@ -85,20 +93,19 @@ class If{
 If ---|> IStmt
 
 class LocalOrFieldVar{
++type : Type
++name : String
 }
 LocalOrFieldVar ---|> IStmt
 
-class StmtExprStmt{
-}
-StmtExprStmt ---|> IStmt
-StmtExprStmt -> IStmtExpr
+
 
 class Block{
-+statements: IStmt[]
-+type:String
++statements: List<IStmt>
++type:Type
 --
 }
-Block ---|> IStmt
+Block -|> IStmt
 
 
 
@@ -110,17 +117,24 @@ Block ---|> IStmt
 'Interface Statement Expression
 interface IStmtExpr{
 }
+IStmtExpr -l|> IStmt
+IStmtExpr -l|> IExpr
 
 class MethodCall{
 }
 IStmtExpr <|-- MethodCall
 
 class Assign{
-varName:String
+leftSide : leftSideExpr
 expression:IExpr
 }
+Assign -> leftSideExpr
 IStmtExpr <|-- Assign
-
+class leftSideExpr{
+expression : IExpr
+}
+leftSideExpr -> InstVar
+leftSideExpr -> LocalOrFieldVar
 class New{
 }
 IStmtExpr <|-- New
@@ -136,29 +150,46 @@ IStmtExpr <|-- New
 interface IExpr{
     --
 }
-
-class String{
+class TypedExpr{
+statement : IStmt
+type : Type
 }
-String ---|> IExpr
-
-
-class Integer{
+TypedExpr -|> IExpr
+class StringLit{
++value String
 }
-Integer ---|> IExpr
+StringLit ---|> IExpr
+StringLit -[hidden]-> IntegerLit
 
-class Bool{
+class IntegerLit{
++value Integer
 }
-Bool ---|> IExpr
+IntegerLit ---|> IExpr
+IntegerLit -[hidden]-> BoolLit
 
-class Char{
+class BoolLit{
++value Boolean
 }
-Char ---|> IExpr
+BoolLit ---|> IExpr
+BoolLit -[hidden]-> CharLit
+
+class CharLit{
++value Char
+}
+CharLit ---|> IExpr
+CharLit -[hidden]-> Binary
 
 class Binary{
++operator : String
++expression1 : IExpr
++expression2 : IExpr
 }
 Binary ---|> IExpr
+Binary -[hidden]-> Unary
 
 class Unary{
++operator : String
++expression1 : IExpr
 }
 Unary --|> IExpr
 
@@ -166,10 +197,6 @@ class LocalOrFieldVar{
 }
 LocalOrFieldVar --|>  IExpr
 
-class StmtExprExpr{
-}
-StmtExprExpr --|> IExpr
-StmtExprExpr -> IStmtExpr
 
 class Super{
 }
@@ -187,7 +214,7 @@ class InstVar{
     --
     +varName:String
     +expression:IExpr
-    +type: String
+    +type: Type
 }
 InstVar --|> IExpr
 

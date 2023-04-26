@@ -45,11 +45,11 @@ class Method{
 name: String
 type: Type
 parameter: List<IExpr>
-statement: IStmt
+statement: Block
 --
 }
 Method o-> Parameter
-Method -r> IStmt
+Method -r> Block
 
 'Class Parameter
 class Parameter{
@@ -66,7 +66,11 @@ class Parameter{
 'Interface Statement
 interface IStmt{
 }
-
+class TypedStmt{
+stmt : IStmt
+type : Type
+}
+TypedStmt -|> IStmt
 class While{
 +expression:IExpr
 + stmt : IStmt
@@ -75,7 +79,7 @@ While ---|> IStmt
 
 class Return{
 +expression:IExpr
-+type:String
++type:Type
 --
 }
 Return ---|> IStmt
@@ -97,8 +101,8 @@ LocalOrFieldVar ---|> IStmt
 
 
 class Block{
-+statements: IStmt[]
-+type:String
++statements: List<IStmt>
++type:Type
 --
 }
 Block -|> IStmt
@@ -121,11 +125,16 @@ class MethodCall{
 IStmtExpr <|-- MethodCall
 
 class Assign{
-varName:String
+leftSide : leftSideExpr
 expression:IExpr
 }
+Assign -> leftSideExpr
 IStmtExpr <|-- Assign
-
+class leftSideExpr{
+expression : IExpr
+}
+leftSideExpr -> InstVar
+leftSideExpr -> LocalOrFieldVar
 class New{
 }
 IStmtExpr <|-- New
@@ -141,7 +150,11 @@ IStmtExpr <|-- New
 interface IExpr{
     --
 }
-
+class TypedExpr{
+statement : IStmt
+type : Type
+}
+TypedExpr -|> IExpr
 class StringLit{
 +value String
 }
@@ -201,7 +214,7 @@ class InstVar{
     --
     +varName:String
     +expression:IExpr
-    +type: String
+    +type: Type
 }
 InstVar --|> IExpr
 

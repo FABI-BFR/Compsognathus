@@ -70,6 +70,16 @@ public class ByteCodeGenerator
                         type,                           // Type
                         null,
                         null);
+                mv.visitCode();
+
+                // Actually visit code
+                MethodGenerator method = new MethodGenerator(mv, m.getParameter(), m.getName(), classGenerator);
+                visitBlockStmt(method, (Block)m.getStatement(), name.equals("<init>"));
+
+                // Return from method
+                mv.visitInsn(parseReturnType(m.getType()));
+
+                mv.visitMaxs(0, 0);
                 mv.visitEnd();
             }
 
@@ -245,14 +255,61 @@ public class ByteCodeGenerator
         return result;
     }
 
-    //resolve Statement
-
+    /**
+     * Resolves a Statement
+     *
+     * @param _method Object containing the MethodVisitor, the list of arguments and the list of local variables
+     * @param _stmt   Statement to resolve
+     */
+    @Contract("_, null -> fail")
+    private void resolveStmt(@NotNull MethodGenerator _method,
+                             @NotNull IStmt _stmt)
+    {
+        /*if (_stmt instanceof Block) {
+            visitBlockStmt(_method, (Block)_stmt, false);
+        } else if (_stmt instanceof IFStmt) {
+            visitIFStmt(_method, (IFStmt)_stmt);
+        } else if (_stmt instanceof LocalVarDecl) {
+            visitLocalVarDecl(_method, (LocalVarDecl)_stmt);
+        } else if (_stmt instanceof Return) {
+            visitReturn(_method, (Return)_stmt);
+        } else if (_stmt instanceof StmtExprStmt) {
+            visitStmtExprStmt(_method, (StmtExprStmt)_stmt);
+        } else if (_stmt instanceof While) {
+            visitWhile(_method, (While)_stmt);
+        } else {
+            throw new InvalidStatementException(_stmt.toString() + " is not a valid Statement.");
+        }*/
+    }
 
     //resolve statementexpression
 
     //resolve expression
 
-    //resolve Block
+    /**
+     * Resolves a Block Statement
+     *
+     * @param _method        Object containing the MethodVisitor, the list of arguments and the list of local variables
+     * @param _block         Statement to resolve
+     * @param _isConstructor Is the Block a constructor block
+     */
+    private void visitBlockStmt(@NotNull MethodGenerator _method,
+                                @NotNull Block _block,
+                                boolean _isConstructor)
+    {
+        if (_isConstructor) {
+            // Load this on stack
+            _method.getMethodVisitor().visitVarInsn(Opcodes.ALOAD, 0);
+            // Call parent constructor (MiniJava always calls Object)
+            _method.getMethodVisitor()
+                    .visitMethodInsn(Opcodes.INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
+        }
+
+        // Code visiting here
+        for (IStmt statement : _block.getStatements()) {
+            resolveStmt(_method, statement);
+        }
+    }
 
     //visitIfStatement
 

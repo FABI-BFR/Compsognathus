@@ -1,5 +1,6 @@
 package bytecode;
 
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import org.objectweb.asm.ClassWriter;
@@ -114,9 +115,81 @@ public class ByteCodeGenerator
 
     //Parse Method return type to JVM Type
 
-    //Parse Return type to opcode
 
-    //Parse type of variable to Opcode
+
+
+    /**
+     * Parses Return type to Opcode
+     * @param _type Return type
+     * @return Type as Opcode
+     */
+    @Contract(pure = true)
+    private int parseReturnType(@NotNull Type _type)
+    {
+        String type = _type.getType();
+        int result;
+
+        switch (type) {
+            case "boolean":
+            case "byte":
+            case "char":
+            case "short":
+            case "int":
+                result = Opcodes.IRETURN;
+                break;
+            case "long":
+                result = Opcodes.LRETURN;
+                break;
+            case "float":
+                result = Opcodes.FRETURN;
+                break;
+            case "double":
+                result = Opcodes.DRETURN;
+                break;
+            case "void":
+                result = Opcodes.RETURN;
+                break;
+            default:
+                result = Opcodes.ARETURN;
+                break;
+        }
+
+        return result;
+    }
+
+
+    /**
+     * Parses the type of a variable to an Opcode
+     * @param _type Variable type
+     * @return Typa as Opcode
+     */
+    private int parseVarType(@NotNull Type _type){
+        String type = _type.getType();
+        int result;
+        switch (type) {
+            case "boolean":
+            case "byte":
+            case "char":
+            case "short":
+            case "int":
+                result = Opcodes.INTEGER;
+                break;
+            case "long":
+                result = Opcodes.LONG;
+                break;
+            case "float":
+                result = Opcodes.FLOAT;
+                break;
+            case "double":
+                result = Opcodes.DOUBLE;
+                break;
+            default:
+                result = -1;
+                break;
+        }
+
+        return result;
+    }
 
     //resolve Statement
 

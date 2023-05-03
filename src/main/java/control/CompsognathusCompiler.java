@@ -23,7 +23,7 @@ public class CompsognathusCompiler
 
                     // Parser
                     AntlrParser parser = new AntlrParser();
-                    File file = new File("C:\\Users\\ENTE138\\Documents\\CompsognathusCompiler\\src\\main\\test\\exampleClasses\\emptyClass\\EmptyClass.java");
+                    File file = new File("C:/Users/ENTE138/Documents/CompsognathusCompiler/src/main/test/exampleClasses/emptyClass/EmptyClass.java");
                     Compiler_grammarParser.CompilationunitContext parseTree =
                             parser.parse(new File(file.getAbsolutePath()));
 
@@ -32,10 +32,9 @@ public class CompsognathusCompiler
                         return;
                     }
 
-
                     // Converter
                     Converter converter = new Converter();
-                    Program generatedProgram = converter.convert(parseTree);
+                    Program generatedProgram = converter.convertToProgram(parseTree);
 
                     // Semantic check
 
@@ -45,7 +44,7 @@ public class CompsognathusCompiler
                     List<ClassFile> myClassFiles = generator.generate(generatedProgram);
 
                     // Saving class files
-                    String direcotry = "C:\\Users\\ENTE138\\Documents\\CompsognathusCompiler";
+                    String direcotry = "C:/Users/ENTE138/Documents/CompsognathusCompiler";
                     for(ClassFile classFile: myClassFiles){
                         File tmpFile = new File(direcotry + classFile.getFileName());
                         storeDataInFile(tmpFile, classFile.getBytecode());

@@ -15,8 +15,12 @@ public class Converter
         Compiler_grammarParser.ClassdeclarationsContext tmp = parseTree.classdeclarations();
         List<Class> classes = new ArrayList<>();
 
-        Program program = new Program(classes);
 
+        tmp.classdeclaration();
+
+
+
+        Program program = new Program(classes);
 
         return program;
     }

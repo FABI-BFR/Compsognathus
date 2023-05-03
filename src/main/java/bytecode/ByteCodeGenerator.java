@@ -1,21 +1,13 @@
 package bytecode;
 
-import bytecode.exceptions.InvalidStatementException;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.FieldVisitor;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.*;
 import semantikCheck.*;
 import semantikCheck.Class;
-import semantikCheck.interfaces.IExpr;
-import semantikCheck.interfaces.IStmt;
-import semantikCheck.stmt.Block;
-import semantikCheck.stmt.LocalVarDecl;
-import semantikCheck.stmt.Return;
-import semantikCheck.stmt.While;
+import semantikCheck.Type;
+import semantikCheck.expr.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,16 +62,6 @@ public class ByteCodeGenerator
                         type,                           // Type
                         null,
                         null);
-                mv.visitCode();
-
-                // Actually visit code
-                MethodGenerator method = new MethodGenerator(mv, m.getParameter(), m.getName(), classGenerator);
-                visitBlockStmt(method, (Block)m.getStatement(), name.equals("<init>"));
-
-                // Return from method
-                mv.visitInsn(parseReturnType(m.getType()));
-
-                mv.visitMaxs(0, 0);
                 mv.visitEnd();
             }
 
@@ -160,7 +142,6 @@ public class ByteCodeGenerator
         return result.toString();
     }
 
-
     /**
      * Parses a method type to a JVM Type Singanture
      * @return
@@ -221,7 +202,6 @@ public class ByteCodeGenerator
         return result;
     }
 
-
     /**
      * Parses the type of a variable to an Opcode
      * @param _type Variable type
@@ -256,97 +236,99 @@ public class ByteCodeGenerator
     }
 
     /**
-     * Resolves a Statement
-     *
-     * @param _method Object containing the MethodVisitor, the list of arguments and the list of local variables
-     * @param _stmt   Statement to resolve
+     * Resolves a Bool Expression
+     * @param _method Object containing method stuff
+     * @param _boolExpr Expression to resolve
      */
-    @Contract("_, null -> fail")
-    private void resolveStmt(@NotNull MethodGenerator _method,
-                             @NotNull IStmt _stmt)
+    private void visitBoolExpr(@NotNull MethodGenerator _method,
+                               @NotNull BoolLit _boolExpr)
     {
-        /*if (_stmt instanceof Block) {
-            visitBlockStmt(_method, (Block)_stmt, false);
-        } else if (_stmt instanceof IFStmt) {
-            visitIFStmt(_method, (IFStmt)_stmt);
-        } else if (_stmt instanceof LocalVarDecl) {
-            visitLocalVarDecl(_method, (LocalVarDecl)_stmt);
-        } else if (_stmt instanceof Return) {
-            visitReturn(_method, (Return)_stmt);
-        } else if (_stmt instanceof StmtExprStmt) {
-            visitStmtExprStmt(_method, (StmtExprStmt)_stmt);
-        } else if (_stmt instanceof While) {
-            visitWhile(_method, (While)_stmt);
+        if (_boolExpr.value) {
+            _method.getMethodVisitor().visitInsn(Opcodes.ICONST_1);
         } else {
-            throw new InvalidStatementException(_stmt.toString() + " is not a valid Statement.");
-        }*/
+            _method.getMethodVisitor().visitInsn(Opcodes.ICONST_0);
+        }
     }
-
-    //resolve statementexpression
-
-    //resolve expression
 
     /**
-     * Resolves a Block Statement
-     *
-     * @param _method        Object containing the MethodVisitor, the list of arguments and the list of local variables
-     * @param _block         Statement to resolve
-     * @param _isConstructor Is the Block a constructor block
+     * Resolves a Char Expression
+     * @param _method Object containing method stuff
+     * @param _charExpr Expression to resolve
      */
-    private void visitBlockStmt(@NotNull MethodGenerator _method,
-                                @NotNull Block _block,
-                                boolean _isConstructor)
+    private void visitCharExpr(@NotNull MethodGenerator _method,
+                               @NotNull CharLit _charExpr)
     {
-        if (_isConstructor) {
-            // Load this on stack
-            _method.getMethodVisitor().visitVarInsn(Opcodes.ALOAD, 0);
-            // Call parent constructor (MiniJava always calls Object)
-            _method.getMethodVisitor()
-                    .visitMethodInsn(Opcodes.INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
-        }
-
-        // Code visiting here
-        for (IStmt statement : _block.getStatements()) {
-            resolveStmt(_method, statement);
-        }
+        _method.getMethodVisitor().visitIntInsn(Opcodes.BIPUSH, Character.getNumericValue(_charExpr.value));
     }
 
-    //visitIfStatement
+    /**
+     * Resolves an Integer Expression
+     * @param _method Object containing method stuff
+     * @param _intExpr Expression to resolve
+     */
+    private void visitIntExpr(@NotNull MethodGenerator _method,
+                              @NotNull IntegerLit _intExpr)
+    {
+        _method.getMethodVisitor().visitIntInsn(Opcodes.SIPUSH, _intExpr.value);
+    }
 
-    //visitLocalVarDecl
 
-    //visitReturn
+    /**
+     * Resolves a Null Expression
+     * @param _method Object containing method stuff
+     * @param _nullExpr Expression to resolve
+     */
+    private void visitNullExpr(@NotNull MethodGenerator _method,
+                               @NotNull JNull _nullExpr)
+    {
+        _method.getMethodVisitor().visitInsn(Opcodes.ACONST_NULL);
+    }
 
-    //visitStatementExpressionStatement
+    /**
+     * Resolves a String Expression
+     * @param _method Object containing method stuff
+     * @param _stringExpr Expression to resolve
+     */
+    private void visitStringExpr(@NotNull MethodGenerator _method,
+                                 @NotNull StringLit _stringExpr)
+    {
+        _method.getMethodVisitor().visitLdcInsn(_stringExpr.value);
+    }
 
-    //visitWhile
+    /**
+     * Resolves a Super Expression
+     * @param _method Object containing method stuff
+     * @param _super Expression to resolve
+     */
+    private void visitSuper(@NotNull MethodGenerator _method,
+                            @NotNull Super _super)
+    {
+    }
 
-    //visitAssign
+    /**
+     * Resolves a This Expression
+     * @param _method Object containing method stuff
+     * @param _this Expression to resolve
+     */
+    private void visitThis(@NotNull MethodGenerator _method,
+                           @NotNull This _this)
+    {
+        _method.getMethodVisitor().visitVarInsn(Opcodes.ALOAD, 0);
+    }
 
-    //visitMethodCall
-
-    //visitNew
-
-    //visitBinary
-
-    //visitBoolExpr
-
-    //visitChar
 
     //visitInstVar
-
-    //visitIntExpr
-
     //visitLocalOrFieldVar
-
-    //visitNullExpr
-
-    //visitStringExpr
-
-    //visitSuper
-
-    //visitThis
-
+    //visitIfStatement
+    //visitLocalVarDecl
+    //visitStatementExpressionStatement
+    //visitWhile
+    //visitAssign
+    //visitMethodCall
+    //visitNew
+    //visitBinary
+    //resolve statementexpression
+    //resolve expression
     //visitUnary
 
 }

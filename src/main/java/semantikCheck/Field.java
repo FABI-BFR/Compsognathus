@@ -1,15 +1,15 @@
 package semantikCheck;
 
 public class Field {
-    private String type;
+    private Type type;
     private String name;
     private Access access;
 
-    public Field (String type, String name){
+    public Field (Type type, String name){
         this(type, name, Access.PUBLIC);
     }
 
-    public Field (String type, String name, Access access) {
+    public Field (Type type, String name, Access access) {
         this.type = type;
         this.name = name;
         if(access == null){

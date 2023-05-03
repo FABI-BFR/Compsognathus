@@ -74,7 +74,7 @@ STRINGLITERAL : '"'.*?'"';
 compilationunit :   classdeclarations;
 
 classdeclarations : classdeclaration |
-                    classdeclarations classdeclaration;
+                    classdeclaration*;
 
 classdeclaration :  accessmodifier CLASS CLASSIDENTIFIER classbody |
                     CLASS CLASSIDENTIFIER classbody;

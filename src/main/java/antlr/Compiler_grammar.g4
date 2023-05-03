@@ -43,6 +43,9 @@ SIGNEDSHIFTRIGHTEQUAL : '>>=';
 TIMESEQUAL : '*=';
 UNSIGNEDSHIFTRIGHTEQUAL : '>>>=';
 XOREQUAL : '^=';
+INC : '++';
+DEC : '--';
+
 
 //Keywords
 BOOLEAN : 'boolean';
@@ -114,9 +117,21 @@ simplename:         IDENTIFIER;
 variabledeclarators:    variabledeclarator |
                     variabledeclarator COMMA variabledeclarators;
 
-variabledeclarator: IDENTIFIER;
-                    //IDENTIFIER ASSIGN variableinitializer;
-//variableinitializer: expression;
+variabledeclarator: IDENTIFIER |
+                    IDENTIFIER ASSIGN expression;//variableinitializer;
+
+expression:         IDENTIFIER |
+                    literal |
+                    literal PLUS expression |
+                    literal MINUS expression |
+                    literal MUL expression |
+                    literal DIV expression |
+                    literal MOD expression |
+                    IDENTIFIER PLUS expression |
+                    IDENTIFIER MINUS expression |
+                    IDENTIFIER MUL expression |
+                    IDENTIFIER DIV expression |
+                    IDENTIFIER MOD expression;
 
 methoddeclaration: methodheader methodbody;
 
@@ -134,8 +149,7 @@ methodbody:         block |
 block:              LBRACKET RBRACKET |
                     LBRACKET blockstatements RBRACKET;
 
-blockstatements:    blockstatement |
-                    blockstatement blockstatements;
+blockstatements:    blockstatement*;
 
 blockstatement:     localvariabledeclaration SEMICOLON|
                     statement;
@@ -173,7 +187,7 @@ ifelsestatementnoshortif:   IF LBRACE expression RBRACE statementnoshortif ELSE 
 
 whilestatementnoshortif:    WHILE LBRACE expression RBREACE statementnoshortif;
 
-statementexpression:    assignment |
+statementexpression:    //assignment |
                     preincrementexpression |
                     predecrementexpression |
                     postincrementexpression |
@@ -181,7 +195,7 @@ statementexpression:    assignment |
                     methodcallexpression | //methodinvocation
                     newexpression; //classinstancecreationexpression
 
-assignment:         lefthandside assignmentoperator assignmentexpression;
+// assignment:         lefthandside assignmentoperator assignmentexpression;
 
 lefthandside:       name;
 
@@ -198,13 +212,13 @@ assignmentoperator: ASSIGN |
                     XOREQUAL |
                     OREQUAL;
 
-preincrementexpression: INCREMENT unaryexpression;
+preincrementexpression: INC primary;
 
-predecrementexpression: DECREMENT unaryexpression;
+predecrementexpression: DEC primary;
 
-postincrementexpression: postfixexpression INCREMENT;
+postincrementexpression: name INC;
 
-postdecrementexpression: postfixexpression DECREMENT;
+postdecrementexpression: name DEC;
 
 methodcallexpression: name LBRACE RBRACE |
                     name LBRACE argumentlist RBRACE |
@@ -214,7 +228,8 @@ methodcallexpression: name LBRACE RBRACE |
 argumentlist:       expression |
                     expression COMMA argumentlist;
 
-primary:            literal |
+primary:            name |
+                    literal |
                     THIS |
                     LBRACE expression RBRACE |
                     newexpression;
@@ -232,28 +247,42 @@ literal:            INTLITERAL |
                     STRINGLITERAL |
                     JNULL;
 
-postfixexpression:  primary |
-                    name;
-                    //postincrementexpression |
-                    //postdecrementexpression;
 
-unaryexpression:    preincrementexpression |
-                    predecrementexpression |
-                    PLUS unaryexpression |
-                    MINUS unaryexpression |
-                    unaryexpressionnotplusminus;
-
-unaryexpressionnotplusminus:    postfixexpression |
-                    TILDE unaryexpression |
-                    EXCLMARK unaryexpression |
-                    castexpression;
-
-castexpression:     LBRACE primitivetype RBRACE unaryexpression |
-                    LBRACE expression RBRACE unaryexpressionnotplusminus;
-
-assignmentexpression:   assignment;
+/*
+assignmentexpression:   assignment ;
+                    //conditionalexpression;
 
 
+conditionalexpression: conditionalorexpression |
+                    conditionalorexpression QUESMARK expression COLON conditionalexpression;
 
-expression:         IDENTIFIER;
+conditionalorexpression:    conditionalandexpression |
+                    conditionalorexpression LOGICALOR conditionalandexpression;
 
+conditionalandexpression:   inclusiveorexpression;
+
+inclusiveorexpression:  exclusiveorexpression |
+                    exclusiveorexpression OR inclusiveorexpression;
+
+exclusiveorexpression: andexpression |
+                    andexpression XOR exclusiveorexpression;
+
+andexpression:      equalityexpression |
+                    equalityexpression AND andexpression;
+
+equalityexpression: relationalexpression |
+                    relationalexpression EQUAL equalityexpression |
+                    relationalexpression NOTEQUAL equalityexpression;
+
+relationalexpression:   shiftexpression;
+
+shiftexpression:    additiveexpression;
+
+additiveexpression: multiplicationexpression |
+                    multiplicationexpression PLUS additiveexpression |
+                    multiplicationexpression MINUS additiveexpression;
+
+multiplicationexpression:   unaryexpression MUL multiplicationexpression |
+                    unaryexpression DIV multiplicationexpression |
+                    unaryexpression MOD multiplicationexpression;
+                    */

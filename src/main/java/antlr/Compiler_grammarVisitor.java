@@ -107,6 +107,12 @@ public interface Compiler_grammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVariabledeclarator(Compiler_grammarParser.VariabledeclaratorContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link Compiler_grammarParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpression(Compiler_grammarParser.ExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link Compiler_grammarParser#methoddeclaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -227,12 +233,6 @@ public interface Compiler_grammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStatementexpression(Compiler_grammarParser.StatementexpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link Compiler_grammarParser#assignment}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAssignment(Compiler_grammarParser.AssignmentContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link Compiler_grammarParser#lefthandside}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -304,40 +304,4 @@ public interface Compiler_grammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitLiteral(Compiler_grammarParser.LiteralContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Compiler_grammarParser#postfixexpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPostfixexpression(Compiler_grammarParser.PostfixexpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Compiler_grammarParser#unaryexpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitUnaryexpression(Compiler_grammarParser.UnaryexpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Compiler_grammarParser#unaryexpressionnotplusminus}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitUnaryexpressionnotplusminus(Compiler_grammarParser.UnaryexpressionnotplusminusContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Compiler_grammarParser#castexpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitCastexpression(Compiler_grammarParser.CastexpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Compiler_grammarParser#assignmentexpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAssignmentexpression(Compiler_grammarParser.AssignmentexpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Compiler_grammarParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpression(Compiler_grammarParser.ExpressionContext ctx);
 }

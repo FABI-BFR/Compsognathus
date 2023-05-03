@@ -137,6 +137,18 @@ public class Compiler_grammarBaseListener implements Compiler_grammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterAbstracttype(Compiler_grammarParser.AbstracttypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAbstracttype(Compiler_grammarParser.AbstracttypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterReferencetype(Compiler_grammarParser.ReferencetypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -360,6 +372,30 @@ public class Compiler_grammarBaseListener implements Compiler_grammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitWhilestatement(Compiler_grammarParser.WhilestatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCompareexpression(Compiler_grammarParser.CompareexpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCompareexpression(Compiler_grammarParser.CompareexpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCompareoperator(Compiler_grammarParser.CompareoperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCompareoperator(Compiler_grammarParser.CompareoperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

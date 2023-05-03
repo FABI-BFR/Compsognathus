@@ -97,11 +97,14 @@ fielddeclaration:   type variabledeclarators SEMICOLON|
                     accessmodifier type variabledeclarators SEMICOLON;
 
 type:               primitivetype |
-                    referencetype;
+                    abstracttype;
 
 primitivetype:      BOOLEAN |
                     INT |
                     CHAR;
+
+abstracttype:       STRING |
+                    referencetype;
 
 referencetype:      classorinterfacetype;
 
@@ -161,11 +164,31 @@ statement:          ifstatement |
                     whilestatement |
                     statementwithoutrailingsubstatement;
 
-ifstatement:        IF LBRACE expression RBRACE statement;
+ifstatement:        IF LBRACE compareexpression RBRACE statement;
 
-ifelsestatement:    IF LBRACE expression RBRACE statementnoshortif  ELSE statement;
+ifelsestatement:    IF LBRACE compareexpression RBRACE statementnoshortif  ELSE statement;
 
-whilestatement:     WHILE LBRACE expression RBRACE statement;
+whilestatement:     WHILE LBRACE compareexpression RBRACE statement;
+
+compareexpression:  name |
+                    expression compareoperator expression;
+
+compareoperator:    ANDEQUAL|
+                    DIVIDEEQUAL |
+                    EQUAL |
+                    GREATEREQUAL |
+                    LESSEQUAL |
+                    LOGICALOR |
+                    MINUSEQUAL |
+                    MODULOEQUAL |
+                    NOTEQUAL |
+                    OREQUAL |
+                    PLUSEQUAL |
+                    SHIFTLEFTEQUAL |
+                    SIGNEDSHIFTRIGHTEQUAL |
+                    TIMESEQUAL |
+                    UNSIGNEDSHIFTRIGHTEQUAL |
+                    XOREQUAL;
 
 statementwithoutrailingsubstatement:    block |
                     emptystatement |

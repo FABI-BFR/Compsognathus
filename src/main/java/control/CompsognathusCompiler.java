@@ -33,8 +33,7 @@ public class CompsognathusCompiler
                     }
 
                     // Converter
-                    Converter converter = new Converter();
-                    Program generatedProgram = converter.convertToProgram(parseTree);
+                    Program generatedProgram = Converter.convertToProgram(parseTree);
 
                     // Semantic check
 
@@ -44,7 +43,7 @@ public class CompsognathusCompiler
                     List<ClassFile> myClassFiles = generator.generate(generatedProgram);
 
                     // Saving class files
-                    String direcotry = "C:/Users/ENTE138/Documents/CompsognathusCompiler";
+                    String direcotry = "C:/Users/ENTE138/Documents/";
                     for(ClassFile classFile: myClassFiles){
                         File tmpFile = new File(direcotry + classFile.getFileName());
                         storeDataInFile(tmpFile, classFile.getBytecode());

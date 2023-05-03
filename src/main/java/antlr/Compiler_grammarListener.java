@@ -108,6 +108,16 @@ public interface Compiler_grammarListener extends ParseTreeListener {
 	 */
 	void exitPrimitivetype(Compiler_grammarParser.PrimitivetypeContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link Compiler_grammarParser#abstracttype}.
+	 * @param ctx the parse tree
+	 */
+	void enterAbstracttype(Compiler_grammarParser.AbstracttypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Compiler_grammarParser#abstracttype}.
+	 * @param ctx the parse tree
+	 */
+	void exitAbstracttype(Compiler_grammarParser.AbstracttypeContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link Compiler_grammarParser#referencetype}.
 	 * @param ctx the parse tree
 	 */
@@ -297,6 +307,26 @@ public interface Compiler_grammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitWhilestatement(Compiler_grammarParser.WhilestatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Compiler_grammarParser#compareexpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterCompareexpression(Compiler_grammarParser.CompareexpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Compiler_grammarParser#compareexpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitCompareexpression(Compiler_grammarParser.CompareexpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Compiler_grammarParser#compareoperator}.
+	 * @param ctx the parse tree
+	 */
+	void enterCompareoperator(Compiler_grammarParser.CompareoperatorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Compiler_grammarParser#compareoperator}.
+	 * @param ctx the parse tree
+	 */
+	void exitCompareoperator(Compiler_grammarParser.CompareoperatorContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link Compiler_grammarParser#statementwithoutrailingsubstatement}.
 	 * @param ctx the parse tree

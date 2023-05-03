@@ -26,7 +26,7 @@ public class Compiler_grammarParser extends Parser {
 		XOREQUAL=38, INC=39, DEC=40, BOOLEAN=41, BOOLLITERAL=42, CHAR=43, CLASS=44, 
 		ELSE=45, IF=46, INT=47, JNULL=48, NEW=49, PUBLIC=50, PRIVATE=51, PROTECTED=52, 
 		RETURN=53, STATIC=54, STRING=55, THIS=56, VOID=57, WHILE=58, CLASSIDENTIFIER=59, 
-		IDENTIFIER=60, INTLITERAL=61, CHARLITERAL=62, STRINGLITERAL=63, RBREACE=64;
+		IDENTIFIER=60, INTLITERAL=61, CHARLITERAL=62, STRINGLITERAL=63;
 	public static final int
 		RULE_compilationunit = 0, RULE_classdeclarations = 1, RULE_classdeclaration = 2, 
 		RULE_accessmodifier = 3, RULE_classbody = 4, RULE_classbodydeclarations = 5, 
@@ -87,7 +87,7 @@ public class Compiler_grammarParser extends Parser {
 			"INC", "DEC", "BOOLEAN", "BOOLLITERAL", "CHAR", "CLASS", "ELSE", "IF", 
 			"INT", "JNULL", "NEW", "PUBLIC", "PRIVATE", "PROTECTED", "RETURN", "STATIC", 
 			"STRING", "THIS", "VOID", "WHILE", "CLASSIDENTIFIER", "IDENTIFIER", "INTLITERAL", 
-			"CHARLITERAL", "STRINGLITERAL", "RBREACE"
+			"CHARLITERAL", "STRINGLITERAL"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -2621,7 +2621,7 @@ public class Compiler_grammarParser extends Parser {
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public TerminalNode RBREACE() { return getToken(Compiler_grammarParser.RBREACE, 0); }
+		public TerminalNode RBRACE() { return getToken(Compiler_grammarParser.RBRACE, 0); }
 		public StatementnoshortifContext statementnoshortif() {
 			return getRuleContext(StatementnoshortifContext.class,0);
 		}
@@ -2657,7 +2657,7 @@ public class Compiler_grammarParser extends Parser {
 			setState(341);
 			expression();
 			setState(342);
-			match(RBREACE);
+			match(RBRACE);
 			setState(343);
 			statementnoshortif();
 			}
@@ -3537,7 +3537,7 @@ public class Compiler_grammarParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001@\u01ae\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001?\u01ae\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
 		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
 		"\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0002\u000b\u0007\u000b\u0002"+
@@ -3748,7 +3748,7 @@ public class Compiler_grammarParser extends Parser {
 		"\u0000\u014e\u014f\u0005\u0013\u0000\u0000\u014f\u0150\u0003H$\u0000\u0150"+
 		"\u0151\u0005-\u0000\u0000\u0151\u0152\u0003H$\u0000\u0152K\u0001\u0000"+
 		"\u0000\u0000\u0153\u0154\u0005:\u0000\u0000\u0154\u0155\u0005\f\u0000"+
-		"\u0000\u0155\u0156\u0003\"\u0011\u0000\u0156\u0157\u0005@\u0000\u0000"+
+		"\u0000\u0155\u0156\u0003\"\u0011\u0000\u0156\u0157\u0005\u0013\u0000\u0000"+
 		"\u0157\u0158\u0003H$\u0000\u0158M\u0001\u0000\u0000\u0000\u0159\u0160"+
 		"\u0003T*\u0000\u015a\u0160\u0003V+\u0000\u015b\u0160\u0003X,\u0000\u015c"+
 		"\u0160\u0003Z-\u0000\u015d\u0160\u0003\\.\u0000\u015e\u0160\u0003d2\u0000"+

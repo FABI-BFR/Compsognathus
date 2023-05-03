@@ -10,15 +10,15 @@ public class Method {
 
     private Type type;
     private String name;
-    private List<IExpr> parameter;
+    private List<Parameter> parameter;
     private Block statement;
     private Access access;
 
-    public Method (Type type, String name, List<IExpr> parameter, Block statement) {
+    public Method (Type type, String name, List<Parameter> parameter, Block statement) {
         this(type, name, parameter, statement, Access.PUBLIC);
     }
 
-    public Method (Type type, String name, List<IExpr> parameter, Block statement, Access access) {
+    public Method (Type type, String name, List<Parameter> parameter, Block statement, Access access) {
         this.type = type;
         this.name = name;
         this.parameter = new ArrayList<>();
@@ -35,5 +35,53 @@ public class Method {
         }
     }
 
+    public Type getType()
+    {
+        return type;
+    }
 
+    public void setType(Type type)
+    {
+        this.type = type;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public List<Parameter> getParameter()
+    {
+        return parameter;
+    }
+
+    public void setParameter(List<Parameter> parameter)
+    {
+        this.parameter = parameter;
+    }
+
+    public Block getStatement()
+    {
+        return statement;
+    }
+
+    public void setStatement(Block statement)
+    {
+        this.statement = statement;
+    }
+
+    public Access getAccess()
+    {
+        return access;
+    }
+
+    public void setAccess(Access access)
+    {
+        this.access = access;
+    }
 }

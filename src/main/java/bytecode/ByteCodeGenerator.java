@@ -4,12 +4,15 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.FieldVisitor;
+import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-import semantikCheck.Access;
+import semantikCheck.*;
 import semantikCheck.Class;
-import semantikCheck.Program;
-import semantikCheck.Type;
+import semantikCheck.interfaces.IExpr;
+import semantikCheck.stmt.Block;
 
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +38,24 @@ public class ByteCodeGenerator
                     null,                               // Signature (no generics/interfaces)
                     "java/lang/Object",
                     null);
+
+            // Visit fields
+            for(Field f : c.getFields()){
+                String fieldName = f.getName();
+                String type = parseType(f.getType());
+
+                classGenerator.getFields().put(fieldName, type);
+                FieldVisitor fv = classGenerator.getClassWriter().visitField(
+                        parseVisibility(f.getAccess()), // Visibility
+                        fieldName,                      // Fieldname
+                        type,                           // Type
+                        null,
+                        null);
+                fv.visitEnd();
+            }
+
+            //Visit methods
+
 
             classGenerator.getClassWriter().visitEnd();
             classFiles.add(new ClassFile(c.getName(), classGenerator.getClassWriter().toByteArray()));
@@ -113,10 +134,16 @@ public class ByteCodeGenerator
         return result.toString();
     }
 
-    //Parse Method return type to JVM Type
 
-
-
+    /**
+     * Parses a method type to a JVM Type Singanture
+     * @return
+     */
+    private String parseMethodType(@NotNull Type _type,
+                                   @NotNull List<IExpr> _args){
+        String result = "";
+        return result;
+    }
 
     /**
      * Parses Return type to Opcode

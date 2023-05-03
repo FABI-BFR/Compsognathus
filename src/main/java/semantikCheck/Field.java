@@ -19,4 +19,34 @@ public class Field {
             this.access = access;
         }
     }
+
+    public Type getType()
+    {
+        return type;
+    }
+
+    public void setType(Type type)
+    {
+        this.type = type;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public Access getAccess()
+    {
+        return access;
+    }
+
+    public void setAccess(Access access)
+    {
+        this.access = access;
+    }
 }

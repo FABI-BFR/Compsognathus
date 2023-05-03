@@ -208,7 +208,7 @@ statementnoshortif: statementwithoutrailingsubstatement |
 
 ifelsestatementnoshortif:   IF LBRACE expression RBRACE statementnoshortif ELSE statementnoshortif;
 
-whilestatementnoshortif:    WHILE LBRACE expression RBREACE statementnoshortif;
+whilestatementnoshortif:    WHILE LBRACE expression RBRACE statementnoshortif;
 
 statementexpression:    //assignment |
                     preincrementexpression |

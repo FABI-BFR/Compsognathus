@@ -31,4 +31,44 @@ public class Class {
             access = parAccess;
         }
     }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public List<Field> getFields()
+    {
+        return fields;
+    }
+
+    public void setFields(List<Field> fields)
+    {
+        this.fields = fields;
+    }
+
+    public List<Method> getMethods()
+    {
+        return methods;
+    }
+
+    public void setMethods(List<Method> methods)
+    {
+        this.methods = methods;
+    }
+
+    public Access getAccess()
+    {
+        return access;
+    }
+
+    public void setAccess(Access access)
+    {
+        this.access = access;
+    }
 }

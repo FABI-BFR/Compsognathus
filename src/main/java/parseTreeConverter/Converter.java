@@ -28,18 +28,21 @@ public class Converter
                     fields,
                     methods);
         }else{
-            Access ac = Access.PUBLIC;
-            switch (classContext.accessmodifier().getText()){
-                case "private": ac = Access.PRIVATE;
-                break;
-                case "protected":ac = Access.PROTECTED;
-                break;
-                case "public":ac = Access.PUBLIC;
-            }
             return new Class(classContext.CLASSIDENTIFIER().getText(),
                     fields,
                     methods,
-                    ac);
+                    getForAccessModifier(classContext.accessmodifier()));
         }
+    }
+    private static Access getForAccessModifier(Compiler_grammarParser.AccessmodifierContext acc){
+        Access ac = Access.PUBLIC;
+        switch (acc.getText()){
+            case "private": ac = Access.PRIVATE;
+                break;
+            case "protected":ac = Access.PROTECTED;
+                break;
+            case "public":ac = Access.PUBLIC;
+        }
+        return ac;
     }
 }

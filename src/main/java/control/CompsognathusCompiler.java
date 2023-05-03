@@ -35,7 +35,7 @@ public class CompsognathusCompiler
 
                     // Converter
                     Converter converter = new Converter();
-                    Program generatedProgram = converter.convert(parseTree);
+                    Program generatedProgram = converter.convertToProgram(parseTree);
 
                     // Semantic check
 

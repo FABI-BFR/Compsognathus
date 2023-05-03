@@ -71,6 +71,12 @@ public interface Compiler_grammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPrimitivetype(Compiler_grammarParser.PrimitivetypeContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link Compiler_grammarParser#abstracttype}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAbstracttype(Compiler_grammarParser.AbstracttypeContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link Compiler_grammarParser#referencetype}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -184,6 +190,18 @@ public interface Compiler_grammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitWhilestatement(Compiler_grammarParser.WhilestatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Compiler_grammarParser#compareexpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCompareexpression(Compiler_grammarParser.CompareexpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Compiler_grammarParser#compareoperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCompareoperator(Compiler_grammarParser.CompareoperatorContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link Compiler_grammarParser#statementwithoutrailingsubstatement}.
 	 * @param ctx the parse tree

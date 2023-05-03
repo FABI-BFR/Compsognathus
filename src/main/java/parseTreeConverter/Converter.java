@@ -21,4 +21,19 @@ public class Converter
         return program;
     }
 
+    public Program convertToProgram(Compiler_grammarParser.CompilationunitContext parseTree){
+        return new Program(convertToClassList(parseTree.classdeclarations()));
+    }
+    public List<Class> convertToClassList(Compiler_grammarParser.ClassdeclarationsContext parseClasses){
+        List<Class> classes = new ArrayList<>();
+        for(Compiler_grammarParser.ClassdeclarationContext context : parseClasses.classdeclaration()){
+            classes.add(convertToClass(context));
+        }
+        return classes;
+    }
+    public Class convertToClass(Compiler_grammarParser.ClassdeclarationContext classContext){
+        return new Class();
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package bytecode;
 
+import bytecode.exceptions.InvalidStatementException;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -10,9 +11,12 @@ import org.objectweb.asm.Opcodes;
 import semantikCheck.*;
 import semantikCheck.Class;
 import semantikCheck.interfaces.IExpr;
+import semantikCheck.interfaces.IStmt;
 import semantikCheck.stmt.Block;
+import semantikCheck.stmt.LocalVarDecl;
+import semantikCheck.stmt.Return;
+import semantikCheck.stmt.While;
 
-import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +59,19 @@ public class ByteCodeGenerator
             }
 
             //Visit methods
+            for (Method m : c.getMethods()) {
+                // Konstruktor
+                String name = m.getName().equals(c.getName()) ? "<init>" : m.getName();
+                String type = parseMethodType(m.getType(), m.getParameter());
 
+                MethodVisitor mv = classGenerator.getClassWriter().visitMethod(
+                        parseVisibility(m.getAccess()), // Visibility
+                        name,                           // Methodname
+                        type,                           // Type
+                        null,
+                        null);
+                mv.visitEnd();
+            }
 
             classGenerator.getClassWriter().visitEnd();
             classFiles.add(new ClassFile(c.getName(), classGenerator.getClassWriter().toByteArray()));
@@ -140,9 +156,20 @@ public class ByteCodeGenerator
      * @return
      */
     private String parseMethodType(@NotNull Type _type,
-                                   @NotNull List<IExpr> _args){
-        String result = "";
-        return result;
+                                   @NotNull List<Parameter> _parameters){
+        StringBuilder result = new StringBuilder();
+
+        // Parse arguments
+        result.append("(");
+        for (Parameter par : _parameters) {
+            result.append(parseType(par.getType()));
+        }
+        result.append(")");
+
+        // Parse return type
+        result.append(parseType(_type));
+
+        return result.toString();
     }
 
     /**
@@ -219,6 +246,7 @@ public class ByteCodeGenerator
     }
 
     //resolve Statement
+
 
     //resolve statementexpression
 

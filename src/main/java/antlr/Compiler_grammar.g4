@@ -90,8 +90,26 @@ classbody :         LBRACKET RBRACKET |
 
 classbodydeclarations: classbodydeclaration*;
 
-classbodydeclaration: fielddeclaration |
+classbodydeclaration:   constructordeclaration|
+                    fielddeclaration |
                     methoddeclaration;
+
+constructordeclaration: constructordeclarator constructorbody |
+                    accessmodifier constructordeclarator constructorbody;
+
+constructordeclarator:  CLASSIDENTIFIER LBRACE RBRACE;
+                    //simplename LBRACE formalparameterlist RBRACE;
+
+constructorbody:    LBRACKET RBRACKET |
+                    LBRACKET explicitconstructorinovacation RBRACKET |
+                    LBRACKET blockstatements RBRACKET |
+                    LBRACKET explicitconstructorinovacation blockstatements RBRACKET;
+
+explicitconstructorinovacation: THIS LBRACE RBRACE SEMICOLON |
+                    THIS LBRACE argumentlist RBRACE SEMICOLON;
+
+argumentlist:       expression |
+                    expression COMMA argumentlist;
 
 fielddeclaration:   type variabledeclarators SEMICOLON|
                     accessmodifier type variabledeclarators SEMICOLON;
@@ -247,9 +265,6 @@ methodcallexpression: name LBRACE RBRACE |
                     name LBRACE argumentlist RBRACE |
                     primary DOT IDENTIFIER LBRACE RBRACE |
                     primary DOT IDENTIFIER LBRACE argumentlist RBRACE;
-
-argumentlist:       expression |
-                    expression COMMA argumentlist;
 
 primary:            name |
                     literal |

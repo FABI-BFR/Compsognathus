@@ -78,6 +78,56 @@ public interface Compiler_grammarListener extends ParseTreeListener {
 	 */
 	void exitClassbodydeclaration(Compiler_grammarParser.ClassbodydeclarationContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link Compiler_grammarParser#constructordeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterConstructordeclaration(Compiler_grammarParser.ConstructordeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Compiler_grammarParser#constructordeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitConstructordeclaration(Compiler_grammarParser.ConstructordeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Compiler_grammarParser#constructordeclarator}.
+	 * @param ctx the parse tree
+	 */
+	void enterConstructordeclarator(Compiler_grammarParser.ConstructordeclaratorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Compiler_grammarParser#constructordeclarator}.
+	 * @param ctx the parse tree
+	 */
+	void exitConstructordeclarator(Compiler_grammarParser.ConstructordeclaratorContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Compiler_grammarParser#constructorbody}.
+	 * @param ctx the parse tree
+	 */
+	void enterConstructorbody(Compiler_grammarParser.ConstructorbodyContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Compiler_grammarParser#constructorbody}.
+	 * @param ctx the parse tree
+	 */
+	void exitConstructorbody(Compiler_grammarParser.ConstructorbodyContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Compiler_grammarParser#explicitconstructorinovacation}.
+	 * @param ctx the parse tree
+	 */
+	void enterExplicitconstructorinovacation(Compiler_grammarParser.ExplicitconstructorinovacationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Compiler_grammarParser#explicitconstructorinovacation}.
+	 * @param ctx the parse tree
+	 */
+	void exitExplicitconstructorinovacation(Compiler_grammarParser.ExplicitconstructorinovacationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Compiler_grammarParser#argumentlist}.
+	 * @param ctx the parse tree
+	 */
+	void enterArgumentlist(Compiler_grammarParser.ArgumentlistContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Compiler_grammarParser#argumentlist}.
+	 * @param ctx the parse tree
+	 */
+	void exitArgumentlist(Compiler_grammarParser.ArgumentlistContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link Compiler_grammarParser#fielddeclaration}.
 	 * @param ctx the parse tree
 	 */
@@ -477,16 +527,6 @@ public interface Compiler_grammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitMethodcallexpression(Compiler_grammarParser.MethodcallexpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Compiler_grammarParser#argumentlist}.
-	 * @param ctx the parse tree
-	 */
-	void enterArgumentlist(Compiler_grammarParser.ArgumentlistContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Compiler_grammarParser#argumentlist}.
-	 * @param ctx the parse tree
-	 */
-	void exitArgumentlist(Compiler_grammarParser.ArgumentlistContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link Compiler_grammarParser#primary}.
 	 * @param ctx the parse tree

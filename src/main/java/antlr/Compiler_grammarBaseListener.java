@@ -101,6 +101,66 @@ public class Compiler_grammarBaseListener implements Compiler_grammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterConstructordeclaration(Compiler_grammarParser.ConstructordeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitConstructordeclaration(Compiler_grammarParser.ConstructordeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterConstructordeclarator(Compiler_grammarParser.ConstructordeclaratorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitConstructordeclarator(Compiler_grammarParser.ConstructordeclaratorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterConstructorbody(Compiler_grammarParser.ConstructorbodyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitConstructorbody(Compiler_grammarParser.ConstructorbodyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExplicitconstructorinovacation(Compiler_grammarParser.ExplicitconstructorinovacationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExplicitconstructorinovacation(Compiler_grammarParser.ExplicitconstructorinovacationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArgumentlist(Compiler_grammarParser.ArgumentlistContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArgumentlist(Compiler_grammarParser.ArgumentlistContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterFielddeclaration(Compiler_grammarParser.FielddeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -576,18 +636,6 @@ public class Compiler_grammarBaseListener implements Compiler_grammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitMethodcallexpression(Compiler_grammarParser.MethodcallexpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterArgumentlist(Compiler_grammarParser.ArgumentlistContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitArgumentlist(Compiler_grammarParser.ArgumentlistContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

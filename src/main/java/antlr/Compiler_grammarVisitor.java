@@ -53,6 +53,36 @@ public interface Compiler_grammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitClassbodydeclaration(Compiler_grammarParser.ClassbodydeclarationContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link Compiler_grammarParser#constructordeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConstructordeclaration(Compiler_grammarParser.ConstructordeclarationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Compiler_grammarParser#constructordeclarator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConstructordeclarator(Compiler_grammarParser.ConstructordeclaratorContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Compiler_grammarParser#constructorbody}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConstructorbody(Compiler_grammarParser.ConstructorbodyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Compiler_grammarParser#explicitconstructorinovacation}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExplicitconstructorinovacation(Compiler_grammarParser.ExplicitconstructorinovacationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Compiler_grammarParser#argumentlist}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArgumentlist(Compiler_grammarParser.ArgumentlistContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link Compiler_grammarParser#fielddeclaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -292,12 +322,6 @@ public interface Compiler_grammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitMethodcallexpression(Compiler_grammarParser.MethodcallexpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Compiler_grammarParser#argumentlist}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArgumentlist(Compiler_grammarParser.ArgumentlistContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link Compiler_grammarParser#primary}.
 	 * @param ctx the parse tree

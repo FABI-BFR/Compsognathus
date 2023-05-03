@@ -4,6 +4,7 @@ import antlr.AntlrParser;
 import antlr.Compiler_grammarParser;
 import bytecode.ByteCodeGenerator;
 import bytecode.ClassFile;
+import parseTreeConverter.Converter;
 import semantikCheck.Program;
 
 import java.io.File;
@@ -33,21 +34,22 @@ public class CompsognathusCompiler
 
 
                     // Converter
-
+                    Converter converter = new Converter();
+                    Program generatedProgram = converter.convert(parseTree);
 
                     // Semantic check
 
 
                     // Bytecode generation
-                   // ByteCodeGenerator generator = new ByteCodeGenerator();
-                    //List<ClassFile> myClassFiles = generator.generate(generatedProgram);
+                    ByteCodeGenerator generator = new ByteCodeGenerator();
+                    List<ClassFile> myClassFiles = generator.generate(generatedProgram);
 
                     // Saving class files
-                    //String direcotry = "C:\\Users\\ENTE138\\Documents\\CompsognathusCompiler";
-                    //for(ClassFile classFile: myClassFiles){
-                    //    File tmpFile = new File(direcotry + classFile.getFileName());
-                    //    storeDataInFile(tmpFile, classFile.getBytecode());
-                    //}
+                    String direcotry = "C:\\Users\\ENTE138\\Documents\\CompsognathusCompiler";
+                    for(ClassFile classFile: myClassFiles){
+                        File tmpFile = new File(direcotry + classFile.getFileName());
+                        storeDataInFile(tmpFile, classFile.getBytecode());
+                    }
 
 
 

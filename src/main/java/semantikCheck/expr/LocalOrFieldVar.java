@@ -3,6 +3,7 @@ package semantikCheck.expr;
 import semantikCheck.Class;
 import semantikCheck.Parameter;
 import semantikCheck.Type;
+import semantikCheck.checker.Checker;
 import semantikCheck.interfaces.IExpr;
 
 import java.util.List;
@@ -29,6 +30,15 @@ public class LocalOrFieldVar implements IExpr {
 
     @Override
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
-
+        Parameter tempParameter = null;
+        for (Parameter p : parameters) {
+            if (p.getName().equals(name)) {
+                tempParameter = p;
+                break;
+            }
+        }
+        if (tempParameter == null) {
+            Checker.addSymbolFoundError(currentClass.getName(), name);
+        }
     }
 }

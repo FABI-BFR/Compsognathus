@@ -76,7 +76,7 @@ public class Checker {
         errors.add("Error in class" + classname + ": Incompatible types " + currentType + "cannot be converted to " + expectedType);
     }
 
-    public static void addSymbolFoundError(String className, String symbol) {
+    public static void addSymbolNotFoundError(String className, String symbol) {
         errors.add("Error in class " + className + ": cannot find symbol: " + symbol);
     }
 

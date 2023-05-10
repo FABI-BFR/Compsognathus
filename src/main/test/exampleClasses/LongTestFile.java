@@ -6,7 +6,7 @@ public class Main {
     public Main() {
         this.i = 0;
         temp = empty;
-        public int c;
+        int c;
 
     }
     public Main(int i, String temp){
@@ -21,9 +21,20 @@ public class Main {
 
     public void setStringIf(int a, int b, boolean cond, String temp){
         if(a == b && cond){
-
+            this.temp = temp;
+        } else if( a > b){
+            this.temp = "fisch";
+        } else {
+            this.temp = "kein fisch";
         }
+    }
 
-
+    public void doABackflip(){
+        setStringIf(1, 2, true, "fischomat");
+        int f;
+        f = geti();
+        while(f <= 10){
+            f++;
+        }
     }
 }

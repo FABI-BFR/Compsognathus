@@ -136,7 +136,8 @@ variabledeclarators:    variabledeclarator |
                     variabledeclarator COMMA variabledeclarators;
 
 variabledeclarator: IDENTIFIER |
-                    IDENTIFIER ASSIGN expression;//variableinitializer;
+                    IDENTIFIER ASSIGN expression |
+                    IDENTIFIER ASSIGN methodcallexpression;//variableinitializer;
 
 expression:         IDENTIFIER |
                     literal |
@@ -201,7 +202,9 @@ compareexpression:  name |
                     methodcallexpression logicaloperator compareexpression |
                     expression compareoperator expression logicaloperator compareexpression;
 
-compareoperator:    ANDEQUAL|
+compareoperator:    GREATER |
+                    LESS |
+                    ANDEQUAL|
                     DIVIDEEQUAL |
                     EQUAL |
                     GREATEREQUAL |

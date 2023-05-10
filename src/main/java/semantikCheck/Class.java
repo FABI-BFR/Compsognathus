@@ -20,6 +20,7 @@ public class Class implements SemChecker {
     public Class(String name,List<Constructor> constructors, List<Field> fields, List<Method> methods, Access parAccess){
         this.name = name;
         this.fields = new ArrayList<>();
+        this.constructors = constructors;
         if(fields != null && !fields.isEmpty()){
             this.fields.addAll(fields);
         }

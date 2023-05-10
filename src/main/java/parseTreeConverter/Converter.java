@@ -39,7 +39,7 @@ public class Converter {
                                 methods.add(convertToMethod(classbodydeclarationContext.methoddeclaration()));
                             } else if (classbodydeclarationContext.fielddeclaration() != null) {
                                 fields.addAll(convertToFields(classbodydeclarationContext.fielddeclaration()));
-                            } else {
+                            } else if(classbodydeclarationContext.constructordeclaration() != null) {
                                 constructors.add(convertToConstructor(classbodydeclarationContext.constructordeclaration()));
                             }
                         }
@@ -80,9 +80,11 @@ public class Converter {
 
         List<Parameter> parameters = getParameter(head.formalparameterlist());
 
-        Block block = getBlock(body.blockstatements());
+        //Block block = getBlock(body.blockstatements());
 
-        return new Constructor(name,parameters,block,access);
+
+        //return new Constructor(name,parameters,block,access);
+        return null;
     }
 
     private static Block getBlock(Compiler_grammarParser.BlockstatementsContext blockstatements)
@@ -151,10 +153,10 @@ public class Converter {
     }
 
     private static List<IStmt> convertToLocalVarDecls(Compiler_grammarParser.VariabledeclaratorsContext variabledeclarators,Type type) {
-
+        return null;
     }
     private static IStmt convertToLocalVarDecl(){
-
+        return null;
     }
 
     private static List<Parameter> convertToParameters(Compiler_grammarParser.FormalparameterlistContext parameterListContext) {

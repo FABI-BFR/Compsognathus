@@ -23,7 +23,7 @@ public class Constructor implements SemChecker {
         }
         this.statement = statement;
         if (access == null) {
-            access = Access.PUBLIC;
+            this.access = Access.PUBLIC;
         }
         else
         {

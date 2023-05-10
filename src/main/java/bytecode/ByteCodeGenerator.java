@@ -1,5 +1,6 @@
 package bytecode;
 
+import bytecode.exceptions.InvalidStatementException;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -8,8 +9,12 @@ import semantikCheck.*;
 import semantikCheck.Class;
 import semantikCheck.Type;
 import semantikCheck.expr.*;
+import semantikCheck.interfaces.IExpr;
 import semantikCheck.interfaces.IStmt;
-import semantikCheck.stmt.Block;
+import semantikCheck.stmt.*;
+import semantikCheck.stmtexpr.Assign;
+import semantikCheck.stmtexpr.MethodCall;
+import semantikCheck.stmtexpr.New;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -215,6 +220,13 @@ public class ByteCodeGenerator
                 };
     }
 
+
+    /**
+     *
+     * @param _method
+     * @param _block
+     * @param _isConstructor
+     */
     private void visitBlockStmt(@NotNull MethodGenerator _method,
                                   @NotNull Block _block,
                                   boolean _isConstructor){
@@ -311,23 +323,93 @@ public class ByteCodeGenerator
     }
 
 
+    /**
+     *
+     * @param _method
+     * @param _stmt
+     */
     private void resolveStmt(@NotNull MethodGenerator _method,
                              @NotNull IStmt _stmt){
         //TODO check for statements and visit them
+        if(_stmt instanceof Block){
+            visitBlockStmt(_method, (Block)_stmt,false);
+        }else if(_stmt instanceof If){
+            visitIfStmt(_method,(If)_stmt);
+        } else if(_stmt instanceof Return){
+            visitReturn(_method,(Return)_stmt);
+        } else if(_stmt instanceof TypedStmt){
+            visitTypedStmt(_method,(TypedStmt)_stmt);
+        }else if(_stmt instanceof While){
+            visitWhile(_method,(While)_stmt);
+        } else {
+            throw new InvalidStatementException(_stmt.toString() + "is not a valid Statement");
+        }
     }
 
-    //visitInstVar
-    //visitLocalOrFieldVar
-    //visitIfStatement
-    //visitLocalVarDecl
-    //visitStatementExpressionStatement
-    //visitWhile
-    //visitAssign
-    //visitMethodCall
-    //visitNew
-    //visitBinary
-    //resolve statementexpression
-    //resolve expression
-    //visitUnary
+    private void resolveExpr(@NotNull MethodGenerator _method,
+                             @NotNull IExpr _expr){
+        //Todo imlpementieren
+    }
+
+    private void visitWhile(MethodGenerator method, While stmt)
+    {
+        //Todo implementieren
+    }
+
+    private void visitTypedStmt(MethodGenerator method, TypedStmt stmt)
+    {
+        //Todo implementieren
+    }
+
+    private void visitReturn(MethodGenerator method, Return stmt)
+    {
+        resolveExpr(method, stmt.getExpression());
+        method.getMethodVisitor().visitInsn(parseReturnType(stmt.getType()));
+    }
+
+    private void visitIfStmt(MethodGenerator method, If stmt)
+    {
+        //Todo implementieren
+    }
+
+    private void visitInstVar(@NotNull MethodGenerator _method,
+                              @NotNull InstVar _instVar){
+        //Todo implementieren
+    }
+
+    private void visitAssign(@NotNull MethodGenerator _method,
+                             @NotNull Assign _assign){
+        //Todo implementieren
+    }
+
+    private void visitMethodCall(@NotNull MethodGenerator _method,
+                                @NotNull MethodCall _methodCall){
+        //Todo implementieren
+    }
+
+    private void visitLocalOrFieldVar(@NotNull MethodGenerator _method,
+                                      @NotNull LocalOrFieldVar _localOrFieldVar){
+        //Todo implementieren
+
+    }
+
+    private void visitNew(@NotNull MethodGenerator _method,
+                          @NotNull New _new)
+    {
+        //Todo implementieren
+    }
+
+
+    private void visitBinary(@NotNull MethodGenerator _method,
+                             @NotNull Binary _binary){
+        //Todo implementieren
+    }
+
+    private void visitUnary(@NotNull MethodGenerator _method,
+                             @NotNull Binary _binary){
+        //Todo implementieren
+    }
+
+
 
 }

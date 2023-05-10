@@ -89,7 +89,7 @@ public class Converter {
 
         List<Parameter> parameters = new ArrayList<>();
 
-        if (!header.methoddeclarator().formalparameterlist().isEmpty()) {
+        if (header.methoddeclarator().formalparameterlist() != null) {
             parameters.addAll(convertToParameters(header.methoddeclarator().formalparameterlist()));
         }
         Block body = new Block(new ArrayList<IStmt>());

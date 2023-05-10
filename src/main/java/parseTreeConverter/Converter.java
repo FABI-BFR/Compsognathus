@@ -43,7 +43,7 @@ public class Converter {
                             if (!classbodydeclarationContext.methoddeclaration().isEmpty()) {
                                 methods.add(convertToMethod(classbodydeclarationContext.methoddeclaration()));
                             } else if(!classbodydeclarationContext.fielddeclaration().isEmpty()){
-                                fields.add(convertToField(classbodydeclarationContext.fielddeclaration()));
+                                fields.addAll(convertToFields(classbodydeclarationContext.fielddeclaration()));
                             }else {
                                 constructors.add(convertToConstructor(classbodydeclarationContext.constructordeclaration()));
                             }
@@ -111,22 +111,30 @@ public class Converter {
         return new Parameter(getType(parameterContext.type()),parameterContext.IDENTIFIER().getText());
     }
 
-    private static Field convertToField(Compiler_grammarParser.FielddeclarationContext fieldcontext) {
-        //@TODO implement
-
+    private static List<Field> convertToFields(Compiler_grammarParser.FielddeclarationContext fieldcontext) {
         Type type = getType(fieldcontext.type());
-
-
-
 
         Access access = Access.PUBLIC;
         if(fieldcontext.accessmodifier() != null){
-            String modifier = fieldcontext.accessmodifier().getText().toUpperCase();
-            access = Access.valueOf(modifier);
+            access = getForAccessModifier(fieldcontext.accessmodifier());
         }
-
-        return  null;
+        return  convertToFields(fieldcontext, access, type);
     }
+
+    private static List<Field> convertToFields(Compiler_grammarParser.FielddeclarationContext fieldcontext, Access access, Type type) {
+        List<Field> fields = new ArrayList<>();
+        fields.add(convertToField(fieldcontext, access, type));
+
+        if(fieldcontext.variabledeclarators().isEmpty()) return  fields;
+        fields.addAll(convertToFields(fieldcontext, access, type));
+
+        return  fields;
+    }
+
+        private static Field convertToField (Compiler_grammarParser.FielddeclarationContext fielddeclarationContext, Access access, Type type){
+        return  new Field(type,fielddeclarationContext.getText(),access);
+    }
+
 
     private static Access getForAccessModifier(Compiler_grammarParser.AccessmodifierContext acc) {
         return switch (acc.getText()) {

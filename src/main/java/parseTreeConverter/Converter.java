@@ -104,6 +104,7 @@ public class Converter {
 
     private static Block convertToBody(Compiler_grammarParser.BlockContext blockContext) {
         //@TODO nicht nullen, und parameter checken
+        return null;
     }
 
     private static List<Parameter> convertToParameters(Compiler_grammarParser.FormalparameterlistContext parameterListContext) {

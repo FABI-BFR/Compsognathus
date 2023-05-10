@@ -1,4 +1,4 @@
-package semantikCheck.expr;
+package semantikCheck.stmtexpr;
 import semantikCheck.Type;
 import semantikCheck.interfaces.IExpr;
 import semantikCheck.interfaces.IStmtExpr;

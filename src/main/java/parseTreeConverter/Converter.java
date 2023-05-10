@@ -3,8 +3,11 @@ package parseTreeConverter;
 import antlr.Compiler_grammarParser;
 import semantikCheck.*;
 import semantikCheck.Class;
+import semantikCheck.expr.LocalOrFieldVar;
 import semantikCheck.interfaces.IStmt;
+import semantikCheck.interfaces.IStmtExpr;
 import semantikCheck.stmt.Block;
+import semantikCheck.stmtexpr.Assign;
 
 import java.util.ArrayList;
 
@@ -143,18 +146,26 @@ public class Converter {
     }
 
     private static List<IStmt> convertToLocalVarDecls(Compiler_grammarParser.LocalvariabledeclarationContext localVarContext) {
-        List<IStmt> stmts = new ArrayList<>();
+        if(localVarContext.variabledeclarators() == null) return new ArrayList<IStmt>();
         Type type = getType(localVarContext.type());
-        if(localVarContext.variabledeclarators() == null) return stmts;
-        stmts.addAll(convertToLocalVarDecls(localVarContext.variabledeclarators(),type));
-        return stmts;
+        return convertToLocalVarDecls(localVarContext.variabledeclarators(),type);
     }
 
     private static List<IStmt> convertToLocalVarDecls(Compiler_grammarParser.VariabledeclaratorsContext variabledeclarators,Type type) {
+        List<IStmt> stmts = new ArrayList<>();
+        stmts.add(convertToLocalVarDecl(variabledeclarators.variabledeclarator(),type));
+        if(variabledeclarators.variabledeclarators() == null) return stmts;
+        stmts.addAll(convertToLocalVarDecls(variabledeclarators.variabledeclarators(),type));
+        return stmts;
+    }
+    private static IStmt convertToLocalVarDecl(Compiler_grammarParser.VariabledeclaratorContext variabledeclaratorContext,Type type){
+        String name = variabledeclaratorContext.IDENTIFIER().getText();
+        if(variabledeclaratorContext.statementexpression() == null) return new LocalOrFieldVar(type,name);
+        IStmtExpr stmtExpr = convertToStmtExpr(variabledeclaratorContext.statementexpression());
 
     }
-    private static IStmt convertToLocalVarDecl(){
 
+    private static IStmtExpr convertToStmtExpr(Compiler_grammarParser.StatementexpressionContext statementexpression) {
     }
 
     private static List<Parameter> convertToParameters(Compiler_grammarParser.FormalparameterlistContext parameterListContext) {

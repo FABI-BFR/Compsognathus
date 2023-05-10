@@ -2,8 +2,9 @@ package semantikCheck.expr;
 
 import semantikCheck.Type;
 import semantikCheck.interfaces.IExpr;
+import semantikCheck.interfaces.IStmt;
 
-public class LocalOrFieldVar implements IExpr {
+public class LocalOrFieldVar implements IExpr, IStmt {
     public Type type;
     public String name;
 

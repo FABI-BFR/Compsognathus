@@ -38,6 +38,7 @@ public class ByteCodeGenerator
                     null);
 
             // Visit fields
+            /*
             for(Field f : c.getFields()){
                 String fieldName = f.getName();
                 String type = parseType(f.getType());
@@ -50,11 +51,11 @@ public class ByteCodeGenerator
                         null,
                         null);
                 fv.visitEnd();
-            }
+            }*/
 
             //Visit methods
             for (Method m : c.getMethods()) {
-                // Konstruktor
+                //If Methodname equal Classname => '<init>'
                 String name = m.getName().equals(c.getName()) ? "<init>" : m.getName();
                 String type = parseMethodType(m.getType(), m.getParameter());
 

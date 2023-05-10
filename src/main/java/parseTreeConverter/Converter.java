@@ -41,9 +41,9 @@ public class Converter {
                     .classbodydeclaration()
                     .forEach(classbodydeclarationContext -> {
                         if (!classbodydeclarationContext.isEmpty()) {
-                            if (!classbodydeclarationContext.methoddeclaration().isEmpty()) {
+                            if (classbodydeclarationContext.methoddeclaration() != null) {
                                 methods.add(convertToMethod(classbodydeclarationContext.methoddeclaration()));
-                            } else if(!classbodydeclarationContext.fielddeclaration().isEmpty()){
+                            } else if(classbodydeclarationContext.fielddeclaration() != null){
                                 fields.addAll(convertToFields(classbodydeclarationContext.fielddeclaration()));
                             }else {
                                 constructors.add(convertToConstructor(classbodydeclarationContext.constructordeclaration()));

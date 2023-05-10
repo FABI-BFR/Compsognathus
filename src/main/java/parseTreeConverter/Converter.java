@@ -63,6 +63,7 @@ public class Converter {
         Compiler_grammarParser.MethodheaderContext header = methodcontext.methodheader();
         List<Parameter> parameters = new ArrayList<>();
         Block body = null;//@TODO nicht nullen, und parameter checken
+
         return new Method(new Type(header.type().getText()), header.methoddeclarator().IDENTIFIER().getText(), parameters, body);
     }
 
@@ -78,17 +79,12 @@ public class Converter {
     }
 
     private static Access getForAccessModifier(Compiler_grammarParser.AccessmodifierContext acc) {
-        Access ac = Access.PUBLIC;
-        switch (acc.getText()) {
-            case "private":
-                ac = Access.PRIVATE;
-                break;
-            case "protected":
-                ac = Access.PROTECTED;
-                break;
-            case "public":
-                ac = Access.PUBLIC;
-        }
-        return ac;
+        return switch (acc.getText())
+                {
+                    case "private" -> Access.PRIVATE;
+                    case "protected" -> Access.PROTECTED;
+                    case "public" -> Access.PUBLIC;
+                    default -> Access.PUBLIC;
+                };
     }
 }

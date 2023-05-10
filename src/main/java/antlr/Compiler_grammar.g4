@@ -136,8 +136,10 @@ variabledeclarators:    variabledeclarator |
                     variabledeclarator COMMA variabledeclarators;
 
 variabledeclarator: IDENTIFIER |
-                    IDENTIFIER ASSIGN expression |
-                    IDENTIFIER ASSIGN methodcallexpression;//variableinitializer;
+                    statementexpression;
+                    /*IDENTIFIER ASSIGN expression |
+                    IDENTIFIER ASSIGN methodcallexpression |
+                    IDENTIFIER ASSIGN newexpression;//variableinitializer;*/
 
 expression:         IDENTIFIER |
                     literal |
@@ -243,7 +245,8 @@ ifelsestatementnoshortif:   IF LBRACE compareexpression RBRACE statementnoshorti
 
 whilestatementnoshortif:    WHILE LBRACE compareexpression RBRACE statementnoshortif;
 
-statementexpression:    assignment |
+statementexpression:    expression |
+                    assignment |
                     preincrementexpression |
                     predecrementexpression |
                     postincrementexpression |
@@ -251,9 +254,19 @@ statementexpression:    assignment |
                     methodcallexpression | //methodinvocation
                     newexpression; //classinstancecreationexpression
 
-// assignment:         lefthandside assignmentoperator assignmentexpression;
-assignment:         name ASSIGN expression |
-                    THIS DOT name ASSIGN expression;
+assignment:         name assignmentoperator assignmentexpression |
+                    THIS DOT name ASSIGN assignmentexpression;
+
+assignmentexpression:   expression |
+                    preincrementexpression |
+                    predecrementexpression |
+                    postincrementexpression |
+                    postdecrementexpression |
+                    methodcallexpression | //methodinvocation
+                    newexpression;
+
+/*assignment:         name ASSIGN statementexpression |
+                    THIS DOT name ASSIGN statementexpression;*/
 
 
 lefthandside:       name;

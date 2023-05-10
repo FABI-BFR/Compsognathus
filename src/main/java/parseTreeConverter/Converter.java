@@ -65,8 +65,7 @@ public class Converter {
         }
     }
 
-    private static Constructor createDefaultConstructor(String _className)
-    {
+    private static Constructor createDefaultConstructor(String _className) {
         Block block = new Block(new ArrayList<IStmt>());
         List<Parameter> parameter = new ArrayList<>();
         return new Constructor(_className,parameter,block);

@@ -20,26 +20,19 @@ public class CompsognathusCompiler
             if (arg.endsWith(".java")) {
 
                 // Parser
-                AntlrParser parser = new AntlrParser();
-                //File file = new File("C:/Users/Fabian/Desktop/Compsognathus/src/main/test/exampleClasses/emptyClass/EmptyClass.java");
-                File file = new File(arg);
-                Compiler_grammarParser.CompilationunitContext parseTree =
-                        parser.parse(new File(file.getAbsolutePath()));
-
+                Compiler_grammarParser.CompilationunitContext parseTree = parse(arg);
                 if (parseTree.exception != null) {
                     System.out.println("Das Java-File konnte nicht geparsed werden");
                     return;
                 }
-
                 // Converter
                 Program generatedProgram = Converter.convertToProgram(parseTree);
-
                 // Semantic check
 
 
                 // Bytecode generation
-                ByteCodeGenerator generator = new ByteCodeGenerator();
-                List<ClassFile> myClassFiles = generator.generate(generatedProgram);
+                List<ClassFile> myClassFiles =generateBytecode(generatedProgram);
+
 
                 // Saving class files
                 String direcotry = "src/main/Output/";
@@ -58,7 +51,18 @@ public class CompsognathusCompiler
             return;
         }
     }
-
+    public static Compiler_grammarParser.CompilationunitContext parse(String fileLink){
+        AntlrParser parser = new AntlrParser();
+        //File file = new File("C:/Users/Fabian/Desktop/Compsognathus/src/main/test/exampleClasses/emptyClass/EmptyClass.java");
+        File file = new File(fileLink);
+        Compiler_grammarParser.CompilationunitContext parseTree =
+                parser.parse(new File(file.getAbsolutePath()));
+        return parseTree;
+    }
+    public static List<ClassFile>generateBytecode(Program generatedProgram){
+        ByteCodeGenerator generator = new ByteCodeGenerator();
+        return generator.generate(generatedProgram);
+    }
 
     private static void storeDataInFile(File myClassFile, byte[] contentInBytes)
     {
@@ -66,7 +70,7 @@ public class CompsognathusCompiler
         try {
             fop = new FileOutputStream(myClassFile);
 
-            // if file doesnt exists, then create it
+            // if file doesn't exist, then create it
             if (!myClassFile.exists()) {
                 myClassFile.createNewFile();
             }

@@ -236,7 +236,7 @@ ifelsestatementnoshortif:   IF LBRACE compareexpression RBRACE statementnoshorti
 
 whilestatementnoshortif:    WHILE LBRACE compareexpression RBRACE statementnoshortif;
 
-statementexpression:    //assignment |
+statementexpression:    assignment |
                     preincrementexpression |
                     predecrementexpression |
                     postincrementexpression |
@@ -245,6 +245,9 @@ statementexpression:    //assignment |
                     newexpression; //classinstancecreationexpression
 
 // assignment:         lefthandside assignmentoperator assignmentexpression;
+assignment:         name ASSIGN expression |
+                    THIS DOT name ASSIGN expression;
+
 
 lefthandside:       name;
 
@@ -261,19 +264,29 @@ assignmentoperator: ASSIGN |
                     XOREQUAL |
                     OREQUAL;
 
-preincrementexpression: INC primary;
+preincrementexpression: INC name;
 
-predecrementexpression: DEC primary;
+predecrementexpression: DEC name;
 
 postincrementexpression: name INC;
 
 postdecrementexpression: name DEC;
 
 methodcallexpression: name LBRACE RBRACE |
-                    name LBRACE argumentlist RBRACE;
-                    /*primary DOT IDENTIFIER LBRACE RBRACE |
-                    primary DOT IDENTIFIER LBRACE argumentlist RBRACE;*/
-
+                    name LBRACE argumentlist RBRACE |
+                    name DOT IDENTIFIER LBRACE RBRACE |
+                    name DOT IDENTIFIER LBRACE argumentlist RBRACE |
+                    THIS DOT IDENTIFIER LBRACE RBRACE |
+                    THIS DOT IDENTIFIER LBRACE argumentlist RBRACE |
+                    LBRACE expression RBRACE DOT IDENTIFIER LBRACE RBRACE |
+                    LBRACE expression RBRACE DOT IDENTIFIER LBRACE argumentlist RBRACE |
+                    newexpression DOT IDENTIFIER LBRACE RBRACE |
+                    newexpression DOT IDENTIFIER LBRACE argumentlist RBRACE;
+                    /*fieldaccess DOT IDENTIFIER LBRACE RBRACE |
+                    fieldaccess DOT IDENTIFIER LBRACE argumentlist RBRACE |
+                    methodcallexpression DOT IDENTIFIER LBRACE RBRACE |
+                    methodcallexpression DOT IDENTIFIER LBRACE argumentlist RBRACE;*/
+/*
 primary:            name |
                     literal |
                     THIS |
@@ -282,7 +295,7 @@ primary:            name |
                     fieldaccess |
                     methodcallexpression;
 
-fieldaccess:        IDENTIFIER DOT primary;
+fieldaccess:        primary DOT IDENTIFIER;*/
 
 newexpression:      NEW classorinterfacetype LBRACE RBRACE |
                     NEW classorinterfacetype LBRACE argumentlist RBRACE;

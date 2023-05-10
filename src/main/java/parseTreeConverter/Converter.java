@@ -7,6 +7,7 @@ import semantikCheck.Class;
 import semantikCheck.expr.LocalOrFieldVar;
 import semantikCheck.interfaces.IExpr;
 import semantikCheck.interfaces.IStmt;
+import semantikCheck.interfaces.IStmtExpr;
 import semantikCheck.stmt.Block;
 import semantikCheck.stmt.LocalVarDecl;
 import semantikCheck.stmtexpr.Assign;
@@ -91,24 +92,30 @@ public class Converter {
         if (!header.methoddeclarator().formalparameterlist().isEmpty()) {
             parameters.addAll(convertToParameters(header.methoddeclarator().formalparameterlist()));
         }
-        Block body = null;//@TODO nicht nullen, und parameter checken
-
-        if (header.type().isEmpty()) {
+        Block body = new Block(new ArrayList<IStmt>());
+        if (methodcontext.methodbody().isEmpty()) {
+            body = convertToBody(methodcontext.methodbody().block());
+        }
+        if (header.type() == null) {
             return new Method(new Type("void"), methodName, parameters, body, ac);
         }
         return new Method(new Type(header.type().getText()), methodName, parameters, body, ac);
     }
 
+    private static Block convertToBody(Compiler_grammarParser.BlockContext blockContext) {
+        //@TODO nicht nullen, und parameter checken
+    }
+
     private static List<Parameter> convertToParameters(Compiler_grammarParser.FormalparameterlistContext parameterListContext) {
         List<Parameter> parameters = new ArrayList<>();
         parameters.add(convertToParameter(parameterListContext.formalparameter()));
-        if (parameterListContext.formalparameterlist().isEmpty()) return parameters;
+        if (parameterListContext.formalparameterlist() == null) return parameters;
         parameters.addAll(convertToParameters(parameterListContext.formalparameterlist()));
         return parameters;
     }
 
     private static Parameter convertToParameter(Compiler_grammarParser.FormalparameterContext parameterContext) {
-        return new Parameter(getType(parameterContext.type()),parameterContext.IDENTIFIER().getText());
+        return new Parameter(getType(parameterContext.type()), parameterContext.IDENTIFIER().getText());
     }
 
     private static List<Field> convertToFields(Compiler_grammarParser.FielddeclarationContext fieldcontext) {
@@ -145,19 +152,19 @@ public class Converter {
         };
     }
 
-    private static Type getType (Compiler_grammarParser.TypeContext typeContext){
-        if(typeContext.primitivetype() != null){
-            if(typeContext.primitivetype().INT() != null){
+    private static Type getType(Compiler_grammarParser.TypeContext typeContext) {
+        if (typeContext.primitivetype() != null) {
+            if (typeContext.primitivetype().INT() != null) {
                 return new Type("int");
-            } else if (typeContext.primitivetype().CHAR() != null){
+            } else if (typeContext.primitivetype().CHAR() != null) {
                 return new Type("char");
             } else if(typeContext.primitivetype().BOOLEAN() != null){
                 return new Type("boolean");
             }
-        } else if(typeContext.abstracttype() != null){
-            if(typeContext.abstracttype().name() != null){
+        } else if (typeContext.abstracttype() != null) {
+            if (typeContext.abstracttype().name() != null) {
                 return new Type(typeContext.abstracttype().name().getText());
-            } else if(typeContext.abstracttype().STRING() != null){
+            } else if (typeContext.abstracttype().STRING() != null) {
                 return new Type("java.lang.String");
             }
         }

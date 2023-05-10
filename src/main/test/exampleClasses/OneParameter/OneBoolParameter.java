@@ -1,3 +1,3 @@
 public class ClassWithOneBoolParameter {
-    public Boolean par;
+    public boolean par;
 }

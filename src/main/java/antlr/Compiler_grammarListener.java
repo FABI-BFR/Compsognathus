@@ -208,6 +208,16 @@ public interface Compiler_grammarListener extends ParseTreeListener {
 	 */
 	void exitSimplename(Compiler_grammarParser.SimplenameContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link Compiler_grammarParser#qualifiedname}.
+	 * @param ctx the parse tree
+	 */
+	void enterQualifiedname(Compiler_grammarParser.QualifiednameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Compiler_grammarParser#qualifiedname}.
+	 * @param ctx the parse tree
+	 */
+	void exitQualifiedname(Compiler_grammarParser.QualifiednameContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link Compiler_grammarParser#variabledeclarators}.
 	 * @param ctx the parse tree
 	 */
@@ -267,6 +277,26 @@ public interface Compiler_grammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitMethoddeclarator(Compiler_grammarParser.MethoddeclaratorContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Compiler_grammarParser#formalparameterlist}.
+	 * @param ctx the parse tree
+	 */
+	void enterFormalparameterlist(Compiler_grammarParser.FormalparameterlistContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Compiler_grammarParser#formalparameterlist}.
+	 * @param ctx the parse tree
+	 */
+	void exitFormalparameterlist(Compiler_grammarParser.FormalparameterlistContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Compiler_grammarParser#formalparameter}.
+	 * @param ctx the parse tree
+	 */
+	void enterFormalparameter(Compiler_grammarParser.FormalparameterContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Compiler_grammarParser#formalparameter}.
+	 * @param ctx the parse tree
+	 */
+	void exitFormalparameter(Compiler_grammarParser.FormalparameterContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link Compiler_grammarParser#methodbody}.
 	 * @param ctx the parse tree

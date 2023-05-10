@@ -1,3 +1,3 @@
 public class ClassWithOneIntParameter {
-    public Integer par;
+    public int par;
 }

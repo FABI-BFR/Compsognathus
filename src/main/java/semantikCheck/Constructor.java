@@ -1,11 +1,12 @@
 package semantikCheck;
 
+import semantikCheck.interfaces.SemChecker;
 import semantikCheck.stmt.Block;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Constructor {
+public class Constructor implements SemChecker {
     private String name;
     private List<Parameter> parameter;
     private Block statement;
@@ -67,5 +68,10 @@ public class Constructor {
     public void setAccess(Access access)
     {
         this.access = access;
+    }
+
+    @Override
+    public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
+
     }
 }

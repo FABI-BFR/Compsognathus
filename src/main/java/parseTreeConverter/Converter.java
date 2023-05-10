@@ -105,8 +105,7 @@ public class Converter {
     private static Field convertToField(Compiler_grammarParser.FielddeclarationContext fieldcontext) {
         //@TODO implement
 
-        Type type = null;
-        type.setType(getType(fieldcontext.type()));
+        Type type = getType(fieldcontext.type());
 
 
 
@@ -135,6 +134,12 @@ public class Converter {
             } else if (typeContext.primitivetype().CHAR() != null){
                 return new Type("char");
             } else if(typeContext.primitivetype() != null){
+                return new Type("java.lang.String");
+            }
+        } else if(typeContext.abstracttype() != null){
+            if(typeContext.abstracttype().name() != null){
+                return new Type(typeContext.abstracttype().name().getText());
+            } else if(typeContext.abstracttype().STRING() != null){
                 return new Type("java.lang.String");
             }
         }

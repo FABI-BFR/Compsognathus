@@ -33,6 +33,7 @@ EQUAL : '==';
 GREATEREQUAL : '>=';
 LESSEQUAL : '<=';
 LOGICALOR : '||';
+LOGICALAND: '&&';
 MINUSEQUAL : '-=';
 MODULOEQUAL : '%=';
 NOTEQUAL : '!=';
@@ -98,7 +99,7 @@ constructordeclaration: constructordeclarator constructorbody |
                     accessmodifier constructordeclarator constructorbody;
 
 constructordeclarator:  CLASSIDENTIFIER LBRACE RBRACE |
-                    simplename LBRACE formalparameterlist RBRACE;
+                    CLASSIDENTIFIER LBRACE formalparameterlist RBRACE;
 
 constructorbody:    LBRACKET RBRACKET |
                     LBRACKET explicitconstructorinovacation RBRACKET |
@@ -191,16 +192,20 @@ whilestatement:     WHILE LBRACE compareexpression RBRACE statement;
 
 compareexpression:  name |
                     BOOLLITERAL |
-                    expression |
+                    IDENTIFIER |
                     methodcallexpression |
-                    expression compareoperator expression;
+                    expression compareoperator expression |
+                    name logicaloperator compareexpression |
+                    BOOLLITERAL logicaloperator compareexpression |
+                    IDENTIFIER logicaloperator compareexpression |
+                    methodcallexpression logicaloperator compareexpression |
+                    expression compareoperator expression logicaloperator compareexpression;
 
 compareoperator:    ANDEQUAL|
                     DIVIDEEQUAL |
                     EQUAL |
                     GREATEREQUAL |
                     LESSEQUAL |
-                    LOGICALOR |
                     MINUSEQUAL |
                     MODULOEQUAL |
                     NOTEQUAL |
@@ -211,6 +216,9 @@ compareoperator:    ANDEQUAL|
                     TIMESEQUAL |
                     UNSIGNEDSHIFTRIGHTEQUAL |
                     XOREQUAL;
+
+logicaloperator:    LOGICALOR |
+                    LOGICALAND;
 
 statementwithoutrailingsubstatement:    block |
                     emptystatement |

@@ -388,6 +388,16 @@ public interface Compiler_grammarListener extends ParseTreeListener {
 	 */
 	void exitCompareoperator(Compiler_grammarParser.CompareoperatorContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link Compiler_grammarParser#logicaloperator}.
+	 * @param ctx the parse tree
+	 */
+	void enterLogicaloperator(Compiler_grammarParser.LogicaloperatorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Compiler_grammarParser#logicaloperator}.
+	 * @param ctx the parse tree
+	 */
+	void exitLogicaloperator(Compiler_grammarParser.LogicaloperatorContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link Compiler_grammarParser#statementwithoutrailingsubstatement}.
 	 * @param ctx the parse tree
 	 */

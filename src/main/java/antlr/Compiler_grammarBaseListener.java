@@ -473,6 +473,18 @@ public class Compiler_grammarBaseListener implements Compiler_grammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterLogicaloperator(Compiler_grammarParser.LogicaloperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLogicaloperator(Compiler_grammarParser.LogicaloperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterStatementwithoutrailingsubstatement(Compiler_grammarParser.StatementwithoutrailingsubstatementContext ctx) { }
 	/**
 	 * {@inheritDoc}

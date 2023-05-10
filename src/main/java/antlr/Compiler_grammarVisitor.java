@@ -239,6 +239,12 @@ public interface Compiler_grammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCompareoperator(Compiler_grammarParser.CompareoperatorContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link Compiler_grammarParser#logicaloperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLogicaloperator(Compiler_grammarParser.LogicaloperatorContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link Compiler_grammarParser#statementwithoutrailingsubstatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

@@ -168,26 +168,6 @@ public interface Compiler_grammarListener extends ParseTreeListener {
 	 */
 	void exitAbstracttype(Compiler_grammarParser.AbstracttypeContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link Compiler_grammarParser#referencetype}.
-	 * @param ctx the parse tree
-	 */
-	void enterReferencetype(Compiler_grammarParser.ReferencetypeContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Compiler_grammarParser#referencetype}.
-	 * @param ctx the parse tree
-	 */
-	void exitReferencetype(Compiler_grammarParser.ReferencetypeContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Compiler_grammarParser#classorinterfacetype}.
-	 * @param ctx the parse tree
-	 */
-	void enterClassorinterfacetype(Compiler_grammarParser.ClassorinterfacetypeContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Compiler_grammarParser#classorinterfacetype}.
-	 * @param ctx the parse tree
-	 */
-	void exitClassorinterfacetype(Compiler_grammarParser.ClassorinterfacetypeContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link Compiler_grammarParser#name}.
 	 * @param ctx the parse tree
 	 */

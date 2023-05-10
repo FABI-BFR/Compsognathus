@@ -209,30 +209,6 @@ public class Compiler_grammarBaseListener implements Compiler_grammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterReferencetype(Compiler_grammarParser.ReferencetypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitReferencetype(Compiler_grammarParser.ReferencetypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterClassorinterfacetype(Compiler_grammarParser.ClassorinterfacetypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitClassorinterfacetype(Compiler_grammarParser.ClassorinterfacetypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterName(Compiler_grammarParser.NameContext ctx) { }
 	/**
 	 * {@inheritDoc}

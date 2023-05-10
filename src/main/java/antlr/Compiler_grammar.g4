@@ -122,11 +122,7 @@ primitivetype:      BOOLEAN |
                     CHAR;
 
 abstracttype:       STRING |
-                    referencetype;
-
-referencetype:      classorinterfacetype;
-
-classorinterfacetype:   name;
+                    name;
 
 name:               simplename |
                     qualifiedname;
@@ -297,8 +293,8 @@ primary:            name |
 
 fieldaccess:        primary DOT IDENTIFIER;*/
 
-newexpression:      NEW classorinterfacetype LBRACE RBRACE |
-                    NEW classorinterfacetype LBRACE argumentlist RBRACE;
+newexpression:      NEW name LBRACE RBRACE |
+                    NEW name LBRACE argumentlist RBRACE;
 
 literal:            INTLITERAL |
                     BOOLLITERAL |

@@ -107,18 +107,6 @@ public interface Compiler_grammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAbstracttype(Compiler_grammarParser.AbstracttypeContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link Compiler_grammarParser#referencetype}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitReferencetype(Compiler_grammarParser.ReferencetypeContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Compiler_grammarParser#classorinterfacetype}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitClassorinterfacetype(Compiler_grammarParser.ClassorinterfacetypeContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link Compiler_grammarParser#name}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

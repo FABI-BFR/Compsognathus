@@ -25,15 +25,17 @@ public class Converter {
     private static Class convertToClass(Compiler_grammarParser.ClassdeclarationContext classContext) {
         List<Method> methods = new ArrayList<>();
         List<Field> fields = new ArrayList<>();
-        if(classContext.classbody().classbodydeclarations() != null) {
+        if (!classContext.classbody().isEmpty()) {
             classContext.classbody()
                     .classbodydeclarations()
                     .classbodydeclaration()
                     .forEach(classbodydeclarationContext -> {
-                        if (classbodydeclarationContext.fielddeclaration().isEmpty()) {
-                            methods.add(convertToMethod(classbodydeclarationContext.methoddeclaration()));
-                        } else {
-                            fields.addAll(convertToFields(classbodydeclarationContext.fielddeclaration()));
+                        if (classbodydeclarationContext.isEmpty()) {
+                            if (classbodydeclarationContext.fielddeclaration().isEmpty()) {
+                                methods.add(convertToMethod(classbodydeclarationContext.methoddeclaration()));
+                            } else {
+                                fields.addAll(convertToFields(classbodydeclarationContext.fielddeclaration()));
+                            }
                         }
                     });
         }
@@ -48,13 +50,15 @@ public class Converter {
                     getForAccessModifier(classContext.accessmodifier()));
         }
     }
-    private static Method convertToMethod(Compiler_grammarParser.MethoddeclarationContext methodcontext){
+
+    private static Method convertToMethod(Compiler_grammarParser.MethoddeclarationContext methodcontext) {
         Compiler_grammarParser.MethodheaderContext header = methodcontext.methodheader();
         List<Parameter> parameters = new ArrayList<>();
         Block body = null;//@TODO nicht nullen, und parameter checken
-        return new Method(new Type(header.type().getText()),header.methoddeclarator().IDENTIFIER().getText(),parameters,body);
+        return new Method(new Type(header.type().getText()), header.methoddeclarator().IDENTIFIER().getText(), parameters, body);
     }
-    private static List<Field> convertToFields(Compiler_grammarParser.FielddeclarationContext fieldcontext){
+
+    private static List<Field> convertToFields(Compiler_grammarParser.FielddeclarationContext fieldcontext) {
         Compiler_grammarParser.VariabledeclaratorsContext variableContext = fieldcontext.variabledeclarators();
         List<Field> fields = new ArrayList<>(convertToField(variableContext));
         return fields;

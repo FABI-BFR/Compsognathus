@@ -9,6 +9,8 @@ public class Class {
     private String name;
     private List<Field> fields;
     private List<Method> methods;
+
+    private List<Constructor> constructors;
     private Access access;
 
     public Class(String parName, List<Field> parFields, List<Method> parMethod)

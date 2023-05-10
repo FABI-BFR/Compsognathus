@@ -488,6 +488,16 @@ public interface Compiler_grammarListener extends ParseTreeListener {
 	 */
 	void exitStatementexpression(Compiler_grammarParser.StatementexpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link Compiler_grammarParser#assignment}.
+	 * @param ctx the parse tree
+	 */
+	void enterAssignment(Compiler_grammarParser.AssignmentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Compiler_grammarParser#assignment}.
+	 * @param ctx the parse tree
+	 */
+	void exitAssignment(Compiler_grammarParser.AssignmentContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link Compiler_grammarParser#lefthandside}.
 	 * @param ctx the parse tree
 	 */
@@ -557,26 +567,6 @@ public interface Compiler_grammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitMethodcallexpression(Compiler_grammarParser.MethodcallexpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Compiler_grammarParser#primary}.
-	 * @param ctx the parse tree
-	 */
-	void enterPrimary(Compiler_grammarParser.PrimaryContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Compiler_grammarParser#primary}.
-	 * @param ctx the parse tree
-	 */
-	void exitPrimary(Compiler_grammarParser.PrimaryContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Compiler_grammarParser#fieldaccess}.
-	 * @param ctx the parse tree
-	 */
-	void enterFieldaccess(Compiler_grammarParser.FieldaccessContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Compiler_grammarParser#fieldaccess}.
-	 * @param ctx the parse tree
-	 */
-	void exitFieldaccess(Compiler_grammarParser.FieldaccessContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link Compiler_grammarParser#newexpression}.
 	 * @param ctx the parse tree

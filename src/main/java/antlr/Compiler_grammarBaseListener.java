@@ -593,6 +593,18 @@ public class Compiler_grammarBaseListener implements Compiler_grammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterAssignment(Compiler_grammarParser.AssignmentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAssignment(Compiler_grammarParser.AssignmentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterLefthandside(Compiler_grammarParser.LefthandsideContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -672,30 +684,6 @@ public class Compiler_grammarBaseListener implements Compiler_grammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitMethodcallexpression(Compiler_grammarParser.MethodcallexpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPrimary(Compiler_grammarParser.PrimaryContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPrimary(Compiler_grammarParser.PrimaryContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterFieldaccess(Compiler_grammarParser.FieldaccessContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitFieldaccess(Compiler_grammarParser.FieldaccessContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

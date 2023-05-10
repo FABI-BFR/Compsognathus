@@ -16,4 +16,13 @@ public class Assign implements IStmtExpr {
     }
 
 
+    @Override
+    public Type getType() {
+        return null;
+    }
+
+    @Override
+    public void setType(Type type) {
+
+    }
 }

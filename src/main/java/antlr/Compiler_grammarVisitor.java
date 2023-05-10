@@ -299,6 +299,12 @@ public interface Compiler_grammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStatementexpression(Compiler_grammarParser.StatementexpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link Compiler_grammarParser#assignment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssignment(Compiler_grammarParser.AssignmentContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link Compiler_grammarParser#lefthandside}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -340,18 +346,6 @@ public interface Compiler_grammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitMethodcallexpression(Compiler_grammarParser.MethodcallexpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Compiler_grammarParser#primary}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPrimary(Compiler_grammarParser.PrimaryContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Compiler_grammarParser#fieldaccess}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFieldaccess(Compiler_grammarParser.FieldaccessContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link Compiler_grammarParser#newexpression}.
 	 * @param ctx the parse tree

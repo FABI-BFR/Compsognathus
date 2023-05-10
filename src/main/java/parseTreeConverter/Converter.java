@@ -8,6 +8,7 @@ import semantikCheck.stmt.Block;
 
 import java.util.ArrayList;
 
+import java.util.Collection;
 import java.util.List;
 
 public class Converter {
@@ -101,15 +102,26 @@ public class Converter {
         if (blockContext.blockstatements() == null) return new Block(new ArrayList<IStmt>());
         blockContext.blockstatements().blockstatement().forEach(blockstatementContext -> {
                 if(blockstatementContext.localvariabledeclaration() != null){
-                    stmts.add(convertToLocalVarDecl(blockstatementContext));
+                    stmts.addAll(convertToLocalVarDecls(blockstatementContext.localvariabledeclaration()));
                 }
             }
         );
         return new Block(stmts);
     }
 
-    private static IStmt convertToLocalVarDecl(Compiler_grammarParser.BlockstatementContext blockstatementContext) {
-        return null;
+    private static List<IStmt> convertToLocalVarDecls(Compiler_grammarParser.LocalvariabledeclarationContext localVarContext) {
+        List<IStmt> stmts = new ArrayList<>();
+        Type type = getType(localVarContext.type());
+        if(localVarContext.variabledeclarators() == null) return stmts;
+        stmts.addAll(convertToLocalVarDecls(localVarContext.variabledeclarators(),type));
+        return stmts;
+    }
+
+    private static List<IStmt> convertToLocalVarDecls(Compiler_grammarParser.VariabledeclaratorsContext variabledeclarators,Type type) {
+
+    }
+    private static IStmt convertToLocalVarDecl(){
+
     }
 
     private static List<Parameter> convertToParameters(Compiler_grammarParser.FormalparameterlistContext parameterListContext) {

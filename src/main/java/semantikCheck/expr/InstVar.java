@@ -2,8 +2,9 @@ package semantikCheck.expr;
 
 import semantikCheck.Type;
 import semantikCheck.interfaces.IExpr;
+import semantikCheck.interfaces.IStmt;
 
-public class InstVar implements IExpr {
+public class InstVar implements IExpr, IStmt {
 
     public String varName;
     public IExpr expression;

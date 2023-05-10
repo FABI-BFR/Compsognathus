@@ -35,7 +35,7 @@ public class CompsognathusCompiler
 
 
                 // Saving class files
-                String direcotry = "src/main/Output/";
+                String direcotry = "src/main/test/compiledClasses/";
                 for(ClassFile classFile: myClassFiles){
                     File tmpFile = new File(direcotry + classFile.getFileName());
                     storeDataInFile(tmpFile, classFile.getBytecode());

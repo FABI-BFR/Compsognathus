@@ -5,7 +5,6 @@ import semantikCheck.*;
 import semantikCheck.Class;
 import semantikCheck.interfaces.IStmt;
 import semantikCheck.stmt.Block;
-import semantikCheck.stmt.LocalVarDecl;
 
 import java.util.ArrayList;
 
@@ -49,10 +48,12 @@ public class Converter {
         }
         if (classContext.accessmodifier().isEmpty()) {
             return new Class(classContext.CLASSIDENTIFIER().getText(),
+                    constructors,
                     fields,
                     methods);
         } else {
             return new Class(classContext.CLASSIDENTIFIER().getText(),
+                    constructors,
                     fields,
                     methods,
                     getForAccessModifier(classContext.accessmodifier()));
@@ -108,7 +109,7 @@ public class Converter {
     }
 
     private static IStmt convertToLocalVarDecl(Compiler_grammarParser.BlockstatementContext blockstatementContext) {
-
+        return null;
     }
 
     private static List<Parameter> convertToParameters(Compiler_grammarParser.FormalparameterlistContext parameterListContext) {

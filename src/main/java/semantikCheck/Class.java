@@ -13,11 +13,11 @@ public class Class {
     private List<Constructor> constructors;
     private Access access;
 
-    public Class(String parName, List<Field> parFields, List<Method> parMethod)
+    public Class(String parName,List<Constructor> constructors, List<Field> parFields, List<Method> parMethod)
     {
-        this(parName, parFields, parMethod, Access.PUBLIC);
+        this(parName,constructors, parFields, parMethod, Access.PUBLIC);
     }
-    public Class(String name, List<Field> fields, List<Method> methods, Access parAccess){
+    public Class(String name,List<Constructor> constructors, List<Field> fields, List<Method> methods, Access parAccess){
         this.name = name;
         this.fields = new ArrayList<>();
         if(fields != null && !fields.isEmpty()){

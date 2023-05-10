@@ -17,7 +17,7 @@ public class EmptyClassTest {
     @Test
     public void testEmptyClass(){
         List<Class> classes = new ArrayList<>();
-        classes.add(new Class("EmptyClass",null,null, Access.PUBLIC));
+        classes.add(new Class("EmptyClass",null,null, null,Access.PUBLIC));
         Program shouldbeAST = new Program(classes);
         Program actual = Converter.convertToProgram(CompsognathusCompiler.parse("src/main/test/exampleClasses/emptyClass/EmptyClass.java"));
         Assert.assertEquals(JsonConverter.convertToJson(shouldbeAST),JsonConverter.convertToJson(actual));

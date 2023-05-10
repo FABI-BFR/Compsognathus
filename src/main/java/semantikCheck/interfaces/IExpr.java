@@ -1,5 +1,8 @@
 package semantikCheck.interfaces;
 
-public interface IExpr {
+import semantikCheck.Type;
 
+public interface IExpr {
+    Type getType();
+    void setType(Type type);
 }

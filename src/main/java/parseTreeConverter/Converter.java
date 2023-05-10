@@ -109,6 +109,7 @@ public class Converter {
 
 
 
+
         Access access = Access.PUBLIC;
         if(fieldcontext.accessmodifier() != null){
             String modifier = fieldcontext.accessmodifier().getText().toUpperCase();
@@ -133,8 +134,8 @@ public class Converter {
                 return new Type("int");
             } else if (typeContext.primitivetype().CHAR() != null){
                 return new Type("char");
-            } else if(typeContext.primitivetype() != null){
-                return new Type("java.lang.String");
+            } else if(typeContext.primitivetype().BOOLEAN() != null){
+                return new Type("boolean");
             }
         } else if(typeContext.abstracttype() != null){
             if(typeContext.abstracttype().name() != null){

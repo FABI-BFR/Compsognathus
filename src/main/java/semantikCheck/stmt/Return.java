@@ -2,8 +2,9 @@ package semantikCheck.stmt;
 
 import semantikCheck.interfaces.IExpr;
 import semantikCheck.Type;
+import semantikCheck.interfaces.IStmt;
 
-public class Return {
+public class Return implements IStmt {
     private IExpr expression;
     private Type type;
 

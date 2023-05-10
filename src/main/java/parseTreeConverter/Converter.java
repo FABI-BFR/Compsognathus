@@ -51,6 +51,9 @@ public class Converter {
                         }
                     });
         }
+        if(constructors.isEmpty()){
+            constructors.add(createDefaultConstructor(classContext.CLASSIDENTIFIER().getText()));
+        }
         if (classContext.accessmodifier().isEmpty()) {
             return new Class(classContext.CLASSIDENTIFIER().getText(),
                     fields,
@@ -61,6 +64,12 @@ public class Converter {
                     methods,
                     getForAccessModifier(classContext.accessmodifier()));
         }
+    }
+
+    private static Constructor createDefaultConstructor(String _className) {
+        Block block = new Block(new ArrayList<IStmt>());
+        List<Parameter> parameter = new ArrayList<>();
+        return new Constructor(_className,parameter,block);
     }
 
     private static Constructor convertToConstructor(Compiler_grammarParser.ConstructordeclarationContext constructordeclaration) {
@@ -115,6 +124,8 @@ public class Converter {
         Type type = getType(fieldcontext.type());
 
 
+
+
         Access access = Access.PUBLIC;
         if (fieldcontext.accessmodifier() != null) {
             String modifier = fieldcontext.accessmodifier().getText().toUpperCase();
@@ -141,6 +152,8 @@ public class Converter {
                 return new Type("char");
             } else if (typeContext.primitivetype() != null) {
                 return new Type("java.lang.String");
+            } else if(typeContext.primitivetype().BOOLEAN() != null){
+                return new Type("boolean");
             }
         } else if (typeContext.abstracttype() != null) {
             if (typeContext.abstracttype().name() != null) {

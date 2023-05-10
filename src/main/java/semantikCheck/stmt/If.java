@@ -1,9 +1,10 @@
 package semantikCheck.stmt;
 
+import semantikCheck.Type;
 import semantikCheck.interfaces.IExpr;
 import semantikCheck.interfaces.IStmt;
 
-public class If   {
+public class If  implements IStmt {
     private IExpr expression;
     private IStmt ifStmt;
     private IStmt elseStmt;
@@ -36,5 +37,15 @@ public class If   {
 
     public void setElseStmt(IStmt elseStmt) {
         this.elseStmt = elseStmt;
+    }
+
+    @Override
+    public Type getType() {
+        return null;
+    }
+
+    @Override
+    public void setType(Type type) {
+
     }
 }

@@ -12,6 +12,10 @@ import semantikCheck.stmt.LocalVarDecl;
 import semantikCheck.stmtexpr.Assign;
 
 import java.util.*;
+import java.util.ArrayList;
+
+import java.util.Collection;
+import java.util.List;
 
 public class Converter {
     public static Program convertToProgram(Compiler_grammarParser.CompilationunitContext parseTree) {
@@ -40,7 +44,7 @@ public class Converter {
                                 methods.add(convertToMethod(classbodydeclarationContext.methoddeclaration()));
                             } else if(!classbodydeclarationContext.fielddeclaration().isEmpty()){
                                 fields.add(convertToField(classbodydeclarationContext.fielddeclaration()));
-                            } else{
+                            }else {
                                 constructors.add(convertToConstructor(classbodydeclarationContext.constructordeclaration()));
                             }
                         }
@@ -66,11 +70,36 @@ public class Converter {
 
         Compiler_grammarParser.MethodheaderContext header = methodcontext.methodheader();
 
+        String methodName = header.methoddeclarator().IDENTIFIER().getText();
+
+        Access ac;
+        if (header.accessmodifier().isEmpty()) ac = Access.PUBLIC;
+        else ac = getForAccessModifier(header.accessmodifier());
+
+
         List<Parameter> parameters = new ArrayList<>();
 
+        if (!header.methoddeclarator().formalparameterlist().isEmpty()) {
+            parameters.addAll(convertToParameters(header.methoddeclarator().formalparameterlist()));
+        }
         Block body = null;//@TODO nicht nullen, und parameter checken
 
-        return new Method(new Type(header.type().getText()), header.methoddeclarator().IDENTIFIER().getText(), parameters, body);
+        if (header.type().isEmpty()) {
+            return new Method(new Type("void"), methodName, parameters, body, ac);
+        }
+        return new Method(new Type(header.type().getText()), methodName, parameters, body, ac);
+    }
+
+    private static List<Parameter> convertToParameters(Compiler_grammarParser.FormalparameterlistContext parameterListContext) {
+        List<Parameter> parameters = new ArrayList<>();
+        parameters.add(convertToParameter(parameterListContext.formalparameter()));
+        if (parameterListContext.formalparameterlist().isEmpty()) return parameters;
+        parameters.addAll(convertToParameters(parameterListContext.formalparameterlist()));
+        return parameters;
+    }
+
+    private static Parameter convertToParameter(Compiler_grammarParser.FormalparameterContext parameterContext) {
+        return new Parameter(getType(parameterContext.type()),parameterContext.IDENTIFIER().getText());
     }
 
     private static Field convertToField(Compiler_grammarParser.FielddeclarationContext fieldcontext) {
@@ -91,25 +120,24 @@ public class Converter {
     }
 
     private static Access getForAccessModifier(Compiler_grammarParser.AccessmodifierContext acc) {
-        return switch (acc.getText())
-                {
-                    case "private" -> Access.PRIVATE;
-                    case "protected" -> Access.PROTECTED;
-                    case "public" -> Access.PUBLIC;
-                    default -> Access.PUBLIC;
-                };
+        return switch (acc.getText()) {
+            case "private" -> Access.PRIVATE;
+            case "protected" -> Access.PROTECTED;
+            case "public" -> Access.PUBLIC;
+            default -> Access.PUBLIC;
+        };
     }
 
-    private static String getType (Compiler_grammarParser.TypeContext typeContext){
+    private static Type getType (Compiler_grammarParser.TypeContext typeContext){
         if(typeContext.primitivetype() != null){
             if(typeContext.primitivetype().INT() != null){
-                return "int";
+                return new Type("int");
             } else if (typeContext.primitivetype().CHAR() != null){
-                return "char";
+                return new Type("char");
             } else if(typeContext.primitivetype() != null){
-                return "java.lang.String";
+                return new Type("java.lang.String");
             }
         }
-        return "";
+        return new Type("");
     }
 }

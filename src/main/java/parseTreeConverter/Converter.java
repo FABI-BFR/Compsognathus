@@ -1,6 +1,7 @@
 package parseTreeConverter;
 
 import antlr.Compiler_grammarParser;
+import com.sun.security.jgss.GSSUtil;
 import semantikCheck.*;
 import semantikCheck.Class;
 import semantikCheck.stmt.Block;
@@ -25,16 +26,19 @@ public class Converter {
     private static Class convertToClass(Compiler_grammarParser.ClassdeclarationContext classContext) {
         List<Method> methods = new ArrayList<>();
         List<Field> fields = new ArrayList<>();
+        List<Constructor> constructors = new ArrayList<>();
         if (!classContext.classbody().isEmpty()) {
             classContext.classbody()
                     .classbodydeclarations()
                     .classbodydeclaration()
                     .forEach(classbodydeclarationContext -> {
-                        if (classbodydeclarationContext.isEmpty()) {
-                            if (classbodydeclarationContext.fielddeclaration().isEmpty()) {
+                        if (!classbodydeclarationContext.isEmpty()) {
+                            if (!classbodydeclarationContext.methoddeclaration().isEmpty()) {
                                 methods.add(convertToMethod(classbodydeclarationContext.methoddeclaration()));
-                            } else {
-                                fields.addAll(convertToFields(classbodydeclarationContext.fielddeclaration()));
+                            } else if(!classbodydeclarationContext.fielddeclaration().isEmpty()){
+                                fields.add(convertToFields(classbodydeclarationContext.fielddeclaration()));
+                            } else{
+                                constructors.add(convertToConstructor(classbodydeclarationContext.constructordeclaration()));
                             }
                         }
                     });
@@ -51,6 +55,10 @@ public class Converter {
         }
     }
 
+    private static Constructor convertToConstructor(Compiler_grammarParser.ConstructordeclarationContext constructordeclaration) {
+        return null;
+    }
+
     private static Method convertToMethod(Compiler_grammarParser.MethoddeclarationContext methodcontext) {
         Compiler_grammarParser.MethodheaderContext header = methodcontext.methodheader();
         List<Parameter> parameters = new ArrayList<>();
@@ -58,10 +66,9 @@ public class Converter {
         return new Method(new Type(header.type().getText()), header.methoddeclarator().IDENTIFIER().getText(), parameters, body);
     }
 
-    private static List<Field> convertToFields(Compiler_grammarParser.FielddeclarationContext fieldcontext) {
-        Compiler_grammarParser.VariabledeclaratorsContext variableContext = fieldcontext.variabledeclarators();
-        List<Field> fields = new ArrayList<>(convertToField(variableContext));
-        return fields;
+    private static Field convertToFields(Compiler_grammarParser.FielddeclarationContext fieldcontext) {
+        //@TODO implement
+        return null;
     }
 
     private static List<Field> convertToField(Compiler_grammarParser.VariabledeclaratorsContext variableContext) {

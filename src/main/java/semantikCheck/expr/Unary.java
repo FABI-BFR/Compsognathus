@@ -1,4 +1,5 @@
 package semantikCheck.expr;
+import semantikCheck.Type;
 import  semantikCheck.interfaces.IExpr;
 
 public class Unary implements IExpr {
@@ -11,6 +12,16 @@ public class Unary implements IExpr {
 
         this.operator = operator;
         this.expression = expression;
+
+    }
+
+    @Override
+    public Type getType() {
+        return null;
+    }
+
+    @Override
+    public void setType(Type type) {
 
     }
 }

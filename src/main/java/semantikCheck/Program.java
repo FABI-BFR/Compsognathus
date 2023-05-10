@@ -1,9 +1,12 @@
 package semantikCheck;
 
+import semantikCheck.interfaces.SemChecker;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Program {
+public class Program implements SemChecker
+{
 
     List<Class> classes;
 
@@ -24,4 +27,9 @@ public class Program {
         return classes;
     }
 
+    @Override
+    public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass)
+    {
+
+    }
 }

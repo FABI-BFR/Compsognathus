@@ -63,6 +63,9 @@ public class ByteCodeGenerator
                         null,
                         null);
                 mv.visitEnd();
+
+                MethodGenerator method = new MethodGenerator(mv, m.getParameter(), m.getName(), classGenerator);
+
             }
 
             classGenerator.getClassWriter().visitEnd();

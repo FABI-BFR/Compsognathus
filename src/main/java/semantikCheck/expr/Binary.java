@@ -5,11 +5,13 @@ import semantikCheck.Type;
 import semantikCheck.interfaces.IExpr;
 
 import java.util.List;
-public class Binary implements IExpr {
+public class Binary implements IExpr{
+
 
     public String operator;
     public IExpr exprLeft;
     public  IExpr exprRight;
+    private Type type;
 
     public Binary(String operator, IExpr exprLeft, IExpr exprRight){
         this.operator = operator;
@@ -19,4 +21,15 @@ public class Binary implements IExpr {
     }
 
 
+    @Override
+    public Type getType()
+    {
+        return type;
+    }
+
+    @Override
+    public void setType(Type type)
+    {
+        this.type = type;
+    }
 }

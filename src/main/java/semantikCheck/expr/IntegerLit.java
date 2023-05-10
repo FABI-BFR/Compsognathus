@@ -1,7 +1,11 @@
 package semantikCheck.expr;
 
+import semantikCheck.Class;
+import semantikCheck.Parameter;
 import semantikCheck.Type;
 import semantikCheck.interfaces.IExpr;
+
+import java.util.List;
 
 public class IntegerLit implements IExpr {
 
@@ -20,6 +24,11 @@ public class IntegerLit implements IExpr {
 
     @Override
     public void setType(Type type) {
+
+    }
+
+    @Override
+    public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
 
     }
 }

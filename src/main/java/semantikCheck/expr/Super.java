@@ -1,7 +1,11 @@
 package semantikCheck.expr;
 
+import semantikCheck.Class;
+import semantikCheck.Parameter;
 import semantikCheck.Type;
 import semantikCheck.interfaces.IExpr;
+
+import java.util.List;
 
 public class Super implements IExpr {
 
@@ -16,6 +20,10 @@ public class Super implements IExpr {
     public void setType(Type type) {
 
     }
-    //SemantikCheck
+
+    @Override
+    public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
+
+    }
 
 }

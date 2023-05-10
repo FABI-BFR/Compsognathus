@@ -1,5 +1,21 @@
 package semantikCheck.expr;
 
-public class Super {
+import semantikCheck.Type;
+import semantikCheck.interfaces.IExpr;
+
+public class Super implements IExpr {
+
+    private Type type;
+    @Override
+    public Type getType() {
+        type.setType("java.lang.Object");
+        return type;
+    }
+
+    @Override
+    public void setType(Type type) {
+
+    }
     //SemantikCheck
+
 }

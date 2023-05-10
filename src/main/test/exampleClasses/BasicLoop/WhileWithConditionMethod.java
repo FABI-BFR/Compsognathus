@@ -4,7 +4,7 @@ public class WhileWithConditionMethod {
         }
     }
 
-    public isTrue() {
+    public boolean isTrue() {
         return true;
     }
 }

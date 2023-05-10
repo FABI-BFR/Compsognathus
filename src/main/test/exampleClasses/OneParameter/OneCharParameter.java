@@ -1,3 +1,3 @@
 public class ClassWithOneChar {
-    public Char par;
+    public char par;
 }

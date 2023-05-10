@@ -131,6 +131,12 @@ public interface Compiler_grammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSimplename(Compiler_grammarParser.SimplenameContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link Compiler_grammarParser#qualifiedname}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQualifiedname(Compiler_grammarParser.QualifiednameContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link Compiler_grammarParser#variabledeclarators}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -166,6 +172,18 @@ public interface Compiler_grammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitMethoddeclarator(Compiler_grammarParser.MethoddeclaratorContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Compiler_grammarParser#formalparameterlist}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFormalparameterlist(Compiler_grammarParser.FormalparameterlistContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Compiler_grammarParser#formalparameter}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFormalparameter(Compiler_grammarParser.FormalparameterContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link Compiler_grammarParser#methodbody}.
 	 * @param ctx the parse tree

@@ -97,8 +97,8 @@ classbodydeclaration:   constructordeclaration|
 constructordeclaration: constructordeclarator constructorbody |
                     accessmodifier constructordeclarator constructorbody;
 
-constructordeclarator:  CLASSIDENTIFIER LBRACE RBRACE;
-                    //simplename LBRACE formalparameterlist RBRACE;
+constructordeclarator:  CLASSIDENTIFIER LBRACE RBRACE |
+                    simplename LBRACE formalparameterlist RBRACE;
 
 constructorbody:    LBRACKET RBRACKET |
                     LBRACKET explicitconstructorinovacation RBRACKET |
@@ -128,12 +128,12 @@ referencetype:      classorinterfacetype;
 
 classorinterfacetype:   name;
 
-name:               simplename;
-                    //qualifiedname;
+name:               simplename |
+                    qualifiedname;
 
 simplename:         IDENTIFIER;
 
-//qualifiedname:      name DOT IDENTIFIER;
+qualifiedname:      IDENTIFIER DOT name;
 
 variabledeclarators:    variabledeclarator |
                     variabledeclarator COMMA variabledeclarators;
@@ -161,8 +161,13 @@ methodheader:       type methoddeclarator |
                     VOID methoddeclarator |
                     accessmodifier VOID methoddeclarator;
 
-methoddeclarator:   IDENTIFIER LBRACE RBRACE;
-                    //IDENTIFIER LBRACE formalparameterlist RBRACE;
+methoddeclarator:   IDENTIFIER LBRACE RBRACE |
+                    IDENTIFIER LBRACE formalparameterlist RBRACE;
+
+formalparameterlist:  formalparameter |
+                    formalparameter COMMA formalparameterlist;
+
+formalparameter:    type IDENTIFIER;
 
 methodbody:         block |
                     SEMICOLON;
@@ -189,6 +194,9 @@ ifelsestatement:    IF LBRACE compareexpression RBRACE statementnoshortif  ELSE 
 whilestatement:     WHILE LBRACE compareexpression RBRACE statement;
 
 compareexpression:  name |
+                    BOOLLITERAL |
+                    expression |
+                    methodcallexpression |
                     expression compareoperator expression;
 
 compareoperator:    ANDEQUAL|
@@ -224,9 +232,9 @@ statementnoshortif: statementwithoutrailingsubstatement |
                     ifelsestatementnoshortif |
                     whilestatementnoshortif;
 
-ifelsestatementnoshortif:   IF LBRACE expression RBRACE statementnoshortif ELSE statementnoshortif;
+ifelsestatementnoshortif:   IF LBRACE compareexpression RBRACE statementnoshortif ELSE statementnoshortif;
 
-whilestatementnoshortif:    WHILE LBRACE expression RBRACE statementnoshortif;
+whilestatementnoshortif:    WHILE LBRACE compareexpression RBRACE statementnoshortif;
 
 statementexpression:    //assignment |
                     preincrementexpression |
@@ -262,19 +270,19 @@ postincrementexpression: name INC;
 postdecrementexpression: name DEC;
 
 methodcallexpression: name LBRACE RBRACE |
-                    name LBRACE argumentlist RBRACE |
-                    primary DOT IDENTIFIER LBRACE RBRACE |
-                    primary DOT IDENTIFIER LBRACE argumentlist RBRACE;
+                    name LBRACE argumentlist RBRACE;
+                    /*primary DOT IDENTIFIER LBRACE RBRACE |
+                    primary DOT IDENTIFIER LBRACE argumentlist RBRACE;*/
 
 primary:            name |
                     literal |
                     THIS |
                     LBRACE expression RBRACE |
-                    newexpression;
-                    //fieldaccess |
-                    //methodcallexpression;
+                    newexpression |
+                    fieldaccess |
+                    methodcallexpression;
 
-fieldaccess:        primary DOT IDENTIFIER;
+fieldaccess:        IDENTIFIER DOT primary;
 
 newexpression:      NEW classorinterfacetype LBRACE RBRACE |
                     NEW classorinterfacetype LBRACE argumentlist RBRACE;

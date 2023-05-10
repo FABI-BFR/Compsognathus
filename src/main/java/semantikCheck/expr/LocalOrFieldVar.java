@@ -7,7 +7,6 @@ import semantikCheck.checker.Checker;
 import semantikCheck.interfaces.IExpr;
 import semantikCheck.interfaces.IStmt;
 
-public class LocalOrFieldVar implements IExpr, IStmt {
 import java.util.List;
 
 public class LocalOrFieldVar implements IExpr {

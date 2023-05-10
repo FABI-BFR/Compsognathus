@@ -83,9 +83,10 @@ public class Converter {
 
         List<Parameter> parameters = getParameter(head.formalparameterlist());
 
-        Block block = getBlock(body.blockstatements());
+       // Block block = getBlock(body.block());
 
-        return new Constructor(name,parameters,block,access);
+       // return new Constructor(name,parameters,block,access);
+        return null;
     }
 
     private static Block getBlock(Compiler_grammarParser.BlockstatementsContext blockstatements)
@@ -160,12 +161,13 @@ public class Converter {
     }
     private static IStmt convertToLocalVarDecl(Compiler_grammarParser.VariabledeclaratorContext variabledeclaratorContext,Type type){
         String name = variabledeclaratorContext.IDENTIFIER().getText();
-        if(variabledeclaratorContext.statementexpression() == null) return new LocalOrFieldVar(type,name);
+        if(variabledeclaratorContext.statementexpression() == null) return (IStmt) new LocalOrFieldVar(type,name);
         IStmtExpr stmtExpr = convertToStmtExpr(variabledeclaratorContext.statementexpression());
-
+        return null;
     }
 
     private static IStmtExpr convertToStmtExpr(Compiler_grammarParser.StatementexpressionContext statementexpression) {
+        return null;
     }
 
     private static List<Parameter> convertToParameters(Compiler_grammarParser.FormalparameterlistContext parameterListContext) {

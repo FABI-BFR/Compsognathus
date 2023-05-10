@@ -6,7 +6,7 @@ import semantikCheck.interfaces.IStmt;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Block {
+public class Block implements IStmt{
     private List<IStmt> statements;
     private Type type;
 
@@ -23,5 +23,16 @@ public class Block {
 
     public void setStatements(List<IStmt> stmts){
         statements = stmts;
+    }
+
+    @Override
+    public Type getType() {
+        return type;
+    }
+
+    @Override
+    public void setType(Type type) {
+
+        this.type = type;
     }
 }

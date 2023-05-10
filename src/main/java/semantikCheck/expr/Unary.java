@@ -8,7 +8,7 @@ public class Unary implements IExpr {
 
     public IExpr expression;
 
-    public Unary(String operator, IExpr expression){
+    public Unary(String operator, IExpr expression) {
 
         this.operator = operator;
         this.expression = expression;
@@ -17,7 +17,7 @@ public class Unary implements IExpr {
 
     @Override
     public Type getType() {
-        return null;
+        return expression.getType();
     }
 
     @Override

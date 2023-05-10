@@ -8,6 +8,8 @@ import semantikCheck.*;
 import semantikCheck.Class;
 import semantikCheck.Type;
 import semantikCheck.expr.*;
+import semantikCheck.interfaces.IStmt;
+import semantikCheck.stmt.Block;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,10 +64,17 @@ public class ByteCodeGenerator
                         type,                           // Type
                         null,
                         null);
-                mv.visitEnd();
+                mv.visitCode();
 
+                //
                 MethodGenerator method = new MethodGenerator(mv, m.getParameter(), m.getName(), classGenerator);
+                visitBlockStmt(method, m.getStatement(), name.equals("<init>"));
 
+                //return of method
+                mv.visitInsn(parseReturnType(m.getType()));
+
+                mv.visitMaxs(0,0);
+                mv.visitEnd();
             }
 
             classGenerator.getClassWriter().visitEnd();
@@ -109,37 +118,18 @@ public class ByteCodeGenerator
             type = type.substring(0, type.length() - 3);
         }
 
-        switch (type) {
-            case "boolean":
-                result.append("Z");
-                break;
-            case "byte":
-                result.append("B");
-                break;
-            case "char":
-                result.append("C");
-                break;
-            case "short":
-                result.append("S");
-                break;
-            case "int":
-                result.append("I");
-                break;
-            case "long":
-                result.append("J");
-                break;
-            case "float":
-                result.append("F");
-                break;
-            case "double":
-                result.append("D");
-                break;
-            case "void":
-                result.append("V");
-                break;
-            default:
-                result.append("L").append(type).append(";");
-                break;
+        switch (type)
+        {
+            case "boolean" -> result.append("Z");
+            case "byte" -> result.append("B");
+            case "char" -> result.append("C");
+            case "short" -> result.append("S");
+            case "int" -> result.append("I");
+            case "long" -> result.append("J");
+            case "float" -> result.append("F");
+            case "double" -> result.append("D");
+            case "void" -> result.append("V");
+            default -> result.append("L").append(type).append(";");
         }
 
         return result.toString();
@@ -175,34 +165,16 @@ public class ByteCodeGenerator
     private int parseReturnType(@NotNull Type _type)
     {
         String type = _type.getType();
-        int result;
 
-        switch (type) {
-            case "boolean":
-            case "byte":
-            case "char":
-            case "short":
-            case "int":
-                result = Opcodes.IRETURN;
-                break;
-            case "long":
-                result = Opcodes.LRETURN;
-                break;
-            case "float":
-                result = Opcodes.FRETURN;
-                break;
-            case "double":
-                result = Opcodes.DRETURN;
-                break;
-            case "void":
-                result = Opcodes.RETURN;
-                break;
-            default:
-                result = Opcodes.ARETURN;
-                break;
-        }
-
-        return result;
+        return switch (type)
+                {
+                    case "boolean", "byte", "char", "short", "int" -> Opcodes.IRETURN;
+                    case "long" -> Opcodes.LRETURN;
+                    case "float" -> Opcodes.FRETURN;
+                    case "double" -> Opcodes.DRETURN;
+                    case "void" -> Opcodes.RETURN;
+                    default -> Opcodes.ARETURN;
+                };
     }
 
     /**
@@ -212,30 +184,28 @@ public class ByteCodeGenerator
      */
     private int parseVarType(@NotNull Type _type){
         String type = _type.getType();
-        int result;
-        switch (type) {
-            case "boolean":
-            case "byte":
-            case "char":
-            case "short":
-            case "int":
-                result = Opcodes.INTEGER;
-                break;
-            case "long":
-                result = Opcodes.LONG;
-                break;
-            case "float":
-                result = Opcodes.FLOAT;
-                break;
-            case "double":
-                result = Opcodes.DOUBLE;
-                break;
-            default:
-                result = -1;
-                break;
+
+        return switch (type)
+                {
+                    case "boolean", "byte", "char", "short", "int" -> Opcodes.INTEGER;
+                    case "long" -> Opcodes.LONG;
+                    case "float" -> Opcodes.FLOAT;
+                    case "double" -> Opcodes.DOUBLE;
+                    default -> -1;
+                };
+    }
+
+    private void visitBlockStmt(@NotNull MethodGenerator _method,
+                                  @NotNull Block _block,
+                                  boolean _isConstructor){
+        if(_isConstructor){
+            _method.getMethodVisitor().visitVarInsn(Opcodes.ALOAD,0);
+            _method.getMethodVisitor().visitMethodInsn(Opcodes.INVOKESPECIAL, "java/lang/Object", "<int>","()V", false);
         }
 
-        return result;
+        for(IStmt stmt : _block.getStatements()){
+            resolveStmt(_method, stmt);
+        }
     }
 
     /**
@@ -306,6 +276,7 @@ public class ByteCodeGenerator
     private void visitSuper(@NotNull MethodGenerator _method,
                             @NotNull Super _super)
     {
+        //TODO Implementieren
     }
 
     /**
@@ -319,6 +290,11 @@ public class ByteCodeGenerator
         _method.getMethodVisitor().visitVarInsn(Opcodes.ALOAD, 0);
     }
 
+
+    private void resolveStmt(@NotNull MethodGenerator _method,
+                             @NotNull IStmt _stmt){
+        //TODO check for statements and visit them
+    }
 
     //visitInstVar
     //visitLocalOrFieldVar

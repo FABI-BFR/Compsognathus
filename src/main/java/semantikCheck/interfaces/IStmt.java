@@ -3,7 +3,7 @@ package semantikCheck.interfaces;
 import semantikCheck.Type;
 
 public interface IStmt {
-    String getType();
+    Type getType();
 
     void setType(Type type);
 }

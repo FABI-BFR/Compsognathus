@@ -4,11 +4,14 @@ import antlr.Compiler_grammarParser;
 import com.sun.security.jgss.GSSUtil;
 import semantikCheck.*;
 import semantikCheck.Class;
+import semantikCheck.expr.LocalOrFieldVar;
+import semantikCheck.interfaces.IExpr;
+import semantikCheck.interfaces.IStmt;
 import semantikCheck.stmt.Block;
+import semantikCheck.stmt.LocalVarDecl;
+import semantikCheck.stmtexpr.Assign;
 
-import java.util.ArrayList;
-
-import java.util.List;
+import java.util.*;
 
 public class Converter {
     public static Program convertToProgram(Compiler_grammarParser.CompilationunitContext parseTree) {
@@ -36,7 +39,7 @@ public class Converter {
                             if (!classbodydeclarationContext.methoddeclaration().isEmpty()) {
                                 methods.add(convertToMethod(classbodydeclarationContext.methoddeclaration()));
                             } else if(!classbodydeclarationContext.fielddeclaration().isEmpty()){
-                                fields.add(convertToFields(classbodydeclarationContext.fielddeclaration()));
+                                fields.add(convertToField(classbodydeclarationContext.fielddeclaration()));
                             } else{
                                 constructors.add(convertToConstructor(classbodydeclarationContext.constructordeclaration()));
                             }
@@ -60,35 +63,53 @@ public class Converter {
     }
 
     private static Method convertToMethod(Compiler_grammarParser.MethoddeclarationContext methodcontext) {
+
         Compiler_grammarParser.MethodheaderContext header = methodcontext.methodheader();
+
         List<Parameter> parameters = new ArrayList<>();
+
         Block body = null;//@TODO nicht nullen, und parameter checken
+
         return new Method(new Type(header.type().getText()), header.methoddeclarator().IDENTIFIER().getText(), parameters, body);
     }
 
-    private static Field convertToFields(Compiler_grammarParser.FielddeclarationContext fieldcontext) {
+    private static Field convertToField(Compiler_grammarParser.FielddeclarationContext fieldcontext) {
         //@TODO implement
-        return null;
-    }
 
-    private static List<Field> convertToField(Compiler_grammarParser.VariabledeclaratorsContext variableContext) {
-        List<Field> fields = new ArrayList<>();
-        //@TODO muss noch implementiert werden
-        return fields;
+        Type type = null;
+        type.setType(getType(fieldcontext.type()));
+
+
+
+        Access access = Access.PUBLIC;
+        if(fieldcontext.accessmodifier() != null){
+            String modifier = fieldcontext.accessmodifier().getText().toUpperCase();
+            access = Access.valueOf(modifier);
+        }
+
+        return  null;
     }
 
     private static Access getForAccessModifier(Compiler_grammarParser.AccessmodifierContext acc) {
-        Access ac = Access.PUBLIC;
-        switch (acc.getText()) {
-            case "private":
-                ac = Access.PRIVATE;
-                break;
-            case "protected":
-                ac = Access.PROTECTED;
-                break;
-            case "public":
-                ac = Access.PUBLIC;
+        return switch (acc.getText())
+                {
+                    case "private" -> Access.PRIVATE;
+                    case "protected" -> Access.PROTECTED;
+                    case "public" -> Access.PUBLIC;
+                    default -> Access.PUBLIC;
+                };
+    }
+
+    private static String getType (Compiler_grammarParser.TypeContext typeContext){
+        if(typeContext.primitivetype() != null){
+            if(typeContext.primitivetype().INT() != null){
+                return "int";
+            } else if (typeContext.primitivetype().CHAR() != null){
+                return "char";
+            } else if(typeContext.primitivetype() != null){
+                return "java.lang.String";
+            }
         }
-        return ac;
+        return "";
     }
 }

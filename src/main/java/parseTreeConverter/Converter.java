@@ -50,6 +50,9 @@ public class Converter {
                         }
                     });
         }
+        if(constructors.isEmpty()){
+            constructors.add(createDefaultConstructor(classContext.CLASSIDENTIFIER().getText()));
+        }
         if (classContext.accessmodifier().isEmpty()) {
             return new Class(classContext.CLASSIDENTIFIER().getText(),
                     fields,
@@ -60,6 +63,13 @@ public class Converter {
                     methods,
                     getForAccessModifier(classContext.accessmodifier()));
         }
+    }
+
+    private static Constructor createDefaultConstructor(String _className)
+    {
+        Block block = new Block(new ArrayList<IStmt>());
+        List<Parameter> parameter = new ArrayList<>();
+        return new Constructor(_className,parameter,block);
     }
 
     private static Constructor convertToConstructor(Compiler_grammarParser.ConstructordeclarationContext constructordeclaration) {

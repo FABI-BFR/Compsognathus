@@ -6,7 +6,9 @@ import bytecode.ByteCodeGenerator;
 import bytecode.ClassFile;
 import parseTreeConverter.Converter;
 import semantikCheck.Program;
+import semantikCheck.checker.Checker;
 
+import javax.xml.validation.SchemaFactoryConfigurationError;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
@@ -28,6 +30,16 @@ public class CompsognathusCompiler
                 // Converter
                 Program generatedProgram = Converter.convertToProgram(parseTree);
                 // Semantic check
+                Checker checker =  new Checker();
+                generatedProgram = checker.check(generatedProgram);
+                var errors = checker.getErrors();
+                if(errors != null && errors.size() > 0) {
+                    for (String error : errors ) {
+                        System.out.println(error);
+                    }
+                    System.err.println("Failed to compile" + arg);
+                    return;
+                }
 
 
                 // Bytecode generation

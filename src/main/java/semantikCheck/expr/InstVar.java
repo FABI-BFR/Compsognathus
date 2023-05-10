@@ -1,8 +1,12 @@
 package semantikCheck.expr;
 
+import semantikCheck.Class;
+import semantikCheck.Parameter;
 import semantikCheck.Type;
 import semantikCheck.interfaces.IExpr;
 import semantikCheck.interfaces.IStmt;
+
+import java.util.List;
 
 public class InstVar implements IExpr, IStmt {
 
@@ -27,5 +31,10 @@ public class InstVar implements IExpr, IStmt {
     public void setType(Type type) {
 
         this.type = type;
+    }
+
+    @Override
+    public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
+
     }
 }

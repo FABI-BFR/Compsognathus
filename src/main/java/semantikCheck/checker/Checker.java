@@ -9,8 +9,7 @@ import semantikCheck.interfaces.IExpr;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Checker
-{
+public class Checker {
     //Log für errors
     public static List<String> errors = new ArrayList<>();
 
@@ -36,8 +35,7 @@ public class Checker
         Checker.errors = errors;
     }
 
-    public static String upperBound(Type _at, Type _bt)
-    {
+    public static String upperBound(Type _at, Type _bt) {
 
         String a = _at.toString();
         String b = _bt.toString();
@@ -51,7 +49,12 @@ public class Checker
         }
     }
 
-    public static boolean checkParam (List<Parameter> parameters, List<Parameter> arguments){
+    public static boolean matchChecker(Type _at, Type _bt) {
+        String bound = upperBound(_at,_bt);
+        return bound.equals(_at);
+    }
+
+    public static boolean checkParam (List<Parameter> parameters, List<Parameter> arguments) {
         for(int i=0; i< arguments.size(); i++){
             if (!Checker.upperBound(parameters.get(i).getType(), arguments.get(i).getType()).equals(arguments.get(i).getType())) {
                 return false;
@@ -60,13 +63,45 @@ public class Checker
         return true;
     }
 
-    public static boolean checkArgument(List<IExpr> parameters, List<Parameter> arguments){
+    public static boolean checkArgument(List<IExpr> parameters, List<Parameter> arguments) {
         for(int i=0; i<arguments.size(); i++){
             if (!Checker.upperBound(parameters.get(i).getType(), arguments.get(i).getType()).equals(arguments.get(i).getType())) {
                 return false;
             }
         }
         return true;
+    }
+
+    public static void addIncompatibleTypeError(String classname, Type expectedType, Type currentType) {
+        errors.add("Error in class" + classname + ": Incompatible types " + currentType + "cannot be converted to " + expectedType);
+    }
+
+    public static void addSymbolFoundError(String className, String symbol) {
+        errors.add("Error in class " + className + ": cannot find symbol: " + symbol);
+    }
+
+    public static void addAccessError (String className, String targetName) {
+        errors.add("Error in class " + className + ": cannot access " + targetName);
+    }
+
+    public static void addArgumentError (String className, String methodName) {
+        errors.add("Error in class " + className + ": method" + methodName + " cannot be applied to given types");
+    }
+
+    public static void addDuplicateSymbolError (String className, String symbolName, String symbol) {
+        errors.add("Error in class " + className + ": " + symbol + " " + symbolName + " is already defined");
+    }
+
+    public static void addDereferenceError (String className, String type) {
+        errors.add("Error in class " + className + ": " + type + " cannot be dereferenced");
+    }
+
+    public static void addBinaryExpressionError (String className, String left, String right, String operator) {
+        errors.add("Error in class " + className + ": bad operand types left:" + left + " right: " + right + " with " + operator);
+    }
+
+    public static void addNotAStatementError (String className) {
+        errors.add("Error in class " + className + ": not a statement");
     }
 
 }

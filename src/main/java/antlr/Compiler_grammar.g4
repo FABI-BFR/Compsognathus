@@ -101,10 +101,13 @@ constructordeclaration: constructordeclarator constructorbody |
 constructordeclarator:  CLASSIDENTIFIER LBRACE RBRACE |
                     CLASSIDENTIFIER LBRACE formalparameterlist RBRACE;
 
-constructorbody:    LBRACKET RBRACKET |
+constructorbody:    block |
+                    SEMICOLON;
+
+                    /*LBRACKET RBRACKET |
                     LBRACKET explicitconstructorinovacation RBRACKET |
                     LBRACKET blockstatements RBRACKET |
-                    LBRACKET explicitconstructorinovacation blockstatements RBRACKET;
+                    LBRACKET explicitconstructorinovacation blockstatements RBRACKET;*/
 
 explicitconstructorinovacation: THIS LBRACE RBRACE SEMICOLON |
                     THIS LBRACE argumentlist RBRACE SEMICOLON;

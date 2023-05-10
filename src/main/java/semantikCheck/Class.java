@@ -1,11 +1,11 @@
 package semantikCheck;
 
 import bytecode.MethodGenerator;
-
+import semantikCheck.interfaces.SemChecker;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Class {
+public class Class implements SemChecker {
     private String name;
     private List<Field> fields;
     private List<Method> methods;
@@ -82,5 +82,10 @@ public class Class {
     public void setConstructors(List<Constructor> constructors)
     {
         this.constructors = constructors;
+    }
+
+    @Override
+    public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
+
     }
 }

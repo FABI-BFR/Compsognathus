@@ -1,10 +1,15 @@
 package semantikCheck.expr;
 
+import semantikCheck.Class;
+import semantikCheck.Parameter;
 import semantikCheck.Type;
 import semantikCheck.interfaces.IExpr;
 import semantikCheck.interfaces.IStmt;
 
 public class LocalOrFieldVar implements IExpr, IStmt {
+import java.util.List;
+
+public class LocalOrFieldVar implements IExpr {
     public Type type;
     public String name;
 
@@ -21,6 +26,11 @@ public class LocalOrFieldVar implements IExpr, IStmt {
     @Override
     public void setType(Type type) {
         this.type = type;
+
+    }
+
+    @Override
+    public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
 
     }
 }

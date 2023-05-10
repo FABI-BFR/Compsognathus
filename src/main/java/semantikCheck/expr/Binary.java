@@ -1,6 +1,8 @@
 package semantikCheck.expr;
 
 
+import semantikCheck.Class;
+import semantikCheck.Parameter;
 import semantikCheck.Type;
 import semantikCheck.interfaces.IExpr;
 
@@ -31,5 +33,10 @@ public class Binary implements IExpr{
     public void setType(Type type)
     {
         this.type = type;
+    }
+
+    @Override
+    public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
+
     }
 }

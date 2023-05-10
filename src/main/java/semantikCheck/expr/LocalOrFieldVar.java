@@ -38,7 +38,7 @@ public class LocalOrFieldVar implements IExpr {
             }
         }
         if (tempParameter == null) {
-            Checker.addSymbolFoundError(currentClass.getName(), name);
+            Checker.addSymbolNotFoundError(currentClass.getName(), name);
         }
     }
 }

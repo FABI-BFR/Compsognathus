@@ -1,21 +1,14 @@
 package parseTreeConverter;
 
 import antlr.Compiler_grammarParser;
-import com.sun.security.jgss.GSSUtil;
 import semantikCheck.*;
 import semantikCheck.Class;
-import semantikCheck.expr.LocalOrFieldVar;
-import semantikCheck.interfaces.IExpr;
 import semantikCheck.interfaces.IStmt;
-import semantikCheck.interfaces.IStmtExpr;
 import semantikCheck.stmt.Block;
 import semantikCheck.stmt.LocalVarDecl;
-import semantikCheck.stmtexpr.Assign;
 
-import java.util.*;
 import java.util.ArrayList;
 
-import java.util.Collection;
 import java.util.List;
 
 public class Converter {
@@ -43,15 +36,15 @@ public class Converter {
                         if (!classbodydeclarationContext.isEmpty()) {
                             if (classbodydeclarationContext.methoddeclaration() != null) {
                                 methods.add(convertToMethod(classbodydeclarationContext.methoddeclaration()));
-                            } else if(classbodydeclarationContext.fielddeclaration() != null){
+                            } else if (classbodydeclarationContext.fielddeclaration() != null) {
                                 fields.addAll(convertToFields(classbodydeclarationContext.fielddeclaration()));
-                            }else {
+                            } else {
                                 constructors.add(convertToConstructor(classbodydeclarationContext.constructordeclaration()));
                             }
                         }
                     });
         }
-        if(constructors.isEmpty()){
+        if (constructors.isEmpty()) {
             constructors.add(createDefaultConstructor(classContext.CLASSIDENTIFIER().getText()));
         }
         if (classContext.accessmodifier().isEmpty()) {
@@ -69,7 +62,7 @@ public class Converter {
     private static Constructor createDefaultConstructor(String _className) {
         Block block = new Block(new ArrayList<IStmt>());
         List<Parameter> parameter = new ArrayList<>();
-        return new Constructor(_className,parameter,block);
+        return new Constructor(_className, parameter, block);
     }
 
     private static Constructor convertToConstructor(Compiler_grammarParser.ConstructordeclarationContext constructordeclaration) {
@@ -94,7 +87,7 @@ public class Converter {
         }
         Block body = new Block(new ArrayList<IStmt>());
         if (methodcontext.methodbody().isEmpty()) {
-            body = convertToBody(methodcontext.methodbody().block());
+            body = convertToBlock(methodcontext.methodbody().block());
         }
         if (header.type() == null) {
             return new Method(new Type("void"), methodName, parameters, body, ac);
@@ -102,9 +95,16 @@ public class Converter {
         return new Method(new Type(header.type().getText()), methodName, parameters, body, ac);
     }
 
-    private static Block convertToBody(Compiler_grammarParser.BlockContext blockContext) {
-        //@TODO nicht nullen, und parameter checken
-        return null;
+    private static Block convertToBlock(Compiler_grammarParser.BlockContext blockContext) {
+        List<IStmt> stmts = new ArrayList<>();
+        if (blockContext.blockstatements() == null) return new Block(new ArrayList<IStmt>());
+        blockContext.blockstatements().blockstatement().forEach(blockstatementContext -> {
+                if(blockstatementContext.localvariabledeclaration() != null){
+                    stmts.add(convertToLocalVarDecl(blockstatementContext));
+                }
+            }
+        );
+        return new Block(stmts);
     }
 
     private static List<Parameter> convertToParameters(Compiler_grammarParser.FormalparameterlistContext parameterListContext) {
@@ -123,24 +123,24 @@ public class Converter {
         Type type = getType(fieldcontext.type());
 
         Access access = Access.PUBLIC;
-        if(fieldcontext.accessmodifier() != null){
+        if (fieldcontext.accessmodifier() != null) {
             access = getForAccessModifier(fieldcontext.accessmodifier());
         }
-        return  convertToFields(fieldcontext, access, type);
+        return convertToFields(fieldcontext, access, type);
     }
 
     private static List<Field> convertToFields(Compiler_grammarParser.FielddeclarationContext fieldcontext, Access access, Type type) {
         List<Field> fields = new ArrayList<>();
         fields.add(convertToField(fieldcontext, access, type));
 
-        if(fieldcontext.variabledeclarators().isEmpty()) return  fields;
+        if (fieldcontext.variabledeclarators().isEmpty()) return fields;
         fields.addAll(convertToFields(fieldcontext, access, type));
 
-        return  fields;
+        return fields;
     }
 
-        private static Field convertToField (Compiler_grammarParser.FielddeclarationContext fielddeclarationContext, Access access, Type type){
-        return  new Field(type,fielddeclarationContext.getText(),access);
+    private static Field convertToField(Compiler_grammarParser.FielddeclarationContext fielddeclarationContext, Access access, Type type) {
+        return new Field(type, fielddeclarationContext.getText(), access);
     }
 
 
@@ -159,7 +159,7 @@ public class Converter {
                 return new Type("int");
             } else if (typeContext.primitivetype().CHAR() != null) {
                 return new Type("char");
-            } else if(typeContext.primitivetype().BOOLEAN() != null){
+            } else if (typeContext.primitivetype().BOOLEAN() != null) {
                 return new Type("boolean");
             }
         } else if (typeContext.abstracttype() != null) {

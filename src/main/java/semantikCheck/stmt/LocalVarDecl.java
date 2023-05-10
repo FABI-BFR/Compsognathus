@@ -1,8 +1,9 @@
 package semantikCheck.stmt;
 
 import semantikCheck.Type;
+import semantikCheck.interfaces.IStmt;
 
-public class LocalVarDecl {
+public class LocalVarDecl implements IStmt {
     private Type type;
     private String name;
 

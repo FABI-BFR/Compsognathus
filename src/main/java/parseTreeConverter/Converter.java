@@ -9,6 +9,7 @@ import semantikCheck.stmt.Block;
 import java.util.ArrayList;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class Converter {
@@ -68,7 +69,39 @@ public class Converter {
     }
 
     private static Constructor convertToConstructor(Compiler_grammarParser.ConstructordeclarationContext constructordeclaration) {
-        return null;
+        var body = constructordeclaration.constructorbody();
+        var head = constructordeclaration.constructordeclarator();
+        String name = head.CLASSIDENTIFIER().getText();
+
+        Access access = Access.PUBLIC;
+        if(constructordeclaration.accessmodifier() != null){
+            access = Access.valueOf(constructordeclaration.accessmodifier().getText().toUpperCase());
+        }
+
+        List<Parameter> parameters = getParameter(head.formalparameterlist());
+
+        Block block = getBlock(body.blockstatements());
+
+        return new Constructor(name,parameters,block,access);
+    }
+
+    private static Block getBlock(Compiler_grammarParser.BlockstatementsContext blockstatements)
+    {
+        List<IStmt> blockStmts = new ArrayList<>();
+
+        return new Block(blockStmts);
+    }
+
+
+    private static List<Parameter> getParameter(Compiler_grammarParser.FormalparameterlistContext formalparameterlist)
+    {
+        List<Parameter> parameters = new ArrayList<>();
+        while(formalparameterlist != null){
+            var par = formalparameterlist.formalparameter();
+            parameters.add(new Parameter(getType(par.type()),par.IDENTIFIER().getText()));
+        }
+        Collections.reverse(parameters);
+        return parameters;
     }
 
     private static Method convertToMethod(Compiler_grammarParser.MethoddeclarationContext methodcontext) {

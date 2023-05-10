@@ -73,4 +73,14 @@ public class Class {
     {
         this.access = access;
     }
+
+    public List<Constructor> getConstructors()
+    {
+        return constructors;
+    }
+
+    public void setConstructors(List<Constructor> constructors)
+    {
+        this.constructors = constructors;
+    }
 }

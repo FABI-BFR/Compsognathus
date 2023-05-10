@@ -53,10 +53,30 @@ public class ByteCodeGenerator
                 fv.visitEnd();
             }*/
 
+            //Visit constructor
+            for (Constructor constructor : c.getConstructors()){
+                String name = "<init>";
+                String type = "void";
+
+                MethodVisitor mv = classGenerator.getClassWriter().visitMethod(
+                        parseVisibility(constructor.getAccess()), // Visibility
+                        name,                           // Methodname
+                        type,                           // Type
+                        null,
+                        null);
+                mv.visitCode();
+
+                //
+                MethodGenerator method = new MethodGenerator(mv, constructor.getParameter(), constructor.getName(), classGenerator);
+                visitBlockStmt(method, constructor.getStatement(), true);
+
+                mv.visitMaxs(0,0);
+                mv.visitEnd();
+            }
+
             //Visit methods
             for (Method m : c.getMethods()) {
-                //If Methodname equal Classname => '<init>'
-                String name = m.getName().equals(c.getName()) ? "<init>" : m.getName();
+                String name = m.getName();
                 String type = parseMethodType(m.getType(), m.getParameter());
 
                 MethodVisitor mv = classGenerator.getClassWriter().visitMethod(
@@ -67,9 +87,8 @@ public class ByteCodeGenerator
                         null);
                 mv.visitCode();
 
-                //
                 MethodGenerator method = new MethodGenerator(mv, m.getParameter(), m.getName(), classGenerator);
-                visitBlockStmt(method, m.getStatement(), name.equals("<init>"));
+                visitBlockStmt(method, m.getStatement(), false);
 
                 //return of method
                 mv.visitInsn(parseReturnType(m.getType()));

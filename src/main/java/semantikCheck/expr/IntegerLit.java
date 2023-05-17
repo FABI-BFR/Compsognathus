@@ -18,7 +18,6 @@ public class IntegerLit implements IExpr {
 
     @Override
     public Type getType() {
-        type.setType("int");
         return type;
     }
 
@@ -29,6 +28,6 @@ public class IntegerLit implements IExpr {
 
     @Override
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
-
+        type = new Type("int");
     }
 }

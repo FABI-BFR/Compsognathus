@@ -18,7 +18,6 @@ public class CharLit implements IExpr {
 
     @Override
     public Type getType() {
-        type.setType("char");
         return type;
     }
 
@@ -29,6 +28,7 @@ public class CharLit implements IExpr {
 
     @Override
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
+        type = new Type("char");
 
     }
 }

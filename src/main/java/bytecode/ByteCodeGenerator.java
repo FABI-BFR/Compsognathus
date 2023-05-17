@@ -94,7 +94,6 @@ public class ByteCodeGenerator
             }
 
             // Visit fields
-            /*
             for(Field f : c.getFields()){
                 String fieldName = f.getName();
                 String type = parseType(f.getType());
@@ -107,7 +106,7 @@ public class ByteCodeGenerator
                         null,
                         null);
                 fv.visitEnd();
-            }*/
+            }
 
             classGenerator.getClassWriter().visitEnd();
             classFiles.add(new ClassFile(c.getName(), classGenerator.getClassWriter().toByteArray()));
@@ -405,6 +404,26 @@ public class ByteCodeGenerator
                                       @NotNull LocalOrFieldVar _localOrFieldVar){
         //Todo implementieren
 
+        switch (_localOrFieldVar.getType().getType()){
+            case "boolean":
+                break;
+            case "byte":
+                break;
+            case "char":
+                break;
+            case "int":
+                break;
+            case "short":
+                break;
+            case "long":
+                break;
+            case "float":
+                break;
+            case "double":
+                break;
+        }
+
+
     }
 
     private void visitNew(@NotNull MethodGenerator _method,
@@ -556,8 +575,21 @@ public class ByteCodeGenerator
                 _method.getMethodVisitor().visitInsn(Opcodes.IXOR);
                 break;
             case "!":
+                //Todo fertig implementieren
                 resolveExpr(_method, _unary.expression);
-                //Todo implementieren
+                Label exprIsTrue = new Label();
+                Label endIf = new Label();
+
+                _method.getMethodVisitor().visitJumpInsn(Opcodes.IFEQ, exprIsTrue);
+                _method.getMethodVisitor().visitInsn(Opcodes.ICONST_0);
+                _method.getMethodVisitor().visitJumpInsn(Opcodes.IFEQ, endIf);
+                _method.getMethodVisitor().visitLabel(exprIsTrue);
+
+                Object[] objects = new Object[_method.getVariables().size() + 1];
+                objects[0] = _method.getClassGenerator().getName();
+
+                _method.getMethodVisitor().visitInsn(Opcodes.ICONST_1);
+                _method.getMethodVisitor().visitLabel(endIf);
                 break;
         }
     }

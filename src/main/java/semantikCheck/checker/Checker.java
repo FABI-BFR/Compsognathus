@@ -5,6 +5,8 @@ import semantikCheck.Parameter;
 import semantikCheck.Program;
 import semantikCheck.Type;
 import semantikCheck.interfaces.IExpr;
+import semantikCheck.stmt.TypedStmt;
+import semantikCheck.stmtexpr.MethodCall;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,8 +74,16 @@ public class Checker {
         return true;
     }
 
+    public static void setStoredFlag(IExpr expr) {
+        if (expr instanceof TypedStmt) {
+            var temp = ((TypedStmt)expr).statement;
+            if(temp instanceof MethodCall) {
+            }
+        }
+    }
+
     public static void addIncompatibleTypeError(String classname, Type expectedType, Type currentType) {
-        errors.add("Error in class" + classname + ": Incompatible types " + currentType + "cannot be converted to " + expectedType);
+        errors.add("Error in class" + classname + ": Incompatible types " + currentType.toString() + "cannot be converted to " + expectedType.toString());
     }
 
     public static void addSymbolNotFoundError(String className, String symbol) {
@@ -92,8 +102,8 @@ public class Checker {
         errors.add("Error in class " + className + ": " + symbol + " " + symbolName + " is already defined");
     }
 
-    public static void addDereferenceError (String className, String type) {
-        errors.add("Error in class " + className + ": " + type + " cannot be dereferenced");
+    public static void addDereferenceError (String className, Type type) {
+        errors.add("Error in class " + className + ": " + type.toString() + " cannot be dereferenced");
     }
 
     public static void addBinaryExpressionError (String className, String left, String right, String operator) {

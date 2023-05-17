@@ -9,7 +9,7 @@ import java.util.List;
 
 public class TypedStmt implements IStmt {
     private Type type;
-    private IStmt statement;
+    public IStmt statement;
 
     @Override
     public Type getType() {

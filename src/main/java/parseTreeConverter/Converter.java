@@ -81,11 +81,12 @@ public class Converter {
             access = Access.valueOf(constructordeclaration.accessmodifier().getText().toUpperCase());
         }
 
-        List<Parameter> parameters = getParameter(head.formalparameterlist());
+        //List<Parameter> parameters = getParameter(head.formalparameterlist());
 
-        Block block = getBlock(body.block());
+        //Block block = getBlock(body.block());
 
-        return new Constructor(name,parameters,block,access);
+        //return new Constructor(name,parameters,block,access);
+        return null;
     }
 
     private static Block getBlock(Compiler_grammarParser.BlockContext blockContext)

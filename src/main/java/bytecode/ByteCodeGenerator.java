@@ -167,7 +167,7 @@ public class ByteCodeGenerator
 
     /**
      * Parses a method type to a JVM Type Singanture
-     * @return
+     * @return Method type
      */
     private String parseMethodType(@NotNull Type _type,
                                    @NotNull List<Parameter> _parameters){
@@ -327,37 +327,71 @@ public class ByteCodeGenerator
         _method.getMethodVisitor().visitVarInsn(Opcodes.ALOAD, 0);
     }
 
-    private void visitWhile(MethodGenerator method, While stmt)
+    /**
+     * Resolves a While Statement
+     * @param _method Object containg mehtod stuff
+     * @param _stmt Statement to resolve
+     */
+    private void visitWhile(MethodGenerator _method, While _stmt)
     {
-        //Todo implementieren
+        Label loop = new Label();
+        _method.getMethodVisitor().visitLabel(loop);
+        resolveExpr(_method, _stmt.getExpression());
+        Label end = new Label();
+        _method.getMethodVisitor().visitJumpInsn(Opcodes.IFNE, end);
+        resolveStmt(_method, _stmt.getStatement());
+        _method.getMethodVisitor().visitJumpInsn(Opcodes.GOTO, loop);
+        _method.getMethodVisitor().visitLabel(end);
     }
 
+    /**
+     * Resolves a Typed Statement
+     * @param method Object containing method stuff
+     * @param stmt Statement to resolve
+     */
     private void visitTypedStmt(MethodGenerator method, TypedStmt stmt)
     {
         //Todo implementieren
     }
 
+    /**
+     * Resolves a Return Statement
+     * @param method Object containing method stuff
+     * @param stmt Statement to resolve
+     */
     private void visitReturn(MethodGenerator method, Return stmt)
     {
         resolveExpr(method, stmt.getExpression());
         method.getMethodVisitor().visitInsn(parseReturnType(stmt.getType()));
     }
 
-    private void visitIfStmt(MethodGenerator method, If stmt) {
-        //Todo implementieren
+    /**
+     * Resolves a If Statement
+     * @param _method Object containing method stuff
+     * @param _stmt Statement to resolve
+     */
+    private void visitIfStmt(MethodGenerator _method, If _stmt) {
+        resolveExpr(_method,_stmt.getExpression());
+        Label elseLabel = new Label();
+        _method.getMethodVisitor().visitJumpInsn(Opcodes.IFNE, elseLabel);
+        resolveStmt(_method, _stmt.getIfStmt());
+        Label end = new Label();
+        _method.getMethodVisitor().visitJumpInsn(Opcodes.GOTO, end);
+        _method.getMethodVisitor().visitLabel(elseLabel);
+        resolveStmt(_method,_stmt.getElseStmt());
+        _method.getMethodVisitor().visitLabel(end);
     }
 
     private void visitInstVar(@NotNull MethodGenerator _method,
                               @NotNull InstVar _instVar){
         //Todo implementieren
+        resolveExpr(_method,_instVar.expression);
     }
 
     private void visitAssign(@NotNull MethodGenerator _method,
                              @NotNull Assign _assign){
         //Todo implementieren
-        if(_assign.getLeftSideExpr() instanceof LeftSideExpr){
 
-        }
     }
 
     private void visitMethodCall(@NotNull MethodGenerator _method,
@@ -379,98 +413,103 @@ public class ByteCodeGenerator
 
     }
 
-
+    /**
+     * resolves a binary expression
+     * @param _method Objetct containging method stuff
+     * @param _binary expression to resolve
+     */
     private void visitBinary(@NotNull MethodGenerator _method,
                              @NotNull Binary _binary){
         boolean isComparison = false;
         int opcode = -1;
-        switch (_binary.operator){
-            case "+":
+        switch (_binary.operator)
+        {
+            case "+" -> {
                 resolveExpr(_method, _binary.exprLeft);
                 resolveExpr(_method, _binary.exprRight);
                 _method.getMethodVisitor().visitInsn(Opcodes.IADD);
-                break;
-            case "-":
+            }
+            case "-" -> {
                 resolveExpr(_method, _binary.exprLeft);
                 resolveExpr(_method, _binary.exprRight);
                 _method.getMethodVisitor().visitInsn(Opcodes.ISUB);
-                break;
-            case "*":
+            }
+            case "*" -> {
                 resolveExpr(_method, _binary.exprLeft);
                 resolveExpr(_method, _binary.exprRight);
                 _method.getMethodVisitor().visitInsn(Opcodes.IMUL);
-                break;
-            case "/":
+            }
+            case "/" -> {
                 resolveExpr(_method, _binary.exprLeft);
                 resolveExpr(_method, _binary.exprRight);
                 _method.getMethodVisitor().visitInsn(Opcodes.IDIV);
-                break;
-            case "%":
+            }
+            case "%" -> {
                 resolveExpr(_method, _binary.exprLeft);
                 resolveExpr(_method, _binary.exprRight);
                 _method.getMethodVisitor().visitInsn(Opcodes.IREM);
-                break;
-            case "<<":
+            }
+            case "<<" -> {
                 resolveExpr(_method, _binary.exprLeft);
                 resolveExpr(_method, _binary.exprRight);
                 _method.getMethodVisitor().visitInsn(Opcodes.ISHL);
-                break;
-            case ">>":
+            }
+            case ">>" -> {
                 resolveExpr(_method, _binary.exprLeft);
                 resolveExpr(_method, _binary.exprRight);
                 _method.getMethodVisitor().visitInsn(Opcodes.ISHR);
-                break;
-            case ">>>":
+            }
+            case ">>>" -> {
                 resolveExpr(_method, _binary.exprLeft);
                 resolveExpr(_method, _binary.exprRight);
                 _method.getMethodVisitor().visitInsn(Opcodes.IUSHR);
-                break;
-            case "&":
+            }
+            case "&" -> {
                 resolveExpr(_method, _binary.exprLeft);
                 resolveExpr(_method, _binary.exprRight);
                 _method.getMethodVisitor().visitInsn(Opcodes.IAND);
-                break;
-            case "|":
+            }
+            case "|" -> {
                 resolveExpr(_method, _binary.exprLeft);
                 resolveExpr(_method, _binary.exprRight);
                 _method.getMethodVisitor().visitInsn(Opcodes.IOR);
-                break;
-            case "^":
+            }
+            case "^" -> {
                 resolveExpr(_method, _binary.exprLeft);
                 resolveExpr(_method, _binary.exprRight);
                 _method.getMethodVisitor().visitInsn(Opcodes.IXOR);
-                break;
-            case "<":
+            }
+            case "<" -> {
                 resolveExpr(_method, _binary.exprLeft);
                 resolveExpr(_method, _binary.exprRight);
                 isComparison = true;
                 opcode = Opcodes.IF_ICMPLT;
-                break;
-            case "<=":
+            }
+            case "<=" -> {
                 resolveExpr(_method, _binary.exprLeft);
                 resolveExpr(_method, _binary.exprRight);
                 isComparison = true;
                 opcode = Opcodes.IF_ICMPLE;
-                break;
-            case ">":
+            }
+            case ">" -> {
                 resolveExpr(_method, _binary.exprLeft);
                 resolveExpr(_method, _binary.exprRight);
                 isComparison = true;
                 opcode = Opcodes.IF_ICMPGT;
-                break;
-            case ">=":
+            }
+            case ">=" -> {
                 resolveExpr(_method, _binary.exprLeft);
                 resolveExpr(_method, _binary.exprRight);
                 isComparison = true;
                 opcode = Opcodes.IF_ICMPGE;
-                break;
-            case "==":
+            }
+            case "==" -> {
                 resolveExpr(_method, _binary.exprLeft);
                 resolveExpr(_method, _binary.exprRight);
                 isComparison = true;
                 opcode = Opcodes.IF_ICMPEQ;
-                break;
-            case "&&":
+            }
+            case "&&" -> {
                 resolveExpr(_method, _binary.exprLeft);
                 Label returnFalse = new Label();
                 _method.getMethodVisitor().visitJumpInsn(Opcodes.IFNE, returnFalse);
@@ -482,8 +521,8 @@ public class ByteCodeGenerator
                 _method.getMethodVisitor().visitLabel(returnFalse);
                 _method.getMethodVisitor().visitInsn(Opcodes.ICONST_1);
                 _method.getMethodVisitor().visitLabel(end);
-                break;
-            case "||":
+            }
+            case "||" -> {
                 resolveExpr(_method, _binary.exprLeft);
                 Label returnTrue = new Label();
                 _method.getMethodVisitor().visitJumpInsn(Opcodes.IFEQ, returnTrue);
@@ -495,19 +534,20 @@ public class ByteCodeGenerator
                 _method.getMethodVisitor().visitLabel(returnTrue);
                 _method.getMethodVisitor().visitInsn(Opcodes.ICONST_1);
                 _method.getMethodVisitor().visitLabel(end2);
-                break;
+            }
         }
 
 
     }
 
+    /**
+     * resolves an unary expression
+     * @param _method Ovject containing method stuff
+     * @param _unary expression to resolve
+     */
     private void visitUnary(@NotNull MethodGenerator _method,
                             @NotNull Unary _unary){
         switch (_unary.operator){
-            case "+":
-                break;
-            case "-":
-                break;
             case "~":
                 resolveExpr(_method, _unary.expression);
                 _method.getMethodVisitor().visitInsn(Opcodes.ICONST_M1);

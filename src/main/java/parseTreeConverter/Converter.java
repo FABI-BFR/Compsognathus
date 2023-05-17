@@ -66,7 +66,7 @@ public class Converter {
     }
 
     private static Constructor createDefaultConstructor(String _className) {
-        Block block = new Block(new ArrayList<IStmt>());
+        Block block = new Block(new ArrayList<>());
         List<Parameter> parameter = new ArrayList<>();
         return new Constructor(_className, parameter, block);
     }
@@ -83,16 +83,20 @@ public class Converter {
 
         List<Parameter> parameters = getParameter(head.formalparameterlist());
 
-       // Block block = getBlock(body.block());
+        Block block = getBlock(body.block());
 
-       // return new Constructor(name,parameters,block,access);
-        return null;
+        return new Constructor(name,parameters,block,access);
     }
 
-    private static Block getBlock(Compiler_grammarParser.BlockstatementsContext blockstatements)
+    private static Block getBlock(Compiler_grammarParser.BlockContext blockContext)
     {
         List<IStmt> blockStmts = new ArrayList<>();
 
+        Compiler_grammarParser.BlockstatementsContext stmts = blockContext.blockstatements();
+        while(stmts!= null){
+
+        }
+        Collections.reverse(blockStmts);
         return new Block(blockStmts);
     }
 

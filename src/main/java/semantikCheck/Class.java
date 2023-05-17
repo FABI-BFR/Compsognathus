@@ -3,6 +3,10 @@ package semantikCheck;
 import bytecode.MethodGenerator;
 import semantikCheck.interfaces.SemChecker;
 import java.util.ArrayList;
+import semantikCheck.checker.Checker;
+import semantikCheck.stmt.Block;
+
+import java.util.Collection;
 import java.util.List;
 
 public class Class implements SemChecker {
@@ -88,5 +92,33 @@ public class Class implements SemChecker {
     @Override
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
 
+        for(int i = 0; i < methods.size()-1; i++){
+            for(int j = i + 1; j < methods.size(); j++){
+                Method m1 = methods.get(i);
+                Method m2 = methods.get(j);
+                if(m1.getName().equals(m2.getName()) && Checker.checkParam(m1.getParameter(), m2.getParameter())){
+                    Checker.addDuplicateSymbolError(currentClass.getName(), m1.getName(), "method");
+                }
+            }
+        }
+
+        for(int i = 0; i < fields.size()-1; i++){
+            for(int j = i + 1; j < fields.size(); j++){
+                Field f1 = fields.get(i);
+                Field f2 = fields.get(j);
+                if(f1.getName().equals(f2.getName())){
+                    Checker.addDuplicateSymbolError(currentClass.getName(), f1.getName(), "field");
+                }
+            }
+        }
+
+        if(!methods.stream().anyMatch(m -> m.getName().equals(name))){
+            Method m = new Method(new Type("void"), name, null, new Block(null));
+            methods.add(m);
+        }
+
+        for (Method m : methods) {
+            m.semCheck(parameters, classes, this);
+        }
     }
 }

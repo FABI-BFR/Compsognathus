@@ -1,12 +1,14 @@
 package semantikCheck;
 
+import semantikCheck.checker.Checker;
 import semantikCheck.interfaces.IExpr;
+import semantikCheck.interfaces.SemChecker;
 import semantikCheck.stmt.Block;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Method {
+public class Method implements SemChecker {
 
     private Type type;
     private String name;
@@ -83,5 +85,17 @@ public class Method {
     public void setAccess(Access access)
     {
         this.access = access;
+    }
+
+    @Override
+    public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
+        if (statement != null) {
+            var temp = new ArrayList<>(parameters);
+            temp.addAll(this.parameter);
+            statement.semCheck(temp, classes, currentClass);
+            if(!type.equals(statement.getType())) {
+                Checker.addIncompatibleTypeError(currentClass.getName(), type, statement.getType());
+            }
+        }
     }
 }

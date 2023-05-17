@@ -201,27 +201,22 @@ public class Converter {
         if (fieldcontext.accessmodifier() != null) {
             access = getForAccessModifier(fieldcontext.accessmodifier());
         }
-        return convertToFields(fieldcontext, access, type);
+        return convertToFields(fieldcontext.variabledeclarators(), access, type);
     }
 
-    private static List<Field> convertToFields(Compiler_grammarParser.FielddeclarationContext fieldcontext, Access access, Type type) {
+    private static List<Field> convertToFields(Compiler_grammarParser.VariabledeclaratorsContext variableDeclarators, Access access, Type type) {
         List<Field> fields = new ArrayList<>();
-        fields.add(convertToField(fieldcontext, access, type));
+        fields.add(convertToField(variableDeclarators.variabledeclarator(), access, type));
 
-        if (fieldcontext.variabledeclarators().isEmpty()) return fields;
+        if (variableDeclarators.variabledeclarators() == null) return fields;
 
-        fields.addAll(convertToFields(fieldcontext.variabledeclarators(), access, type));
+        fields.addAll(convertToFields(variableDeclarators.variabledeclarators(), access, type));
 
         return fields;
     }
 
-    private static List<Field> convertToFields(Compiler_grammarParser.VariabledeclaratorsContext variabledeclaratorsContext, Access acces, Type type){
-        List<Field> fields = new ArrayList<>();
-        return fields;
-    }
-
-    private static Field convertToField(Compiler_grammarParser.FielddeclarationContext fielddeclarationContext, Access access, Type type) {
-        return new Field(type, fielddeclarationContext.getText(), access);
+    private static Field convertToField(Compiler_grammarParser.VariabledeclaratorContext variableContext, Access access, Type type) {
+        return new Field(type, variableContext.IDENTIFIER().getText(), access);
     }
 
 

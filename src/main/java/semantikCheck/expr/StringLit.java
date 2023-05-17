@@ -18,7 +18,6 @@ public class StringLit implements IExpr {
 
     @Override
     public Type getType() {
-        type.setType("java.lang.String");
         return type;
     }
 
@@ -29,6 +28,7 @@ public class StringLit implements IExpr {
 
     @Override
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
+        type = new Type("java.lang.String");
 
     }
 }

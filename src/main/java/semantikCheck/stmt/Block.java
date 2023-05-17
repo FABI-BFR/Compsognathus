@@ -1,6 +1,9 @@
 package semantikCheck.stmt;
 
+import semantikCheck.Class;
+import semantikCheck.Parameter;
 import semantikCheck.Type;
+import semantikCheck.checker.Checker;
 import semantikCheck.interfaces.IStmt;
 
 import java.util.ArrayList;
@@ -34,5 +37,23 @@ public class Block implements IStmt{
     public void setType(Type type) {
 
         this.type = type;
+    }
+
+    @Override
+    public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
+
+        for (IStmt statment : statements) {
+            statment.semCheck(parameters, classes, currentClass);
+        }
+
+        type = new Type("void");
+        if (statements.size() > 0) {
+            for (int i = 0; i< statements.size(); i++) {
+                if (!(statements.get(i) instanceof TypedStmt)) {
+                    type.setType(Checker.upperBound(type, statements.get(i).getType()));
+                }
+            }
+        }
+
     }
 }

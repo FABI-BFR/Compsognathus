@@ -12,7 +12,6 @@ public class JNull implements IExpr {
     private Type type;
     @Override
     public Type getType() {
-        type.setType("null");
         return type;
     }
 
@@ -23,6 +22,7 @@ public class JNull implements IExpr {
 
     @Override
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
+        type = new Type("null");
 
     }
 }

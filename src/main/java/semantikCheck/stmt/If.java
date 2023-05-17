@@ -1,13 +1,19 @@
 package semantikCheck.stmt;
 
+import semantikCheck.Class;
+import semantikCheck.Parameter;
 import semantikCheck.Type;
+import semantikCheck.checker.Checker;
 import semantikCheck.interfaces.IExpr;
 import semantikCheck.interfaces.IStmt;
+
+import java.util.List;
 
 public class If  implements IStmt {
     private IExpr expression;
     private IStmt ifStmt;
     private IStmt elseStmt;
+    private Type type;
 
     public If (IExpr expression, IStmt ifStmt, IStmt elseStmt ) {
         this.expression = expression;
@@ -41,11 +47,30 @@ public class If  implements IStmt {
 
     @Override
     public Type getType() {
-        return null;
+        return type;
     }
 
     @Override
     public void setType(Type type) {
+        this.type = type;
 
+    }
+
+    @Override
+    public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
+        expression.semCheck(parameters,classes,currentClass);
+        if(!expression.getType().equals("boolean")) {
+            Checker.addIncompatibleTypeError(currentClass.getName(), new Type("boolean"), expression.getType());
+        }
+
+        type = new Type("void");
+        if (ifStmt != null) {
+            ifStmt.semCheck(parameters, classes, currentClass);
+            type = ifStmt.getType();
+            if(elseStmt != null) {
+                elseStmt.semCheck(parameters, classes, currentClass);
+                type.setType(Checker.upperBound(type, elseStmt.getType()));
+            }
+        }
     }
 }

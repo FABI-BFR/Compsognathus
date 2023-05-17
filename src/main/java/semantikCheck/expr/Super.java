@@ -12,7 +12,6 @@ public class Super implements IExpr {
     private Type type;
     @Override
     public Type getType() {
-        type.setType("java.lang.Object");
         return type;
     }
 
@@ -23,6 +22,7 @@ public class Super implements IExpr {
 
     @Override
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
+        type = new Type("java.lang.Object");
 
     }
 

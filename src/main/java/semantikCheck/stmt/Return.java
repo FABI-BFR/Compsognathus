@@ -1,8 +1,13 @@
 package semantikCheck.stmt;
 
+import semantikCheck.Class;
+import semantikCheck.Parameter;
+import semantikCheck.checker.Checker;
 import semantikCheck.interfaces.IExpr;
 import semantikCheck.Type;
 import semantikCheck.interfaces.IStmt;
+
+import java.util.List;
 
 public class Return implements IStmt {
     private IExpr expression;
@@ -26,5 +31,16 @@ public class Return implements IStmt {
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    @Override
+    public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
+        if (expression != null) {
+            expression.semCheck(parameters, classes, currentClass);
+            type = expression.getType();
+        } else {
+            type = new Type ("void");
+        }
+
     }
 }

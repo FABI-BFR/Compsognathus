@@ -2,6 +2,7 @@ package semantikCheck.stmtexpr;
 import semantikCheck.Class;
 import semantikCheck.Parameter;
 import semantikCheck.Type;
+import semantikCheck.checker.Checker;
 import semantikCheck.interfaces.IExpr;
 import semantikCheck.interfaces.IStmtExpr;
 
@@ -13,6 +14,8 @@ public class Assign implements IStmtExpr {
     public LeftSideExpr leftSideExpr;
     public IExpr expression;
 
+    private Type type;
+
 
     public Assign(LeftSideExpr leftSideExpr, IExpr expression) {
         this.leftSideExpr = leftSideExpr;
@@ -22,12 +25,12 @@ public class Assign implements IStmtExpr {
 
     @Override
     public Type getType() {
-        return null;
+        return type;
     }
 
     @Override
     public void setType(Type type) {
-
+        this.type = type;
     }
 
     public LeftSideExpr getLeftSideExpr()
@@ -53,6 +56,12 @@ public class Assign implements IStmtExpr {
     @Override
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass)
     {
+        leftSideExpr.expression.semCheck(parameters, classes, currentClass);
+        expression.semCheck(parameters, classes, currentClass);
+        type = expression.getType();
 
+        if (!Checker.upperBound(leftSideExpr.expression.getType(), expression.getType()).equals(leftSideExpr.expression.getType())) {
+            Checker.addIncompatibleTypeError(currentClass.getName(), leftSideExpr.expression.getType(), expression.getType());
+        }
     }
 }

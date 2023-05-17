@@ -19,65 +19,67 @@ public class CompsognathusCompiler
     {
        if (args != null && args.length >= 1) {
             for (String arg : args) {
-            if (arg.endsWith(".java")) {
+                if (arg.endsWith(".java")) {
 
-                // Parser
-                Compiler_grammarParser.CompilationunitContext parseTree = parse(arg);
-                if (parseTree.exception != null) {
-                    System.out.println("Das Java-File konnte nicht geparsed werden");
-                    return;
-                }
-                // Converter
-                Program generatedProgram = Converter.convertToProgram(parseTree);
-                // Semantic check
-                Checker checker =  new Checker();
-                generatedProgram = checker.check(generatedProgram);
-                var errors = checker.getErrors();
-                if(errors != null && errors.size() > 0) {
-                    for (String error : errors ) {
-                        System.out.println(error);
+                    // Parser
+                    Compiler_grammarParser.CompilationunitContext parseTree = parse(arg);
+
+                    if (parseTree.exception != null) {
+                        System.out.println("Das Java-File konnte nicht geparsed werden");
+                        return;
                     }
-                    System.err.println("Failed to compile" + arg);
+
+                    // Converter
+                    Program generatedProgram = Converter.convertToProgram(parseTree);
+
+                    // Semantic check
+                    Checker checker =  new Checker();
+                    generatedProgram = checker.check(generatedProgram);
+                    var errors = checker.getErrors();
+                    if(errors != null && errors.size() > 0) {
+                        for (String error : errors ) {
+                            System.out.println(error);
+                        }
+                        System.err.println("Failed to compile" + arg);
+                        return;
+                    }
+
+
+                    // Bytecode generation
+                    List<ClassFile> myClassFiles = generateBytecode(generatedProgram);
+
+
+                    // Saving class files
+                    String direcotry = "src/main/test/compiledClasses/";
+                    for(ClassFile classFile: myClassFiles){
+                        File tmpFile = new File(direcotry + classFile.getFileName());
+                        storeDataInFile(tmpFile, classFile.getBytecode());
+                    }
+
+                } else {
+                    System.out.println("Ungültige Java Klasse: " + arg);
                     return;
                 }
-
-
-                // Bytecode generation
-                List<ClassFile> myClassFiles =generateBytecode(generatedProgram);
-
-
-                // Saving class files
-                String direcotry = "src/main/test/compiledClasses/";
-                for(ClassFile classFile: myClassFiles){
-                    File tmpFile = new File(direcotry + classFile.getFileName());
-                    storeDataInFile(tmpFile, classFile.getBytecode());
-                }
-
-            } else {
-                System.out.println("Ungültige Java Klasse: " + arg);
-                return;
-            }
         }
         } else {
             System.out.println("Die Parameterübergabe sind ungültig.");
             return;
         }
     }
+
     public static Compiler_grammarParser.CompilationunitContext parse(String fileLink){
         AntlrParser parser = new AntlrParser();
         //File file = new File("C:/Users/Fabian/Desktop/Compsognathus/src/main/test/exampleClasses/emptyClass/EmptyClass.java");
         File file = new File(fileLink);
-        Compiler_grammarParser.CompilationunitContext parseTree =
-                parser.parse(new File(file.getAbsolutePath()));
-        return parseTree;
+        return parser.parse(new File(file.getAbsolutePath()));
     }
+
     public static List<ClassFile>generateBytecode(Program generatedProgram){
         ByteCodeGenerator generator = new ByteCodeGenerator();
         return generator.generate(generatedProgram);
     }
 
-    private static void storeDataInFile(File myClassFile, byte[] contentInBytes)
-    {
+    private static void storeDataInFile(File myClassFile, byte[] contentInBytes) {
         FileOutputStream fop = null;
         try {
             fop = new FileOutputStream(myClassFile);
@@ -91,7 +93,7 @@ public class CompsognathusCompiler
             fop.flush();
             fop.close();
         } catch (Exception ex) {
-
+            ex.printStackTrace();
         }
     }
 }

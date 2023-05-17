@@ -68,6 +68,7 @@ public class Converter {
     private static Constructor createDefaultConstructor(String _className) {
         Block block = new Block(new ArrayList<>());
         List<Parameter> parameter = new ArrayList<>();
+
         return new Constructor(_className, parameter, block);
     }
 
@@ -81,12 +82,13 @@ public class Converter {
             access = Access.valueOf(constructordeclaration.accessmodifier().getText().toUpperCase());
         }
 
-        //List<Parameter> parameters = getParameter(head.formalparameterlist());
+        List<Parameter> parameters = getParameter(head.formalparameterlist());
 
+        //Todo Block
         //Block block = getBlock(body.block());
+        Block  block = new Block(new ArrayList<>());
 
-        //return new Constructor(name,parameters,block,access);
-        return null;
+        return new Constructor(name,parameters,block,access);
     }
 
     private static Block getBlock(Compiler_grammarParser.BlockContext blockContext)

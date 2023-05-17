@@ -23,6 +23,7 @@ import semantikCheck.stmtexpr.New;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 public class ByteCodeGenerator
@@ -47,40 +48,25 @@ public class ByteCodeGenerator
                     "java/lang/Object",
                     null);
 
-            // Visit fields
-            /*
-            for(Field f : c.getFields()){
-                String fieldName = f.getName();
-                String type = parseType(f.getType());
-
-                classGenerator.getFields().put(fieldName, type);
-                FieldVisitor fv = classGenerator.getClassWriter().visitField(
-                        parseVisibility(f.getAccess()), // Visibility
-                        fieldName,                      // Fieldname
-                        type,                           // Type
-                        null,
-                        null);
-                fv.visitEnd();
-            }*/
 
             //Visit constructor
-            for (Constructor constructor : c.getConstructors()){
+            for (Constructor constructor : c.getConstructors()) {
                 String name = "<init>";
-                String type = "void";
+                String type = "()V";
 
                 MethodVisitor mv = classGenerator.getClassWriter().visitMethod(
                         parseVisibility(constructor.getAccess()), // Visibility
-                        name,                           // Methodname
-                        type,                           // Type
+                        name,                                     // Methodname
+                        type,                                     // Type
                         null,
                         null);
                 mv.visitCode();
 
-                //
+
                 MethodGenerator method = new MethodGenerator(mv, constructor.getParameter(), constructor.getName(), classGenerator);
                 visitBlockStmt(method, constructor.getStatement(), true);
 
-                mv.visitMaxs(0,0);
+                mv.visitMaxs(0, 0);
                 mv.visitEnd();
             }
 
@@ -107,6 +93,22 @@ public class ByteCodeGenerator
                 mv.visitEnd();
             }
 
+            // Visit fields
+            /*
+            for(Field f : c.getFields()){
+                String fieldName = f.getName();
+                String type = parseType(f.getType());
+
+                classGenerator.getFields().put(fieldName, type);
+                FieldVisitor fv = classGenerator.getClassWriter().visitField(
+                        parseVisibility(f.getAccess()), // Visibility
+                        fieldName,                      // Fieldname
+                        type,                           // Type
+                        null,
+                        null);
+                fv.visitEnd();
+            }*/
+
             classGenerator.getClassWriter().visitEnd();
             classFiles.add(new ClassFile(c.getName(), classGenerator.getClassWriter().toByteArray()));
         }
@@ -120,13 +122,13 @@ public class ByteCodeGenerator
      */
     private int parseVisibility(@NotNull Access _acces){
         int result = Opcodes.ACC_PUBLIC;
-        switch (_acces){
-            case PUBLIC:
-                break;
-            case PRIVATE:
-                break;
-            default:
-                break;
+        switch (_acces)
+        {
+            case PUBLIC -> result = Opcodes.ACC_PUBLIC;
+            case PRIVATE -> result = Opcodes.ACC_PRIVATE;
+            case PROTECTED -> result = Opcodes.ACC_PROTECTED;
+            default -> {
+            }
         }
         return result;
     }

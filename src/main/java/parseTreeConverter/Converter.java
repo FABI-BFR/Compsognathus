@@ -47,6 +47,11 @@ public class Converter {
                             }
                         }
                     });
+        }else if(classContext.classbody().isEmpty()){
+            return new Class(classContext.CLASSIDENTIFIER().getText(),
+                    null,
+                    null,
+                    null);
         }
         if (constructors.isEmpty()) {
             constructors.add(createDefaultConstructor(classContext.CLASSIDENTIFIER().getText()));
@@ -204,8 +209,14 @@ public class Converter {
         fields.add(convertToField(fieldcontext, access, type));
 
         if (fieldcontext.variabledeclarators().isEmpty()) return fields;
-        fields.addAll(convertToFields(fieldcontext, access, type));
 
+        fields.addAll(convertToFields(fieldcontext.variabledeclarators(), access, type));
+
+        return fields;
+    }
+
+    private static List<Field> convertToFields(Compiler_grammarParser.VariabledeclaratorsContext variabledeclaratorsContext, Access acces, Type type){
+        List<Field> fields = new ArrayList<>();
         return fields;
     }
 
@@ -218,7 +229,6 @@ public class Converter {
         return switch (acc.getText()) {
             case "private" -> Access.PRIVATE;
             case "protected" -> Access.PROTECTED;
-            case "public" -> Access.PUBLIC;
             default -> Access.PUBLIC;
         };
     }

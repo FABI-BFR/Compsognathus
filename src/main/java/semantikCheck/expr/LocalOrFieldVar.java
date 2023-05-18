@@ -13,9 +13,22 @@ public class LocalOrFieldVar implements IExpr {
     public Type type;
     public String name;
 
+    //Boolean zur Überprüfung ob Variable gespeichert oder geladen wird
+    public boolean store;
+    //Boolean zur Überprüfung ob Variable local oder fieldvariable ist
+    public boolean local;
+
     public LocalOrFieldVar(Type type, String name) {
         this.type = type;
         this.name = name;
+    }
+
+    public boolean isStore(){
+        return this.store;
+    }
+
+    public boolean isLocal(){
+        return this.local;
     }
 
     @Override

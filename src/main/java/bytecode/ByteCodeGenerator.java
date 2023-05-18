@@ -3,7 +3,6 @@ package bytecode;
 import bytecode.exceptions.InvalidExpressionException;
 import bytecode.exceptions.InvalidStatementException;
 import bytecode.exceptions.InvalidStatementExpressionException;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,13 +16,11 @@ import semantikCheck.interfaces.IStmt;
 import semantikCheck.interfaces.IStmtExpr;
 import semantikCheck.stmt.*;
 import semantikCheck.stmtexpr.Assign;
-import semantikCheck.stmtexpr.LeftSideExpr;
 import semantikCheck.stmtexpr.MethodCall;
 import semantikCheck.stmtexpr.New;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 
 public class ByteCodeGenerator
@@ -120,14 +117,12 @@ public class ByteCodeGenerator
      * @return Opcode
      */
     private int parseVisibility(@NotNull Access _acces){
-        int result = Opcodes.ACC_PUBLIC;
+        int result;
         switch (_acces)
         {
-            case PUBLIC -> result = Opcodes.ACC_PUBLIC;
             case PRIVATE -> result = Opcodes.ACC_PRIVATE;
             case PROTECTED -> result = Opcodes.ACC_PROTECTED;
-            default -> {
-            }
+            default -> result = Opcodes.ACC_PUBLIC;
         }
         return result;
     }
@@ -209,7 +204,7 @@ public class ByteCodeGenerator
     }
 
     /**
-     * Parses the type of a variable to an Opcode
+     * Parses the type of variable to an Opcode
      * @param _type Variable type
      * @return Typa as Opcode
      */
@@ -318,7 +313,7 @@ public class ByteCodeGenerator
     }
 
     /**
-     * Resolves a This Expression
+     * Resolves a Expression
      * @param _method Object containing method stuff
      * @param _this Expression to resolve
      */
@@ -367,7 +362,7 @@ public class ByteCodeGenerator
     }
 
     /**
-     * Resolves a If Statement
+     * Resolves an If Statement
      * @param _method Object containing method stuff
      * @param _stmt Statement to resolve
      */
@@ -387,50 +382,123 @@ public class ByteCodeGenerator
                               @NotNull InstVar _instVar){
         //Todo implementieren
         resolveExpr(_method,_instVar.expression);
+        /*
+        if (_instVar.isStore()) {
+            _method.getMethodVisitor().visitFieldInsn(Opcodes.PUTFIELD,
+                    _instVar.expression.getType().getType(),
+                    _instVar.varName,
+                    _instVar.getType().getType());
+        } else {
+            _method.getMethodVisitor().visitFieldInsn(Opcodes.GETFIELD,
+                    _instVar.expression.getType().getType(),
+                    _instVar.varName,
+                    _instVar.getType().getType());
+        }*/
     }
 
     private void visitAssign(@NotNull MethodGenerator _method,
                              @NotNull Assign _assign){
         //Todo implementieren
-
     }
 
     private void visitMethodCall(@NotNull MethodGenerator _method,
                                  @NotNull MethodCall _methodCall){
         resolveExpr(_method, _methodCall);
+
+        for (IExpr param : _methodCall.parameters) {
+            resolveExpr(_method, param);
+        }
+
+        int opcode = _methodCall.getType().getType().equals(_method.getClassGenerator().getName())
+                ? Opcodes.INVOKESPECIAL : Opcodes.INVOKEVIRTUAL;
+        _method.getMethodVisitor().visitMethodInsn(opcode,
+                _methodCall.getType().getType(),
+                _methodCall.name,
+                parseMethodType(_methodCall.method.getType(),
+                        _methodCall.method.getParameter()),
+                false);
+
+        if (!_methodCall.isStored()) {
+            _method.getMethodVisitor().visitInsn(Opcodes.POP);
+        }
     }
 
     private void visitLocalOrFieldVar(@NotNull MethodGenerator _method,
                                       @NotNull LocalOrFieldVar _localOrFieldVar){
-        //Todo implementieren
+        int opcode = _localOrFieldVar.isStore() ? Opcodes.ASTORE : Opcodes.ALOAD;
 
         switch (_localOrFieldVar.getType().getType()){
             case "boolean":
-                break;
             case "byte":
-                break;
             case "char":
-                break;
             case "int":
-                break;
             case "short":
+                opcode = _localOrFieldVar.isStore() ? Opcodes.ISTORE : Opcodes.ILOAD;
                 break;
             case "long":
+                opcode = _localOrFieldVar.isStore() ? Opcodes.LSTORE : Opcodes.LLOAD;
                 break;
             case "float":
+                opcode = _localOrFieldVar.isStore() ? Opcodes.FSTORE : Opcodes.FLOAD;
                 break;
             case "double":
+                opcode = _localOrFieldVar.isStore() ? Opcodes.DSTORE : Opcodes.DLOAD;
                 break;
         }
 
+        if (_localOrFieldVar.isStore()) {
+            if (_localOrFieldVar.isLocal()) {
+                if (!_method.getVariables().containsKey(_localOrFieldVar.name)) {
+                    _method.getVariables().put(_localOrFieldVar.name, _method.getVariables().size() + 1);
+                }
+                _method.getMethodVisitor().visitVarInsn(opcode,
+                        _method.getVariables()
+                                .floorEntry(_localOrFieldVar.name)
+                                .getValue());
+            } else {
+                _method.getMethodVisitor()
+                        .visitFieldInsn(Opcodes.PUTFIELD, _method.getClassGenerator().getName(), _localOrFieldVar.name,
+                                _method.getClassGenerator()
+                                        .getFields()
+                                        .ceilingEntry(_localOrFieldVar.name)
+                                        .getValue());
+            }
+        } else {
+            if (_localOrFieldVar.isLocal()) {
+                int toLoad = _method.getVariables().floorEntry(_localOrFieldVar.name).getValue();
+                _method.getMethodVisitor().visitVarInsn(opcode, toLoad);
+            } else {
+                _method.getMethodVisitor().visitVarInsn(Opcodes.ALOAD, 0);
+                _method.getMethodVisitor()
+                        .visitFieldInsn(Opcodes.GETFIELD, _method.getClassGenerator().getName(), _localOrFieldVar.name,
+                                _method.getClassGenerator()
+                                        .getFields()
+                                        .ceilingEntry(_localOrFieldVar.name)
+                                        .getValue());
+            }
+        }
 
     }
 
     private void visitNew(@NotNull MethodGenerator _method,
                           @NotNull New _new) {
-        //Todo implementieren
         _method.getMethodVisitor().visitTypeInsn(Opcodes.NEW, _new.getType().getType());
         _method.getMethodVisitor().visitInsn(Opcodes.DUP);
+
+        for (IExpr param : _new.expressions) {
+            resolveExpr(_method, param);
+        }
+
+        _method.getMethodVisitor().visitMethodInsn(Opcodes.INVOKESPECIAL,
+                _new.getType().getType(),
+                "<init>",
+                parseMethodType(_new.method.getType(),
+                        _new.method.getParameter()),
+                false);
+
+        if (!_new.isStored()) {
+            _method.getMethodVisitor().visitInsn(Opcodes.POP);
+        }
 
     }
 
@@ -614,7 +682,7 @@ public class ByteCodeGenerator
         }else if(_stmt instanceof While){
             visitWhile(_method,(While)_stmt);
         } else {
-            throw new InvalidStatementException(_stmt.toString() + " is not a valid Statement!");
+            throw new InvalidStatementException(_stmt + " is not a valid Statement!");
         }
     }
 
@@ -650,7 +718,7 @@ public class ByteCodeGenerator
         } else if(_expr instanceof Unary){
             visitUnary(_method, (Unary) _expr);
         } else {
-            throw new InvalidExpressionException(_expr.toString() + " is not a valid Expression!");
+            throw new InvalidExpressionException(_expr + " is not a valid Expression!");
         }
     }
 
@@ -663,12 +731,7 @@ public class ByteCodeGenerator
         } else if(_stmtExpr instanceof New){
             visitNew(_method, (New) _stmtExpr);
         } else {
-            throw new InvalidStatementExpressionException(_stmtExpr.toString() + " is not a valid Statementexpression!");
+            throw new InvalidStatementExpressionException(_stmtExpr + " is not a valid Statementexpression!");
         }
     }
-
-
-
-
-
 }

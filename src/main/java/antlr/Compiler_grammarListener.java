@@ -488,16 +488,6 @@ public interface Compiler_grammarListener extends ParseTreeListener {
 	 */
 	void exitAssignment(Compiler_grammarParser.AssignmentContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link Compiler_grammarParser#assignmentexpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterAssignmentexpression(Compiler_grammarParser.AssignmentexpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Compiler_grammarParser#assignmentexpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitAssignmentexpression(Compiler_grammarParser.AssignmentexpressionContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link Compiler_grammarParser#lefthandside}.
 	 * @param ctx the parse tree
 	 */

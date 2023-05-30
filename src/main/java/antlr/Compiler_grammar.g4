@@ -257,9 +257,9 @@ statementexpression:    expression |
                     methodcallexpression | //methodinvocation
                     newexpression; //classinstancecreationexpression
 
-assignment:         name assignmentoperator assignmentexpression |
-                    THIS DOT name ASSIGN assignmentexpression;
-
+assignment:         name assignmentoperator statementexpression |
+                    THIS DOT name ASSIGN statementexpression;
+/*
 assignmentexpression:   expression |
                     preincrementexpression |
                     predecrementexpression |
@@ -268,7 +268,7 @@ assignmentexpression:   expression |
                     methodcallexpression | //methodinvocation
                     newexpression;
 
-/*assignment:         name ASSIGN statementexpression |
+assignment:         name ASSIGN statementexpression |
                     THIS DOT name ASSIGN statementexpression;*/
 
 

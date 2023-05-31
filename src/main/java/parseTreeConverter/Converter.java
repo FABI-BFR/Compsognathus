@@ -10,6 +10,7 @@ import semantikCheck.interfaces.IStmtExpr;
 import semantikCheck.stmt.Block;
 import semantikCheck.stmt.If;
 import semantikCheck.stmtexpr.Assign;
+import semantikCheck.stmtexpr.LeftSideExpr;
 
 import java.util.ArrayList;
 
@@ -246,9 +247,9 @@ public class Converter {
     }
     private static IStmt convertToLocalVarDecl(Compiler_grammarParser.VariabledeclaratorContext variabledeclaratorContext,Type type){
         String name = variabledeclaratorContext.IDENTIFIER().getText();
-        if(variabledeclaratorContext.statementexpression() == null) return (IStmt) new LocalOrFieldVar(type,name);
+        if(variabledeclaratorContext.statementexpression() == null) return new LocalOrFieldVar(type,name);
         IStmtExpr stmtExpr = convertToStmtExpr(variabledeclaratorContext.statementexpression());
-        return null;
+        return new Assign(new LeftSideExpr(new LocalOrFieldVar(type,name)),stmtExpr);
     }
 
     private static IStmtExpr convertToStmtExpr(Compiler_grammarParser.StatementexpressionContext statementexpression) {

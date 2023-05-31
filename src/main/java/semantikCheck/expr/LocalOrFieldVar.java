@@ -6,10 +6,11 @@ import semantikCheck.Type;
 import semantikCheck.checker.Checker;
 import semantikCheck.interfaces.IExpr;
 import semantikCheck.interfaces.IStmt;
+import semantikCheck.interfaces.IStmtExpr;
 
 import java.util.List;
 
-public class LocalOrFieldVar implements IExpr {
+public class LocalOrFieldVar implements IStmtExpr {
     public Type type;
     public String name;
 

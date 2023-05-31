@@ -157,7 +157,7 @@ public class Converter {
                     stmts.addAll(convertToLocalVarDecls(blockstatementContext.localvariabledeclaration()));
                 }
                 if(blockstatementContext.statement() != null){
-                    stmts.addAll(convertToStatement(blockstatementContext.statement()));
+                    stmts.add(convertToStatement(blockstatementContext.statement()));
                 }
             }
         );
@@ -195,45 +195,47 @@ public class Converter {
     private static IExpr convertToCompareExpression(Compiler_grammarParser.CompareexpressionContext compareexpressionContext){
         if(compareexpressionContext.name() != null){
             if(compareexpressionContext.logicaloperator() != null){
-
+                return new Binary(compareexpressionContext.logicaloperator().getText(), new LocalOrFieldVar(new Type(""), compareexpressionContext.name().getText()), convertToCompareExpression(compareexpressionContext.compareexpression()));
             }else{
-                return convertToLocalOrFieldVar(compareexpressionContext.name());
+                return new LocalOrFieldVar(new Type("Boolean"), compareexpressionContext.name().getText());
             }
         }
         if(compareexpressionContext.BOOLLITERAL() != null){
             if(compareexpressionContext.logicaloperator() != null){
-
+                return new Binary(compareexpressionContext.logicaloperator().getText(), new LocalOrFieldVar(new Type(""), compareexpressionContext.BOOLLITERAL().getText()), convertToCompareExpression(compareexpressionContext.compareexpression()));
             }else{
-
+                return new LocalOrFieldVar(new Type("Boolean"), compareexpressionContext.BOOLLITERAL().getText());
             }
         }
         if(compareexpressionContext.IDENTIFIER() != null){
             if(compareexpressionContext.logicaloperator() != null){
-
+                return new Binary(compareexpressionContext.logicaloperator().getText(), new LocalOrFieldVar(new Type(""), compareexpressionContext.IDENTIFIER().getText()), convertToCompareExpression(compareexpressionContext.compareexpression()));
             }else{
-
-            }
-        }
-        if(compareexpressionContext.name() != null){
-            if(compareexpressionContext.logicaloperator() != null){
-
-            }else{
-
+                return new LocalOrFieldVar(new Type("Boolean"), compareexpressionContext.IDENTIFIER().getText());
             }
         }
         if(compareexpressionContext.methodcallexpression() != null){
             if(compareexpressionContext.logicaloperator() != null){
-
+                return new Binary(compareexpressionContext.logicaloperator().getText(), new LocalOrFieldVar(new Type(""), compareexpressionContext.methodcallexpression().getText()), convertToCompareExpression(compareexpressionContext.compareexpression()));
             }else{
+                return new LocalOrFieldVar(new Type("Boolean"), compareexpressionContext.methodcallexpression().getText());
             }
         }
         else{ //expression
             if(compareexpressionContext.logicaloperator() !=null){
-
+                return new Binary(compareexpressionContext.logicaloperator().getText(), new Binary(compareexpressionContext.compareoperator().getText(), convertToExpression1(compareexpressionContext.expression1()) , convertToExpression2(compareexpressionContext.expression2())), convertToCompareExpression(compareexpressionContext.compareexpression()));
             }else{
-
+                return new Binary(compareexpressionContext.compareoperator().getText(), convertToExpression1(compareexpressionContext.expression1()), convertToExpression2(compareexpressionContext.expression2()));
             }
         }
+    }
+
+    private static IExpr convertToExpression1(Compiler_grammarParser.Expression1Context expression1Context){
+        return convertToExpression(expression1Context.expression());
+    }
+
+    private static IExpr convertToExpression2(Compiler_grammarParser.Expression2Context expression2Context){
+        return convertToExpression(expression2Context.expression());
     }
 
     private static List<IStmt> convertToLocalVarDecls(Compiler_grammarParser.LocalvariabledeclarationContext localVarContext) {
@@ -283,6 +285,8 @@ public class Converter {
 
         }
     }
+
+
 
     private static IExpr convertToExpression(Compiler_grammarParser.ExpressionContext expression) {
         if(expression.IDENTIFIER() != null){

@@ -378,6 +378,26 @@ public interface Compiler_grammarListener extends ParseTreeListener {
 	 */
 	void exitCompareexpression(Compiler_grammarParser.CompareexpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link Compiler_grammarParser#expression1}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpression1(Compiler_grammarParser.Expression1Context ctx);
+	/**
+	 * Exit a parse tree produced by {@link Compiler_grammarParser#expression1}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpression1(Compiler_grammarParser.Expression1Context ctx);
+	/**
+	 * Enter a parse tree produced by {@link Compiler_grammarParser#expression2}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpression2(Compiler_grammarParser.Expression2Context ctx);
+	/**
+	 * Exit a parse tree produced by {@link Compiler_grammarParser#expression2}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpression2(Compiler_grammarParser.Expression2Context ctx);
+	/**
 	 * Enter a parse tree produced by {@link Compiler_grammarParser#compareoperator}.
 	 * @param ctx the parse tree
 	 */

@@ -233,6 +233,18 @@ public interface Compiler_grammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCompareexpression(Compiler_grammarParser.CompareexpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link Compiler_grammarParser#expression1}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpression1(Compiler_grammarParser.Expression1Context ctx);
+	/**
+	 * Visit a parse tree produced by {@link Compiler_grammarParser#expression2}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpression2(Compiler_grammarParser.Expression2Context ctx);
+	/**
 	 * Visit a parse tree produced by {@link Compiler_grammarParser#compareoperator}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

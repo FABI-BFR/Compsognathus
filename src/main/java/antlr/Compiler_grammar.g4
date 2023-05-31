@@ -201,12 +201,15 @@ compareexpression:  name |
                     BOOLLITERAL |
                     IDENTIFIER |
                     methodcallexpression |
-                    expression compareoperator expression |
+                    expression1 compareoperator expression2 |
                     name logicaloperator compareexpression |
                     BOOLLITERAL logicaloperator compareexpression |
                     IDENTIFIER logicaloperator compareexpression |
                     methodcallexpression logicaloperator compareexpression |
-                    expression compareoperator expression logicaloperator compareexpression;
+                    expression1 compareoperator expression2 logicaloperator compareexpression;
+
+expression1:        expression;
+expression2:        expression;
 
 compareoperator:    GREATER |
                     LESS |

@@ -461,6 +461,30 @@ public class Compiler_grammarBaseListener implements Compiler_grammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterExpression1(Compiler_grammarParser.Expression1Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExpression1(Compiler_grammarParser.Expression1Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExpression2(Compiler_grammarParser.Expression2Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExpression2(Compiler_grammarParser.Expression2Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterCompareoperator(Compiler_grammarParser.CompareoperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}

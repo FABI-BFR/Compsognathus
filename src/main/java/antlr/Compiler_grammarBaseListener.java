@@ -1,4 +1,4 @@
-// Generated from java-escape by ANTLR 4.11.1
+// Generated from C:/Users/Tobias Hahn/IdeaProjects/Compsognathus/src/main/java/antlr\Compiler_grammar.g4 by ANTLR 4.12.0
 package antlr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -593,25 +593,13 @@ public class Compiler_grammarBaseListener implements Compiler_grammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLefthandside(Compiler_grammarParser.LefthandsideContext ctx) { }
+	@Override public void enterAssignmentexpression(Compiler_grammarParser.AssignmentexpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLefthandside(Compiler_grammarParser.LefthandsideContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAssignmentoperator(Compiler_grammarParser.AssignmentoperatorContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAssignmentoperator(Compiler_grammarParser.AssignmentoperatorContext ctx) { }
+	@Override public void exitAssignmentexpression(Compiler_grammarParser.AssignmentexpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

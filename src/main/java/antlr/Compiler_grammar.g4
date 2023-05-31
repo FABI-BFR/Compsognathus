@@ -139,7 +139,8 @@ variabledeclarators:    variabledeclarator |
                     variabledeclarator COMMA variabledeclarators;
 
 variabledeclarator: IDENTIFIER |
-                    statementexpression;
+                    name ASSIGN assignmentexpression;
+                    /*statementexpression;
                     /*IDENTIFIER ASSIGN expression |
                     IDENTIFIER ASSIGN methodcallexpression |
                     IDENTIFIER ASSIGN newexpression;//variableinitializer;*/
@@ -257,9 +258,10 @@ statementexpression:    expression |
                     methodcallexpression | //methodinvocation
                     newexpression; //classinstancecreationexpression
 
-assignment:         name assignmentoperator statementexpression |
-                    THIS DOT name ASSIGN statementexpression;
-/*
+assignment:         name ASSIGN assignmentexpression |
+                    THIS DOT name ASSIGN assignmentexpression;
+
+
 assignmentexpression:   expression |
                     preincrementexpression |
                     predecrementexpression |
@@ -268,12 +270,8 @@ assignmentexpression:   expression |
                     methodcallexpression | //methodinvocation
                     newexpression;
 
-assignment:         name ASSIGN statementexpression |
-                    THIS DOT name ASSIGN statementexpression;*/
-
-
+/*
 lefthandside:       name;
-
 assignmentoperator: ASSIGN |
                     TIMESEQUAL |
                     DIVIDEEQUAL |
@@ -286,6 +284,7 @@ assignmentoperator: ASSIGN |
                     ANDEQUAL |
                     XOREQUAL |
                     OREQUAL;
+*/
 
 preincrementexpression: INC name;
 
@@ -301,8 +300,8 @@ methodcallexpression: name LBRACE RBRACE |
                     name DOT IDENTIFIER LBRACE argumentlist RBRACE |
                     THIS DOT IDENTIFIER LBRACE RBRACE |
                     THIS DOT IDENTIFIER LBRACE argumentlist RBRACE |
-                    LBRACE expression RBRACE DOT IDENTIFIER LBRACE RBRACE |
-                    LBRACE expression RBRACE DOT IDENTIFIER LBRACE argumentlist RBRACE |
+                    /*LBRACE expression RBRACE DOT IDENTIFIER LBRACE RBRACE |
+                    LBRACE expression RBRACE DOT IDENTIFIER LBRACE argumentlist RBRACE |*/
                     newexpression DOT IDENTIFIER LBRACE RBRACE |
                     newexpression DOT IDENTIFIER LBRACE argumentlist RBRACE;
                     /*fieldaccess DOT IDENTIFIER LBRACE RBRACE |

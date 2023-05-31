@@ -1,4 +1,4 @@
-// Generated from java-escape by ANTLR 4.11.1
+// Generated from C:/Users/Tobias Hahn/IdeaProjects/Compsognathus/src/main/java/antlr\Compiler_grammar.g4 by ANTLR 4.12.0
 package antlr;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -299,17 +299,11 @@ public interface Compiler_grammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAssignment(Compiler_grammarParser.AssignmentContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link Compiler_grammarParser#lefthandside}.
+	 * Visit a parse tree produced by {@link Compiler_grammarParser#assignmentexpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLefthandside(Compiler_grammarParser.LefthandsideContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Compiler_grammarParser#assignmentoperator}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAssignmentoperator(Compiler_grammarParser.AssignmentoperatorContext ctx);
+	T visitAssignmentexpression(Compiler_grammarParser.AssignmentexpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link Compiler_grammarParser#preincrementexpression}.
 	 * @param ctx the parse tree

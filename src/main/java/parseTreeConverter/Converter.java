@@ -9,10 +9,13 @@ import semantikCheck.interfaces.IStmt;
 import semantikCheck.interfaces.IStmtExpr;
 import semantikCheck.stmt.Block;
 import semantikCheck.stmt.If;
+import semantikCheck.stmt.Return;
 import semantikCheck.stmt.While;
 import semantikCheck.stmtexpr.Assign;
 import semantikCheck.stmtexpr.LeftSideExpr;
 
+import javax.swing.plaf.nimbus.State;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import java.util.Collections;
@@ -190,6 +193,33 @@ public class Converter {
 
     private static IStmt convertToWhileStatement(Compiler_grammarParser.WhilestatementContext whilestatementContext){
         return new While(convertToCompareExpression(whilestatementContext.compareexpression()), convertToStatement(whilestatementContext.statement());
+    }
+
+    private static IStmt convertToStatementNoShortIf(Compiler_grammarParser.StatementnoshortifContext statementnoshortifContext){
+        if(statementnoshortifContext.statementwithoutrailingsubstatement() != null){
+            return convertToStatementWithoutRailingSubStatement(statementnoshortifContext.statementwithoutrailingsubstatement());
+        }
+        if(statementnoshortifContext.ifelsestatementnoshortif() != null){
+
+        }
+        else { //whilestatementnoshortif
+
+        }
+    }
+
+    private static IStmt convertToStatementWithoutRailingSubStatement(Compiler_grammarParser.StatementwithoutrailingsubstatementContext statementwithoutrailingsubstatementContext){
+        if(statementwithoutrailingsubstatementContext.block() != null) {
+            return convertToBlock(statementwithoutrailingsubstatementContext.block());
+        }
+        if(statementwithoutrailingsubstatementContext.emptystatement() != null){
+            return convertToEmptyStatement(statementwithoutrailingsubstatementContext.emptystatement());
+        }
+        if(statementwithoutrailingsubstatementContext.expressionstatement()!= null){
+            return convertToExpressionStatement(statementwithoutrailingsubstatementContext.expressionstatement());
+        }
+        else{ //returnstatement
+            return convertToReturnStatement(statementwithoutrailingsubstatementContext.returnstatement());
+        }
     }
 
     private static IExpr convertToCompareExpression(Compiler_grammarParser.CompareexpressionContext compareexpressionContext){

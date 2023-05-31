@@ -3,7 +3,7 @@ package parseTreeConverter;
 import antlr.Compiler_grammarParser;
 import semantikCheck.*;
 import semantikCheck.Class;
-import semantikCheck.expr.LocalOrFieldVar;
+import semantikCheck.expr.*;
 import semantikCheck.interfaces.IExpr;
 import semantikCheck.interfaces.IStmt;
 import semantikCheck.interfaces.IStmtExpr;
@@ -14,7 +14,6 @@ import semantikCheck.stmtexpr.LeftSideExpr;
 
 import java.util.ArrayList;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -247,13 +246,92 @@ public class Converter {
     }
     private static IStmt convertToLocalVarDecl(Compiler_grammarParser.VariabledeclaratorContext variabledeclaratorContext,Type type){
         String name = variabledeclaratorContext.IDENTIFIER().getText();
-        if(variabledeclaratorContext.statementexpression() == null) return new LocalOrFieldVar(type,name);
-        IStmtExpr stmtExpr = convertToStmtExpr(variabledeclaratorContext.statementexpression());
+        if(variabledeclaratorContext.assignmentexpression() == null) return new LocalOrFieldVar(type,name);
+        IExpr stmtExpr = convertToAssignExpr(variabledeclaratorContext.assignmentexpression());
         return new Assign(new LeftSideExpr(new LocalOrFieldVar(type,name)),stmtExpr);
     }
 
-    private static IStmtExpr convertToStmtExpr(Compiler_grammarParser.StatementexpressionContext statementexpression) {
-        return null;
+    private static IExpr convertToAssignExpr(Compiler_grammarParser.AssignmentexpressionContext assignmentexpressionContext) {
+        if(assignmentexpressionContext.expression() != null){
+            return convertToExpression(assignmentexpressionContext.expression());
+        }
+        if(assignmentexpressionContext.preincrementexpression() != null){
+            return new Binary("+",new IntegerLit(1),
+                    new LocalOrFieldVar(new Type("int"),assignmentexpressionContext.preincrementexpression().name().getText()));
+        }
+        if(assignmentexpressionContext.predecrementexpression() != null){
+            return new Binary("-",
+                    new LocalOrFieldVar(new Type("int"),assignmentexpressionContext.predecrementexpression().name().getText()),new IntegerLit(1));
+        }
+        if(assignmentexpressionContext.postincrementexpression() != null){
+            return new Binary("+",new IntegerLit(1),
+                    new LocalOrFieldVar(new Type("int"),assignmentexpressionContext.postincrementexpression().name().getText()));
+        }
+        if(assignmentexpressionContext.postdecrementexpression() != null){
+            return new Binary("-",
+                    new LocalOrFieldVar(new Type("int"),assignmentexpressionContext.postdecrementexpression().name().getText()),new IntegerLit(1));
+        }
+        if(assignmentexpressionContext.methodcallexpression() != null){
+            //@TODO Method Call überarbeiten
+        }
+        else{ //assignmentexpressionContext.newexpression() != null
+
+        }
+    }
+
+    private static IExpr convertToExpression(Compiler_grammarParser.ExpressionContext expression) {
+        if(expression.IDENTIFIER() != null){
+            if(expression.PLUS() != null) return new Binary("+",
+                    new LocalOrFieldVar(new Type(""),expression.IDENTIFIER().getText()),
+                    convertToExpression(expression.expression()));
+
+            if(expression.MINUS() != null) return new Binary("-",
+                    new LocalOrFieldVar(new Type(""),expression.IDENTIFIER().getText()),
+                    convertToExpression(expression.expression()));
+
+            if(expression.MUL() != null) return new Binary("*",
+                    new LocalOrFieldVar(new Type(""),expression.IDENTIFIER().getText()),
+                    convertToExpression(expression.expression()));
+
+            if(expression.DIV() != null) return new Binary("/",
+                    new LocalOrFieldVar(new Type(""),expression.IDENTIFIER().getText()),
+                    convertToExpression(expression.expression()));
+
+            if(expression.MOD() != null) return new Binary("%",
+                    new LocalOrFieldVar(new Type(""),expression.IDENTIFIER().getText()),
+                    convertToExpression(expression.expression()));
+
+            return new LocalOrFieldVar(new Type(""),expression.IDENTIFIER().getText());
+        }
+        //expression.literal() != null
+        if(expression.PLUS() != null) return new Binary("+",
+                convertToLiteral(expression.literal()),
+                convertToExpression(expression.expression()));
+
+        if(expression.MINUS() != null) return new Binary("-",
+                convertToLiteral(expression.literal()),
+                convertToExpression(expression.expression()));
+
+        if(expression.MUL() != null) return new Binary("*",
+                convertToLiteral(expression.literal()),
+                convertToExpression(expression.expression()));
+
+        if(expression.DIV() != null) return new Binary("/",
+                convertToLiteral(expression.literal()),
+                convertToExpression(expression.expression()));
+
+        if(expression.MOD() != null) return new Binary("%",
+                convertToLiteral(expression.literal()),
+                convertToExpression(expression.expression()));
+        return new Unary("",convertToLiteral(expression.literal()));
+    }
+
+    private static IExpr convertToLiteral(Compiler_grammarParser.LiteralContext literal) {
+        if(literal.INTLITERAL() != null) return new IntegerLit(Integer.parseInt(literal.INTLITERAL().getText()));
+        if(literal.BOOLLITERAL() != null) return new BoolLit(literal.BOOLLITERAL().getText().equals("true"));
+        if(literal.CHARLITERAL() != null) return new CharLit(literal.CHARLITERAL().getText().charAt(0));
+        if(literal.STRINGLITERAL() != null) return new StringLit(literal.STRINGLITERAL().getText());
+        return new JNull();
     }
 
     private static List<Parameter> convertToParameters(Compiler_grammarParser.FormalparameterlistContext parameterListContext) {

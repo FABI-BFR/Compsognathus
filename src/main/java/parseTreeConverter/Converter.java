@@ -11,6 +11,7 @@ import semantikCheck.stmt.Block;
 import semantikCheck.stmt.If;
 import semantikCheck.stmtexpr.Assign;
 import semantikCheck.stmtexpr.LeftSideExpr;
+import semantikCheck.stmtexpr.MethodCall;
 
 import java.util.ArrayList;
 
@@ -272,10 +273,21 @@ public class Converter {
                     new LocalOrFieldVar(new Type("int"),assignmentexpressionContext.postdecrementexpression().name().getText()),new IntegerLit(1));
         }
         if(assignmentexpressionContext.methodcallexpression() != null){
-            //@TODO Method Call überarbeiten
+            return convertToMethodCall(assignmentexpressionContext.methodcallexpression());
         }
         else{ //assignmentexpressionContext.newexpression() != null
 
+        }
+    }
+
+    private static IExpr convertToMethodCall(Compiler_grammarParser.MethodcallexpressionContext methodcallexpression) {
+        List<IExpr> arguments = new ArrayList<>();
+        if(methodcallexpression.argumentlist() != null) arguments = convertToArguments(methodcallexpression.argumentlist());
+        if(methodcallexpression.THIS() != null){
+            return new MethodCall(new This(),methodcallexpression.IDENTIFIER().getText(),arguments);
+        }
+        if(methodcallexpression.newexpression() != null){
+            return new MethodCall(new LocalOrFieldVar(methodcallexpression.newexpression().name(),"new Object"),)
         }
     }
 

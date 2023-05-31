@@ -300,8 +300,8 @@ methodcallexpression: name LBRACE RBRACE |
                     name DOT IDENTIFIER LBRACE argumentlist RBRACE |
                     THIS DOT IDENTIFIER LBRACE RBRACE |
                     THIS DOT IDENTIFIER LBRACE argumentlist RBRACE |
-                    LBRACE expression RBRACE DOT IDENTIFIER LBRACE RBRACE |
-                    LBRACE expression RBRACE DOT IDENTIFIER LBRACE argumentlist RBRACE |
+                    /*LBRACE expression RBRACE DOT IDENTIFIER LBRACE RBRACE |
+                    LBRACE expression RBRACE DOT IDENTIFIER LBRACE argumentlist RBRACE |*/
                     newexpression DOT IDENTIFIER LBRACE RBRACE |
                     newexpression DOT IDENTIFIER LBRACE argumentlist RBRACE;
                     /*fieldaccess DOT IDENTIFIER LBRACE RBRACE |

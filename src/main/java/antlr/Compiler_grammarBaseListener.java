@@ -593,6 +593,18 @@ public class Compiler_grammarBaseListener implements Compiler_grammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterAssignmentexpression(Compiler_grammarParser.AssignmentexpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAssignmentexpression(Compiler_grammarParser.AssignmentexpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterPreincrementexpression(Compiler_grammarParser.PreincrementexpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}

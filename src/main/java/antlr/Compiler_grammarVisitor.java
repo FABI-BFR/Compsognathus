@@ -299,6 +299,12 @@ public interface Compiler_grammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAssignment(Compiler_grammarParser.AssignmentContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link Compiler_grammarParser#assignmentexpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssignmentexpression(Compiler_grammarParser.AssignmentexpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link Compiler_grammarParser#preincrementexpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

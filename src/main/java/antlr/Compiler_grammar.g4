@@ -258,9 +258,10 @@ statementexpression:    expression |
                     methodcallexpression | //methodinvocation
                     newexpression; //classinstancecreationexpression
 
-assignment:         name ASSIGN statementexpression |
-                    THIS DOT name ASSIGN statementexpression;
-/*
+assignment:         name ASSIGN assignmentexpression |
+                    THIS DOT name ASSIGN assignmentexpression;
+
+
 assignmentexpression:   expression |
                     preincrementexpression |
                     predecrementexpression |
@@ -269,9 +270,7 @@ assignmentexpression:   expression |
                     methodcallexpression | //methodinvocation
                     newexpression;
 
-assignment:         name ASSIGN statementexpression |
-                    THIS DOT name ASSIGN statementexpression;
-
+/*
 lefthandside:       name;
 assignmentoperator: ASSIGN |
                     TIMESEQUAL |

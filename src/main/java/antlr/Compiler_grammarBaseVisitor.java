@@ -354,6 +354,13 @@ public class Compiler_grammarBaseVisitor<T> extends AbstractParseTreeVisitor<T> 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitAssignmentexpression(Compiler_grammarParser.AssignmentexpressionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitPreincrementexpression(Compiler_grammarParser.PreincrementexpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}

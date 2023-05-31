@@ -9,6 +9,7 @@ import semantikCheck.interfaces.IStmt;
 import semantikCheck.interfaces.IStmtExpr;
 import semantikCheck.stmt.Block;
 import semantikCheck.stmt.If;
+import semantikCheck.stmt.While;
 import semantikCheck.stmtexpr.Assign;
 import semantikCheck.stmtexpr.LeftSideExpr;
 
@@ -172,11 +173,12 @@ public class Converter {
             return convertToIfElseStatement(statementContext.ifelsestatement());
         }
         if(statementContext.whilestatement() != null){
+            return convertToWhileStatement(statementContext.whilestatement());
+        }
+        else{ //statementwithoutrailingsubstatement
 
         }
-        if(statementContext.statementwithoutrailingsubstatement() != null){
 
-        }
     }
 
     private static IStmt convertToIfStatement(Compiler_grammarParser.IfstatementContext ifstatementContext){
@@ -185,6 +187,10 @@ public class Converter {
 
     private static IStmt convertToIfElseStatement(Compiler_grammarParser.IfelsestatementContext ifelsestatementContext){
         return new If(convertToCompareExpression(ifelsestatementContext.compareexpression()), convertToStatementNoShortIf(ifelsestatementContext.statementnoshortif()), convertToStatement(ifelsestatementContext.statement()));
+    }
+
+    private static IStmt convertToWhileStatement(Compiler_grammarParser.WhilestatementContext whilestatementContext){
+        return new While(convertToCompareExpression(whilestatementContext.compareexpression()), convertToStatement(whilestatementContext.statement());
     }
 
     private static IExpr convertToCompareExpression(Compiler_grammarParser.CompareexpressionContext compareexpressionContext){
@@ -220,10 +226,9 @@ public class Converter {
             if(compareexpressionContext.logicaloperator() != null){
 
             }else{
-
             }
         }
-        if(compareexpressionContext.expression() != null){
+        else{ //expression
             if(compareexpressionContext.logicaloperator() !=null){
 
             }else{

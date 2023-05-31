@@ -139,7 +139,8 @@ variabledeclarators:    variabledeclarator |
                     variabledeclarator COMMA variabledeclarators;
 
 variabledeclarator: IDENTIFIER |
-                    statementexpression;
+                    name ASSIGN statementexpression;
+                    /*statementexpression;
                     /*IDENTIFIER ASSIGN expression |
                     IDENTIFIER ASSIGN methodcallexpression |
                     IDENTIFIER ASSIGN newexpression;//variableinitializer;*/
@@ -257,7 +258,7 @@ statementexpression:    expression |
                     methodcallexpression | //methodinvocation
                     newexpression; //classinstancecreationexpression
 
-assignment:         name assignmentoperator statementexpression |
+assignment:         name ASSIGN statementexpression |
                     THIS DOT name ASSIGN statementexpression;
 /*
 assignmentexpression:   expression |
@@ -269,11 +270,9 @@ assignmentexpression:   expression |
                     newexpression;
 
 assignment:         name ASSIGN statementexpression |
-                    THIS DOT name ASSIGN statementexpression;*/
-
+                    THIS DOT name ASSIGN statementexpression;
 
 lefthandside:       name;
-
 assignmentoperator: ASSIGN |
                     TIMESEQUAL |
                     DIVIDEEQUAL |
@@ -286,6 +285,7 @@ assignmentoperator: ASSIGN |
                     ANDEQUAL |
                     XOREQUAL |
                     OREQUAL;
+*/
 
 preincrementexpression: INC name;
 

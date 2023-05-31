@@ -1,4 +1,4 @@
-// Generated from java-escape by ANTLR 4.11.1
+// Generated from C:/Users/Tobias Hahn/IdeaProjects/Compsognathus/src/main/java/antlr\Compiler_grammar.g4 by ANTLR 4.12.0
 package antlr;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -487,26 +487,6 @@ public interface Compiler_grammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAssignment(Compiler_grammarParser.AssignmentContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Compiler_grammarParser#lefthandside}.
-	 * @param ctx the parse tree
-	 */
-	void enterLefthandside(Compiler_grammarParser.LefthandsideContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Compiler_grammarParser#lefthandside}.
-	 * @param ctx the parse tree
-	 */
-	void exitLefthandside(Compiler_grammarParser.LefthandsideContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Compiler_grammarParser#assignmentoperator}.
-	 * @param ctx the parse tree
-	 */
-	void enterAssignmentoperator(Compiler_grammarParser.AssignmentoperatorContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Compiler_grammarParser#assignmentoperator}.
-	 * @param ctx the parse tree
-	 */
-	void exitAssignmentoperator(Compiler_grammarParser.AssignmentoperatorContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link Compiler_grammarParser#preincrementexpression}.
 	 * @param ctx the parse tree

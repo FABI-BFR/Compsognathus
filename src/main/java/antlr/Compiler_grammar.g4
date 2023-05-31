@@ -139,7 +139,7 @@ variabledeclarators:    variabledeclarator |
                     variabledeclarator COMMA variabledeclarators;
 
 variabledeclarator: IDENTIFIER |
-                    name ASSIGN statementexpression;
+                    name ASSIGN assignmentexpression;
                     /*statementexpression;
                     /*IDENTIFIER ASSIGN expression |
                     IDENTIFIER ASSIGN methodcallexpression |

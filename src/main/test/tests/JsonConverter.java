@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import semantikCheck.Program;
 
 public class JsonConverter {
-    public String convertToJson(Program program){
+    public static String convertToJson(Program program){
         ObjectMapper objectMapper = new ObjectMapper();
         try{
         return objectMapper.writeValueAsString(program);

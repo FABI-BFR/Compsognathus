@@ -8,7 +8,11 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import parseTreeConverter.Converter;
 import semantikCheck.Program;
 
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TestMain {
     public static void main(String[] args) throws IOException {
@@ -19,6 +23,43 @@ public class TestMain {
         String tokens = token.toString();
         Compiler_grammarParser parser = new Compiler_grammarParser(token);
         Compiler_grammarParser.CompilationunitContext tree = parser.compilationunit();
-        Program pg = Converter.convertToProgram(tree);
+        Program pg = Converter.convertToProgram(tree);*/
+
+
+        String folderpath = "../exampleClasses";
+        List<File> fileList = listFilesInFolder(folderpath);
+        System.out.println("hallo");
+    }
+
+    public static void createJsonFiles(List<File> files, List<String> jsonFiles) {
+        for (int i = 0; i < files.size(); i++) {
+            String newPath = files.get(i).getPath().replace("exampleClasses", "generatedJson");
+            File newFile = new File(newPath);
+            FileWriter writer;
+            try {
+                writer = new FileWriter(newFile);
+                writer.write(jsonFiles.get(i));
+                writer.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        };
+    }
+
+    public static List<File> listFilesInFolder(String folderPath) {
+        List<File> fileList = new ArrayList<>();
+        File folder = new File(folderPath);
+        File[] files = folder.listFiles();
+
+        if (files != null) {
+            for (File file : files) {
+                if (file.isFile()) {
+                    fileList.add(file);
+                } else if (file.isDirectory()) {
+                    fileList.addAll(listFilesInFolder(folderPath + "/" + file.getName()));
+                }
+            }
+        }
+        return fileList;
     }
 }

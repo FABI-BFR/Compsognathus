@@ -201,12 +201,15 @@ compareexpression:  name |
                     BOOLLITERAL |
                     IDENTIFIER |
                     methodcallexpression |
-                    expression compareoperator expression |
+                    expression1 compareoperator expression2 |
                     name logicaloperator compareexpression |
                     BOOLLITERAL logicaloperator compareexpression |
                     IDENTIFIER logicaloperator compareexpression |
                     methodcallexpression logicaloperator compareexpression |
-                    expression compareoperator expression logicaloperator compareexpression;
+                    expression1 compareoperator expression2 logicaloperator compareexpression;
+
+expression1:        expression;
+expression2:        expression;
 
 compareoperator:    GREATER |
                     LESS |
@@ -241,11 +244,14 @@ expressionstatement:    statementexpression SEMICOLON;
 returnstatement:    RETURN SEMICOLON |
                     RETURN expression SEMICOLON;
 
+statementnoshortif1:    statementnoshortif;
+statementnoshortif2:    statementnoshortif;
+
 statementnoshortif: statementwithoutrailingsubstatement |
                     ifelsestatementnoshortif |
                     whilestatementnoshortif;
 
-ifelsestatementnoshortif:   IF LBRACE compareexpression RBRACE statementnoshortif ELSE statementnoshortif;
+ifelsestatementnoshortif:   IF LBRACE compareexpression RBRACE statementnoshortif1 ELSE statementnoshortif2;
 
 whilestatementnoshortif:    WHILE LBRACE compareexpression RBRACE statementnoshortif;
 

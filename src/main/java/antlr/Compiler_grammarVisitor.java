@@ -1,4 +1,4 @@
-// Generated from C:/Users/Tobias Hahn/IdeaProjects/Compsognathus/src/main/java/antlr\Compiler_grammar.g4 by ANTLR 4.12.0
+// Generated from java-escape by ANTLR 4.11.1
 package antlr;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -233,6 +233,18 @@ public interface Compiler_grammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCompareexpression(Compiler_grammarParser.CompareexpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link Compiler_grammarParser#expression1}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpression1(Compiler_grammarParser.Expression1Context ctx);
+	/**
+	 * Visit a parse tree produced by {@link Compiler_grammarParser#expression2}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpression2(Compiler_grammarParser.Expression2Context ctx);
+	/**
 	 * Visit a parse tree produced by {@link Compiler_grammarParser#compareoperator}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -268,6 +280,18 @@ public interface Compiler_grammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitReturnstatement(Compiler_grammarParser.ReturnstatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Compiler_grammarParser#statementnoshortif1}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatementnoshortif1(Compiler_grammarParser.Statementnoshortif1Context ctx);
+	/**
+	 * Visit a parse tree produced by {@link Compiler_grammarParser#statementnoshortif2}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatementnoshortif2(Compiler_grammarParser.Statementnoshortif2Context ctx);
 	/**
 	 * Visit a parse tree produced by {@link Compiler_grammarParser#statementnoshortif}.
 	 * @param ctx the parse tree

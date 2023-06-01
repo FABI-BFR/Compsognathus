@@ -22,6 +22,11 @@ public class New implements IStmtExpr {
         this.methodStored = methodStored;
     }
 
+    public New(Type type, List<IExpr> expressions) {
+        this.type = type;
+        this.expressions = expressions;
+    }
+
     @Override
     public Type getType() {
         return null;

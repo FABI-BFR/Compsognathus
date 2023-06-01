@@ -263,7 +263,7 @@ public class Converter {
                     new LocalOrFieldVar(new Type("int"), statementexpressionContext.postdecrementexpression().name().getText()), new IntegerLit(1));
         }
         if (statementexpressionContext.methodcallexpression() != null) {
-            //@TODO Methodcall überarbeiten
+            return convertToMethodCall(statementexpressionContext.methodcallexpression());
         } else { //newexpression
             return convertToNewExpression(statementexpressionContext.newexpression());
         }
@@ -310,7 +310,7 @@ public class Converter {
         if (returnstatementContext.expression() != null) {
             return new Return(convertToExpression(returnstatementContext.expression()));
         } else {
-            return null; //richtig so?
+            return new Return(new JNull());
         }
     }
 

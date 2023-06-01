@@ -12,12 +12,9 @@ import semantikCheck.stmtexpr.Assign;
 import semantikCheck.stmtexpr.LeftSideExpr;
 import semantikCheck.stmtexpr.MethodCall;
 import semantikCheck.stmtexpr.New;
-
-import javax.swing.plaf.nimbus.State;
-import java.io.InputStream;
 import java.util.ArrayList;
 
-import java.util.Collections;
+
 import java.util.List;
 
 public class Converter {
@@ -92,12 +89,13 @@ public class Converter {
             access = Access.valueOf(constructordeclaration.accessmodifier().getText().toUpperCase());
         }
 
-        List<Parameter> parameters = getParameter(head.formalparameterlist());
+        List<Parameter> parameters = convertToParameters(head.formalparameterlist()); //davor getParameter(head.formalparameterList());
         Block block = body.block() != null ? convertToBlock(body.block()) : new Block(new ArrayList<>());
 
         return new Constructor(name, parameters, block, access);
     }
 
+    /*
     private static Block getBlock(Compiler_grammarParser.BlockContext blockContext) {
         List<IStmt> blockStmts = new ArrayList<>();
 
@@ -119,7 +117,7 @@ public class Converter {
         Collections.reverse(parameters);
         return parameters;
     }
-
+ */
     private static Method convertToMethod(Compiler_grammarParser.MethoddeclarationContext methodcontext) {
 
         Compiler_grammarParser.MethodheaderContext header = methodcontext.methodheader();
@@ -136,7 +134,7 @@ public class Converter {
         if (header.methoddeclarator().formalparameterlist() != null) {
             parameters.addAll(convertToParameters(header.methoddeclarator().formalparameterlist()));
         }
-        Block body = new Block(new ArrayList<IStmt>());
+        Block body = new Block(new ArrayList<>());
         if (methodcontext.methodbody().isEmpty()) {
             body = convertToBlock(methodcontext.methodbody().block());
         }
@@ -148,7 +146,7 @@ public class Converter {
 
     private static Block convertToBlock(Compiler_grammarParser.BlockContext blockContext) {
         List<IStmt> stmts = new ArrayList<>();
-        if (blockContext.blockstatements() == null) return new Block(new ArrayList<IStmt>());
+        if (blockContext.blockstatements() == null) return new Block(new ArrayList<>());
         blockContext.blockstatements().blockstatement().forEach(blockstatementContext -> {
                     if (blockstatementContext.localvariabledeclaration() != null) {
                         stmts.addAll(convertToLocalVarDecls(blockstatementContext.localvariabledeclaration()));
@@ -219,7 +217,7 @@ public class Converter {
             return convertToBlock(statementwithoutrailingsubstatementContext.block());
         }
         if (statementwithoutrailingsubstatementContext.emptystatement() != null) {
-            return convertToEmptyStatement(statementwithoutrailingsubstatementContext.emptystatement());
+            return convertToEmptyStatement();
         }
         if (statementwithoutrailingsubstatementContext.expressionstatement() != null) {
             return convertToExpressionStatement(statementwithoutrailingsubstatementContext.expressionstatement());
@@ -228,7 +226,7 @@ public class Converter {
         }
     }
 
-    private static IStmt convertToEmptyStatement(Compiler_grammarParser.EmptystatementContext emptystatementContext) {
+    private static IStmt convertToEmptyStatement() {
         return new EmptyStmt();
     }
 
@@ -279,7 +277,7 @@ public class Converter {
     }
 
     private static List<IExpr> convertToArgumentList(Compiler_grammarParser.ArgumentlistContext argumentlist) {
-        if (argumentlist.expression() == null) return new ArrayList<IExpr>();
+        if (argumentlist.expression() == null) return new ArrayList<>();
         List<IExpr> exprs = new ArrayList<>();
         exprs.add(convertToExpression(argumentlist.expression()));
         exprs.addAll(convertToArgumentList(argumentlist.argumentlist()));
@@ -357,7 +355,7 @@ public class Converter {
     }
 
     private static List<IStmt> convertToLocalVarDecls(Compiler_grammarParser.LocalvariabledeclarationContext localVarContext) {
-        if (localVarContext.variabledeclarators() == null) return new ArrayList<IStmt>();
+        if (localVarContext.variabledeclarators() == null) return new ArrayList<>();
         Type type = getType(localVarContext.type());
         return convertToLocalVarDecls(localVarContext.variabledeclarators(), type);
     }

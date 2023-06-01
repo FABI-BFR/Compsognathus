@@ -1,4 +1,4 @@
-// Generated from C:/Users/Tobias Hahn/IdeaProjects/Compsognathus/src/main/java/antlr\Compiler_grammar.g4 by ANTLR 4.12.0
+// Generated from java-escape by ANTLR 4.11.1
 package antlr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -552,6 +552,30 @@ public class Compiler_grammarBaseListener implements Compiler_grammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitReturnstatement(Compiler_grammarParser.ReturnstatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterStatementnoshortif1(Compiler_grammarParser.Statementnoshortif1Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStatementnoshortif1(Compiler_grammarParser.Statementnoshortif1Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterStatementnoshortif2(Compiler_grammarParser.Statementnoshortif2Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStatementnoshortif2(Compiler_grammarParser.Statementnoshortif2Context ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -244,11 +244,14 @@ expressionstatement:    statementexpression SEMICOLON;
 returnstatement:    RETURN SEMICOLON |
                     RETURN expression SEMICOLON;
 
+statementnoshortif1:    statementnoshortif;
+statementnoshortif2:    statementnoshortif;
+
 statementnoshortif: statementwithoutrailingsubstatement |
                     ifelsestatementnoshortif |
                     whilestatementnoshortif;
 
-ifelsestatementnoshortif:   IF LBRACE compareexpression RBRACE statementnoshortif ELSE statementnoshortif;
+ifelsestatementnoshortif:   IF LBRACE compareexpression RBRACE statementnoshortif1 ELSE statementnoshortif2;
 
 whilestatementnoshortif:    WHILE LBRACE compareexpression RBRACE statementnoshortif;
 

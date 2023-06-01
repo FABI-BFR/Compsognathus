@@ -191,7 +191,7 @@ public class Converter {
     }
 
     private static IStmt convertToWhileStatement(Compiler_grammarParser.WhilestatementContext whilestatementContext){
-        return new While(convertToCompareExpression(whilestatementContext.compareexpression()), convertToStatement(whilestatementContext.statement());
+        return new While(convertToCompareExpression(whilestatementContext.compareexpression()), convertToStatement(whilestatementContext.statement()));
     }
 
     private static IStmt convertToStatementNoShortIf(Compiler_grammarParser.StatementnoshortifContext statementnoshortifContext){
@@ -199,11 +199,27 @@ public class Converter {
             return convertToStatementWithoutRailingSubStatement(statementnoshortifContext.statementwithoutrailingsubstatement());
         }
         if(statementnoshortifContext.ifelsestatementnoshortif() != null){
-
+            return convertToIfElseStatementNoShortIf(statementnoshortifContext.ifelsestatementnoshortif());
         }
         else { //whilestatementnoshortif
-
+            return convertToWhileStatementNoShortif(statementnoshortifContext.whilestatementnoshortif());
         }
+    }
+
+    private static IStmt convertToIfElseStatementNoShortIf(Compiler_grammarParser.IfelsestatementnoshortifContext ifelsestatementnoshortifContext){
+        return new If(convertToCompareExpression(ifelsestatementnoshortifContext.compareexpression()), convertToStatementNoShortIf1(ifelsestatementnoshortifContext.statementnoshortif1()), convertToStatementNoShortIf2(ifelsestatementnoshortifContext.statementnoshortif2()));
+    }
+
+    private static IStmt convertToStatementNoShortIf1(Compiler_grammarParser.Statementnoshortif1Context statementnoshortif1Context){
+        return convertToStatementNoShortIf(statementnoshortif1Context.statementnoshortif());
+    }
+
+    private static IStmt convertToStatementNoShortIf2(Compiler_grammarParser.Statementnoshortif2Context statementnoshortif2Context){
+        return convertToStatementNoShortIf(statementnoshortif2Context.statementnoshortif());
+    }
+
+    private static IStmt convertToWhileStatementNoShortif(Compiler_grammarParser.WhilestatementnoshortifContext whilestatementnoshortifContext){
+        return new While(convertToCompareExpression(whilestatementnoshortifContext.compareexpression()), convertToStatementNoShortIf(whilestatementnoshortifContext.statementnoshortif()));
     }
 
     private static IStmt convertToStatementWithoutRailingSubStatement(Compiler_grammarParser.StatementwithoutrailingsubstatementContext statementwithoutrailingsubstatementContext){

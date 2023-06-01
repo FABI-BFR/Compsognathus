@@ -288,6 +288,13 @@ public class Converter {
         }
     }
 
+    private static List<IExpr> convertToArgumentList(Compiler_grammarParser.ArgumentlistContext argumentlist) {
+        if(argumentlist.expression()== null) return new ArrayList<IExpr>();
+        List<IExpr> exprs = new ArrayList<>();
+        exprs.add(convertToExpression(argumentlist.expression()));
+        exprs.addAll( convertToArgumentList(argumentlist.argumentlist()) );
+        return exprs;
+    }
 
 
     private static IExpr convertToName(Compiler_grammarParser.NameContext nameContext){

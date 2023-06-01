@@ -17,7 +17,7 @@ import java.util.List;
 public class TestMain {
     public static void main(String[] args) throws IOException {
 
-        CharStream input = CharStreams.fromFileName("src/main/test/exampleClasses/OneMethod/OneParameters/MethodWithBoolParameter.java");
+        /*CharStream input = CharStreams.fromFileName("src/main/test/exampleClasses/OneMethod/OneParameters/MethodWithBoolParameter.java");
         Compiler_grammarLexer lexer = new Compiler_grammarLexer(input);
         CommonTokenStream token = new CommonTokenStream(lexer);
         String tokens = token.toString();

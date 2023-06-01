@@ -275,7 +275,7 @@ public class Converter {
     }
 
     private static IExpr convertToAssignment(Compiler_grammarParser.AssignmentContext assignmentContext){
-        return new Assign((LeftSideExpr) convertToName(assignmentContext.name()) , convertToAssignExpr(assignmentContext.assignmentexpression()));
+        return new Assign(new LeftSideExpr(convertToName(assignmentContext.name())), convertToAssignExpr(assignmentContext.assignmentexpression()));
     }
 
     private static IExpr convertToNewExpression(Compiler_grammarParser.NewexpressionContext newexpressionContext){

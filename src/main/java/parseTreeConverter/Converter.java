@@ -282,7 +282,7 @@ public class Converter {
 
     private static IExpr convertToMethodCall(Compiler_grammarParser.MethodcallexpressionContext methodcallexpression) {
         List<IExpr> arguments = new ArrayList<>();
-        if(methodcallexpression.argumentlist() != null) arguments = convertToArguments(methodcallexpression.argumentlist());
+        if(methodcallexpression.argumentlist() != null) arguments = convertToArgumentList(methodcallexpression.argumentlist());
         if(methodcallexpression.THIS() != null){
             return new MethodCall(new This(),methodcallexpression.IDENTIFIER().getText(),arguments);
         }

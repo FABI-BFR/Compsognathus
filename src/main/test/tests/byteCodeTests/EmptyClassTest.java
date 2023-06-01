@@ -1,7 +1,6 @@
-package byteCodeTests;
+package tests.byteCodeTests;
 
 import control.CompsognathusCompiler;
-import jsonConverter.JsonConverter;
 import org.junit.Test;
 import org.junit.Assert;
 import parseTreeConverter.Converter;

@@ -47,12 +47,12 @@ public class Converter {
                                 methods.add(convertToMethod(classbodydeclarationContext.methoddeclaration()));
                             } else if (classbodydeclarationContext.fielddeclaration() != null) {
                                 fields.addAll(convertToFields(classbodydeclarationContext.fielddeclaration()));
-                            } else if(classbodydeclarationContext.constructordeclaration() != null) {
+                            } else if (classbodydeclarationContext.constructordeclaration() != null) {
                                 constructors.add(convertToConstructor(classbodydeclarationContext.constructordeclaration()));
                             }
                         }
                     });
-        }else if(classContext.classbody().isEmpty()){
+        } else if (classContext.classbody().isEmpty()) {
             return new Class(classContext.CLASSIDENTIFIER().getText(),
                     null,
                     null,
@@ -88,7 +88,7 @@ public class Converter {
         String name = head.CLASSIDENTIFIER().getText();
 
         Access access = Access.PUBLIC;
-        if(constructordeclaration.accessmodifier() != null){
+        if (constructordeclaration.accessmodifier() != null) {
             access = Access.valueOf(constructordeclaration.accessmodifier().getText().toUpperCase());
         }
 
@@ -96,17 +96,16 @@ public class Converter {
 
         //Todo Block
         //Block block = getBlock(body.block());
-        Block  block = new Block(new ArrayList<>());
+        Block block = new Block(new ArrayList<>());
 
-        return new Constructor(name,parameters,block,access);
+        return new Constructor(name, parameters, block, access);
     }
 
-    private static Block getBlock(Compiler_grammarParser.BlockContext blockContext)
-    {
+    private static Block getBlock(Compiler_grammarParser.BlockContext blockContext) {
         List<IStmt> blockStmts = new ArrayList<>();
 
         Compiler_grammarParser.BlockstatementsContext stmts = blockContext.blockstatements();
-        while(stmts!= null){
+        while (stmts != null) {
 
         }
         Collections.reverse(blockStmts);
@@ -114,12 +113,11 @@ public class Converter {
     }
 
 
-    private static List<Parameter> getParameter(Compiler_grammarParser.FormalparameterlistContext formalparameterlist)
-    {
+    private static List<Parameter> getParameter(Compiler_grammarParser.FormalparameterlistContext formalparameterlist) {
         List<Parameter> parameters = new ArrayList<>();
-        while(formalparameterlist != null){
+        while (formalparameterlist != null) {
             var par = formalparameterlist.formalparameter();
-            parameters.add(new Parameter(getType(par.type()),par.IDENTIFIER().getText()));
+            parameters.add(new Parameter(getType(par.type()), par.IDENTIFIER().getText()));
         }
         Collections.reverse(parameters);
         return parameters;
@@ -155,331 +153,330 @@ public class Converter {
         List<IStmt> stmts = new ArrayList<>();
         if (blockContext.blockstatements() == null) return new Block(new ArrayList<IStmt>());
         blockContext.blockstatements().blockstatement().forEach(blockstatementContext -> {
-                if(blockstatementContext.localvariabledeclaration() != null){
-                    stmts.addAll(convertToLocalVarDecls(blockstatementContext.localvariabledeclaration()));
+                    if (blockstatementContext.localvariabledeclaration() != null) {
+                        stmts.addAll(convertToLocalVarDecls(blockstatementContext.localvariabledeclaration()));
+                    }
+                    if (blockstatementContext.statement() != null) {
+                        stmts.add(convertToStatement(blockstatementContext.statement()));
+                    }
                 }
-                if(blockstatementContext.statement() != null){
-                    stmts.add(convertToStatement(blockstatementContext.statement()));
-                }
-            }
         );
         return new Block(stmts);
     }
 
-    private static IStmt convertToStatement(Compiler_grammarParser.StatementContext statementContext){
-        if(statementContext.ifstatement() != null){
+    private static IStmt convertToStatement(Compiler_grammarParser.StatementContext statementContext) {
+        if (statementContext.ifstatement() != null) {
             return convertToIfStatement(statementContext.ifstatement());
         }
-        if(statementContext.ifelsestatement() != null){
+        if (statementContext.ifelsestatement() != null) {
             return convertToIfElseStatement(statementContext.ifelsestatement());
         }
-        if(statementContext.whilestatement() != null){
+        if (statementContext.whilestatement() != null) {
             return convertToWhileStatement(statementContext.whilestatement());
-        }
-        else{ //statementwithoutrailingsubstatement
+        } else { //statementwithoutrailingsubstatement
             return convertToStatementWithoutRailingSubStatement(statementContext.statementwithoutrailingsubstatement());
         }
     }
 
-    private static IStmt convertToIfStatement(Compiler_grammarParser.IfstatementContext ifstatementContext){
-        return new If(convertToCompareExpression(ifstatementContext.compareexpression()) , convertToStatement(ifstatementContext.statement()) , null);
+    private static IStmt convertToIfStatement(Compiler_grammarParser.IfstatementContext ifstatementContext) {
+        return new If(convertToCompareExpression(ifstatementContext.compareexpression()), convertToStatement(ifstatementContext.statement()), null);
     }
 
-    private static IStmt convertToIfElseStatement(Compiler_grammarParser.IfelsestatementContext ifelsestatementContext){
+    private static IStmt convertToIfElseStatement(Compiler_grammarParser.IfelsestatementContext ifelsestatementContext) {
         return new If(convertToCompareExpression(ifelsestatementContext.compareexpression()), convertToStatementNoShortIf(ifelsestatementContext.statementnoshortif()), convertToStatement(ifelsestatementContext.statement()));
     }
 
-    private static IStmt convertToWhileStatement(Compiler_grammarParser.WhilestatementContext whilestatementContext){
+    private static IStmt convertToWhileStatement(Compiler_grammarParser.WhilestatementContext whilestatementContext) {
         return new While(convertToCompareExpression(whilestatementContext.compareexpression()), convertToStatement(whilestatementContext.statement()));
     }
 
-    private static IStmt convertToStatementNoShortIf(Compiler_grammarParser.StatementnoshortifContext statementnoshortifContext){
-        if(statementnoshortifContext.statementwithoutrailingsubstatement() != null){
+    private static IStmt convertToStatementNoShortIf(Compiler_grammarParser.StatementnoshortifContext statementnoshortifContext) {
+        if (statementnoshortifContext.statementwithoutrailingsubstatement() != null) {
             return convertToStatementWithoutRailingSubStatement(statementnoshortifContext.statementwithoutrailingsubstatement());
         }
-        if(statementnoshortifContext.ifelsestatementnoshortif() != null){
+        if (statementnoshortifContext.ifelsestatementnoshortif() != null) {
             return convertToIfElseStatementNoShortIf(statementnoshortifContext.ifelsestatementnoshortif());
-        }
-        else { //whilestatementnoshortif
+        } else { //whilestatementnoshortif
             return convertToWhileStatementNoShortIf(statementnoshortifContext.whilestatementnoshortif());
         }
     }
 
-    private static IStmt convertToIfElseStatementNoShortIf(Compiler_grammarParser.IfelsestatementnoshortifContext ifelsestatementnoshortifContext){
+    private static IStmt convertToIfElseStatementNoShortIf(Compiler_grammarParser.IfelsestatementnoshortifContext ifelsestatementnoshortifContext) {
         return new If(convertToCompareExpression(ifelsestatementnoshortifContext.compareexpression()), convertToStatementNoShortIf1(ifelsestatementnoshortifContext.statementnoshortif1()), convertToStatementNoShortIf2(ifelsestatementnoshortifContext.statementnoshortif2()));
     }
 
-    private static IStmt convertToStatementNoShortIf1(Compiler_grammarParser.Statementnoshortif1Context statementnoshortif1Context){
+    private static IStmt convertToStatementNoShortIf1(Compiler_grammarParser.Statementnoshortif1Context statementnoshortif1Context) {
         return convertToStatementNoShortIf(statementnoshortif1Context.statementnoshortif());
     }
 
-    private static IStmt convertToStatementNoShortIf2(Compiler_grammarParser.Statementnoshortif2Context statementnoshortif2Context){
+    private static IStmt convertToStatementNoShortIf2(Compiler_grammarParser.Statementnoshortif2Context statementnoshortif2Context) {
         return convertToStatementNoShortIf(statementnoshortif2Context.statementnoshortif());
     }
 
-    private static IStmt convertToWhileStatementNoShortIf(Compiler_grammarParser.WhilestatementnoshortifContext whilestatementnoshortifContext){
+    private static IStmt convertToWhileStatementNoShortIf(Compiler_grammarParser.WhilestatementnoshortifContext whilestatementnoshortifContext) {
         return new While(convertToCompareExpression(whilestatementnoshortifContext.compareexpression()), convertToStatementNoShortIf(whilestatementnoshortifContext.statementnoshortif()));
     }
 
-    private static IStmt convertToStatementWithoutRailingSubStatement(Compiler_grammarParser.StatementwithoutrailingsubstatementContext statementwithoutrailingsubstatementContext){
-        if(statementwithoutrailingsubstatementContext.block() != null) {
+    private static IStmt convertToStatementWithoutRailingSubStatement(Compiler_grammarParser.StatementwithoutrailingsubstatementContext statementwithoutrailingsubstatementContext) {
+        if (statementwithoutrailingsubstatementContext.block() != null) {
             return convertToBlock(statementwithoutrailingsubstatementContext.block());
         }
-        if(statementwithoutrailingsubstatementContext.emptystatement() != null){
+        if (statementwithoutrailingsubstatementContext.emptystatement() != null) {
             return convertToEmptyStatement(statementwithoutrailingsubstatementContext.emptystatement());
         }
-        if(statementwithoutrailingsubstatementContext.expressionstatement()!= null){
+        if (statementwithoutrailingsubstatementContext.expressionstatement() != null) {
             return convertToExpressionStatement(statementwithoutrailingsubstatementContext.expressionstatement());
-        }
-        else{ //returnstatement
+        } else { //returnstatement
             return convertToReturnStatement(statementwithoutrailingsubstatementContext.returnstatement());
         }
     }
 
-    private static IStmt convertToEmptyStatement(Compiler_grammarParser.EmptystatementContext emptystatementContext){
+    private static IStmt convertToEmptyStatement(Compiler_grammarParser.EmptystatementContext emptystatementContext) {
         return new EmptyStmt();
     }
 
-    private static IStmtExpr convertToExpressionStatement(Compiler_grammarParser.ExpressionstatementContext expressionstatementContext){
+    private static IStmtExpr convertToExpressionStatement(Compiler_grammarParser.ExpressionstatementContext expressionstatementContext) {
         return (IStmtExpr) convertToStatementExpression(expressionstatementContext.statementexpression());
     }
 
-    private static IExpr convertToStatementExpression(Compiler_grammarParser.StatementexpressionContext statementexpressionContext){
-        if(statementexpressionContext.expression() != null){
+    private static IExpr convertToStatementExpression(Compiler_grammarParser.StatementexpressionContext statementexpressionContext) {
+        if (statementexpressionContext.expression() != null) {
             return convertToExpression(statementexpressionContext.expression());
         }
-        if(statementexpressionContext.assignment() != null){
+        if (statementexpressionContext.assignment() != null) {
             return convertToAssignment(statementexpressionContext.assignment());
         }
-        if(statementexpressionContext.preincrementexpression() != null){
-            return new Binary("+",new IntegerLit(1),
-                    new LocalOrFieldVar(new Type("int"),statementexpressionContext.preincrementexpression().name().getText()));
+        if (statementexpressionContext.preincrementexpression() != null) {
+            return new Binary("+", new IntegerLit(1),
+                    new LocalOrFieldVar(new Type("int"), statementexpressionContext.preincrementexpression().name().getText()));
         }
-        if(statementexpressionContext.predecrementexpression() != null){
+        if (statementexpressionContext.predecrementexpression() != null) {
             return new Binary("-",
-                    new LocalOrFieldVar(new Type("int"),statementexpressionContext.predecrementexpression().name().getText()),new IntegerLit(1));
+                    new LocalOrFieldVar(new Type("int"), statementexpressionContext.predecrementexpression().name().getText()), new IntegerLit(1));
         }
-        if(statementexpressionContext.postincrementexpression() != null){
-            return new Binary("+",new IntegerLit(1),
-                    new LocalOrFieldVar(new Type("int"),statementexpressionContext.postincrementexpression().name().getText()));
+        if (statementexpressionContext.postincrementexpression() != null) {
+            return new Binary("+", new IntegerLit(1),
+                    new LocalOrFieldVar(new Type("int"), statementexpressionContext.postincrementexpression().name().getText()));
         }
-        if(statementexpressionContext.postdecrementexpression() != null){
+        if (statementexpressionContext.postdecrementexpression() != null) {
             return new Binary("-",
-                    new LocalOrFieldVar(new Type("int"),statementexpressionContext.postdecrementexpression().name().getText()),new IntegerLit(1));
+                    new LocalOrFieldVar(new Type("int"), statementexpressionContext.postdecrementexpression().name().getText()), new IntegerLit(1));
         }
-        if(statementexpressionContext.methodcallexpression() != null){
+        if (statementexpressionContext.methodcallexpression() != null) {
             //@TODO Methodcall überarbeiten
-        }
-        else{ //newexpression
+        } else { //newexpression
             return convertToNewExpression(statementexpressionContext.newexpression());
         }
     }
 
-    private static IExpr convertToAssignment(Compiler_grammarParser.AssignmentContext assignmentContext){
+    private static IExpr convertToAssignment(Compiler_grammarParser.AssignmentContext assignmentContext) {
         return new Assign(new LeftSideExpr(convertToName(assignmentContext.name())), convertToAssignExpr(assignmentContext.assignmentexpression()));
     }
 
-    private static IExpr convertToNewExpression(Compiler_grammarParser.NewexpressionContext newexpressionContext){
-        if(newexpressionContext.argumentlist() != null){
+    private static IExpr convertToNewExpression(Compiler_grammarParser.NewexpressionContext newexpressionContext) {
+        if (newexpressionContext.argumentlist() != null) {
             return new New(new Type(newexpressionContext.name().getText()), convertToArgumentList(newexpressionContext.argumentlist()));
-        }
-        else{
+        } else {
             return new New(new Type(newexpressionContext.name().getText()), null);
         }
     }
 
     private static List<IExpr> convertToArgumentList(Compiler_grammarParser.ArgumentlistContext argumentlist) {
-        if(argumentlist.expression()== null) return new ArrayList<IExpr>();
+        if (argumentlist.expression() == null) return new ArrayList<IExpr>();
         List<IExpr> exprs = new ArrayList<>();
         exprs.add(convertToExpression(argumentlist.expression()));
-        exprs.addAll( convertToArgumentList(argumentlist.argumentlist()) );
+        exprs.addAll(convertToArgumentList(argumentlist.argumentlist()));
         return exprs;
     }
 
 
-    private static IExpr convertToName(Compiler_grammarParser.NameContext nameContext){
-        if(nameContext.simplename() != null) {
+    private static IExpr convertToName(Compiler_grammarParser.NameContext nameContext) {
+        if (nameContext.simplename() != null) {
             return convertToSimpleName(nameContext.simplename());
-        }
-        else{ //qualifiedname
+        } else { //qualifiedname
             return convertToQualifiedName(nameContext.qualifiedname());
         }
     }
 
-    private static IExpr convertToSimpleName(Compiler_grammarParser.SimplenameContext simplenameContext){
-        return new LocalOrFieldVar(new Type(""),simplenameContext.IDENTIFIER().getText());
+    private static IExpr convertToSimpleName(Compiler_grammarParser.SimplenameContext simplenameContext) {
+        return new LocalOrFieldVar(new Type(""), simplenameContext.IDENTIFIER().getText());
     }
 
-    private static IExpr convertToQualifiedName(Compiler_grammarParser.QualifiednameContext qualifiednameContext){
+    private static IExpr convertToQualifiedName(Compiler_grammarParser.QualifiednameContext qualifiednameContext) {
         return new LocalOrFieldVar(new Type(""), qualifiednameContext.IDENTIFIER().getText());
     }
 
-    private static IStmt convertToReturnStatement(Compiler_grammarParser.ReturnstatementContext returnstatementContext){
-        if(returnstatementContext.expression() != null){
+    private static IStmt convertToReturnStatement(Compiler_grammarParser.ReturnstatementContext returnstatementContext) {
+        if (returnstatementContext.expression() != null) {
             return new Return(convertToExpression(returnstatementContext.expression()));
-        }else{
+        } else {
             return null; //richtig so?
         }
     }
-    private static IExpr convertToCompareExpression(Compiler_grammarParser.CompareexpressionContext compareexpressionContext){
-        if(compareexpressionContext.name() != null){
-            if(compareexpressionContext.logicaloperator() != null){
+
+    private static IExpr convertToCompareExpression(Compiler_grammarParser.CompareexpressionContext compareexpressionContext) {
+        if (compareexpressionContext.name() != null) {
+            if (compareexpressionContext.logicaloperator() != null) {
                 return new Binary(compareexpressionContext.logicaloperator().getText(), new LocalOrFieldVar(new Type(""), compareexpressionContext.name().getText()), convertToCompareExpression(compareexpressionContext.compareexpression()));
-            }else{
+            } else {
                 return new LocalOrFieldVar(new Type("Boolean"), compareexpressionContext.name().getText());
             }
         }
-        if(compareexpressionContext.BOOLLITERAL() != null){
-            if(compareexpressionContext.logicaloperator() != null){
+        if (compareexpressionContext.BOOLLITERAL() != null) {
+            if (compareexpressionContext.logicaloperator() != null) {
                 return new Binary(compareexpressionContext.logicaloperator().getText(), new LocalOrFieldVar(new Type(""), compareexpressionContext.BOOLLITERAL().getText()), convertToCompareExpression(compareexpressionContext.compareexpression()));
-            }else{
+            } else {
                 return new LocalOrFieldVar(new Type("Boolean"), compareexpressionContext.BOOLLITERAL().getText());
             }
         }
-        if(compareexpressionContext.IDENTIFIER() != null){
-            if(compareexpressionContext.logicaloperator() != null){
+        if (compareexpressionContext.IDENTIFIER() != null) {
+            if (compareexpressionContext.logicaloperator() != null) {
                 return new Binary(compareexpressionContext.logicaloperator().getText(), new LocalOrFieldVar(new Type(""), compareexpressionContext.IDENTIFIER().getText()), convertToCompareExpression(compareexpressionContext.compareexpression()));
-            }else{
+            } else {
                 return new LocalOrFieldVar(new Type("Boolean"), compareexpressionContext.IDENTIFIER().getText());
             }
         }
-        if(compareexpressionContext.methodcallexpression() != null){
-            if(compareexpressionContext.logicaloperator() != null){
+        if (compareexpressionContext.methodcallexpression() != null) {
+            if (compareexpressionContext.logicaloperator() != null) {
                 return new Binary(compareexpressionContext.logicaloperator().getText(), new LocalOrFieldVar(new Type(""), compareexpressionContext.methodcallexpression().getText()), convertToCompareExpression(compareexpressionContext.compareexpression()));
-            }else{
+            } else {
                 return new LocalOrFieldVar(new Type("Boolean"), compareexpressionContext.methodcallexpression().getText());
             }
-        }
-        else{ //expression
-            if(compareexpressionContext.logicaloperator() !=null){
-                return new Binary(compareexpressionContext.logicaloperator().getText(), new Binary(compareexpressionContext.compareoperator().getText(), convertToExpression1(compareexpressionContext.expression1()) , convertToExpression2(compareexpressionContext.expression2())), convertToCompareExpression(compareexpressionContext.compareexpression()));
-            }else{
+        } else { //expression
+            if (compareexpressionContext.logicaloperator() != null) {
+                return new Binary(compareexpressionContext.logicaloperator().getText(), new Binary(compareexpressionContext.compareoperator().getText(), convertToExpression1(compareexpressionContext.expression1()), convertToExpression2(compareexpressionContext.expression2())), convertToCompareExpression(compareexpressionContext.compareexpression()));
+            } else {
                 return new Binary(compareexpressionContext.compareoperator().getText(), convertToExpression1(compareexpressionContext.expression1()), convertToExpression2(compareexpressionContext.expression2()));
             }
         }
     }
 
-    private static IExpr convertToExpression1(Compiler_grammarParser.Expression1Context expression1Context){
+    private static IExpr convertToExpression1(Compiler_grammarParser.Expression1Context expression1Context) {
         return convertToExpression(expression1Context.expression());
     }
 
-    private static IExpr convertToExpression2(Compiler_grammarParser.Expression2Context expression2Context){
+    private static IExpr convertToExpression2(Compiler_grammarParser.Expression2Context expression2Context) {
         return convertToExpression(expression2Context.expression());
     }
 
     private static List<IStmt> convertToLocalVarDecls(Compiler_grammarParser.LocalvariabledeclarationContext localVarContext) {
-        if(localVarContext.variabledeclarators() == null) return new ArrayList<IStmt>();
+        if (localVarContext.variabledeclarators() == null) return new ArrayList<IStmt>();
         Type type = getType(localVarContext.type());
-        return convertToLocalVarDecls(localVarContext.variabledeclarators(),type);
+        return convertToLocalVarDecls(localVarContext.variabledeclarators(), type);
     }
 
-    private static List<IStmt> convertToLocalVarDecls(Compiler_grammarParser.VariabledeclaratorsContext variabledeclarators,Type type) {
+    private static List<IStmt> convertToLocalVarDecls(Compiler_grammarParser.VariabledeclaratorsContext variabledeclarators, Type type) {
         List<IStmt> stmts = new ArrayList<>();
-        stmts.add(convertToLocalVarDecl(variabledeclarators.variabledeclarator(),type));
-        if(variabledeclarators.variabledeclarators() == null) return stmts;
-        stmts.addAll(convertToLocalVarDecls(variabledeclarators.variabledeclarators(),type));
+        stmts.add(convertToLocalVarDecl(variabledeclarators.variabledeclarator(), type));
+        if (variabledeclarators.variabledeclarators() == null) return stmts;
+        stmts.addAll(convertToLocalVarDecls(variabledeclarators.variabledeclarators(), type));
         return stmts;
     }
-    private static IStmt convertToLocalVarDecl(Compiler_grammarParser.VariabledeclaratorContext variabledeclaratorContext,Type type){
+
+    private static IStmt convertToLocalVarDecl(Compiler_grammarParser.VariabledeclaratorContext variabledeclaratorContext, Type type) {
         String name = variabledeclaratorContext.IDENTIFIER().getText();
-        if(variabledeclaratorContext.assignmentexpression() == null) return new LocalOrFieldVar(type,name);
+        if (variabledeclaratorContext.assignmentexpression() == null) return new LocalOrFieldVar(type, name);
         IExpr stmtExpr = convertToAssignExpr(variabledeclaratorContext.assignmentexpression());
-        return new Assign(new LeftSideExpr(new LocalOrFieldVar(type,name)),stmtExpr);
+        return new Assign(new LeftSideExpr(new LocalOrFieldVar(type, name)), stmtExpr);
     }
 
     private static IExpr convertToAssignExpr(Compiler_grammarParser.AssignmentexpressionContext assignmentexpressionContext) {
-        if(assignmentexpressionContext.expression() != null){
+        if (assignmentexpressionContext.expression() != null) {
             return convertToExpression(assignmentexpressionContext.expression());
         }
-        if(assignmentexpressionContext.preincrementexpression() != null){
-            return new Binary("+",new IntegerLit(1),
-                    new LocalOrFieldVar(new Type("int"),assignmentexpressionContext.preincrementexpression().name().getText()));
+        if (assignmentexpressionContext.preincrementexpression() != null) {
+            return new Binary("+", new IntegerLit(1),
+                    new LocalOrFieldVar(new Type("int"), assignmentexpressionContext.preincrementexpression().name().getText()));
         }
-        if(assignmentexpressionContext.predecrementexpression() != null){
+        if (assignmentexpressionContext.predecrementexpression() != null) {
             return new Binary("-",
-                    new LocalOrFieldVar(new Type("int"),assignmentexpressionContext.predecrementexpression().name().getText()),new IntegerLit(1));
+                    new LocalOrFieldVar(new Type("int"), assignmentexpressionContext.predecrementexpression().name().getText()), new IntegerLit(1));
         }
-        if(assignmentexpressionContext.postincrementexpression() != null){
-            return new Binary("+",new IntegerLit(1),
-                    new LocalOrFieldVar(new Type("int"),assignmentexpressionContext.postincrementexpression().name().getText()));
+        if (assignmentexpressionContext.postincrementexpression() != null) {
+            return new Binary("+", new IntegerLit(1),
+                    new LocalOrFieldVar(new Type("int"), assignmentexpressionContext.postincrementexpression().name().getText()));
         }
-        if(assignmentexpressionContext.postdecrementexpression() != null){
+        if (assignmentexpressionContext.postdecrementexpression() != null) {
             return new Binary("-",
-                    new LocalOrFieldVar(new Type("int"),assignmentexpressionContext.postdecrementexpression().name().getText()),new IntegerLit(1));
+                    new LocalOrFieldVar(new Type("int"), assignmentexpressionContext.postdecrementexpression().name().getText()), new IntegerLit(1));
         }
-        if(assignmentexpressionContext.methodcallexpression() != null){
+        if (assignmentexpressionContext.methodcallexpression() != null) {
             return convertToMethodCall(assignmentexpressionContext.methodcallexpression());
-        }
-        else{ //assignmentexpressionContext.newexpression() != null
+        } else { //assignmentexpressionContext.newexpression() != null
 
         }
     }
-
 
 
     private static IExpr convertToMethodCall(Compiler_grammarParser.MethodcallexpressionContext methodcallexpression) {
         List<IExpr> arguments = new ArrayList<>();
-        if(methodcallexpression.argumentlist() != null) arguments = convertToArgumentList(methodcallexpression.argumentlist());
-        if(methodcallexpression.THIS() != null){
-            return new MethodCall(new This(),methodcallexpression.IDENTIFIER().getText(),arguments);
+        if (methodcallexpression.argumentlist() != null)
+            arguments = convertToArgumentList(methodcallexpression.argumentlist());
+        if (methodcallexpression.THIS() != null) {
+            return new MethodCall(new This(), methodcallexpression.IDENTIFIER().getText(), arguments);
         }
-        if(methodcallexpression.newexpression() != null){
-            return new MethodCall(new LocalOrFieldVar(methodcallexpression.newexpression().name(),"new Object"),)
+        if (methodcallexpression.newexpression() != null) {
+            List<IExpr> constructorArgs = methodcallexpression.newexpression().argumentlist() != null ?
+                    convertToArgumentList(methodcallexpression.newexpression().argumentlist()) : new ArrayList<>();
+            List<IExpr> methodArgs = methodcallexpression.argumentlist() != null ?
+                    convertToArgumentList(methodcallexpression.argumentlist()) : new ArrayList<>();
+            return new MethodCall(new New(new Type(methodcallexpression.newexpression().name().getText()), constructorArgs),
+                    methodcallexpression.IDENTIFIER().getText(), methodArgs);
         }
     }
 
     private static IExpr convertToExpression(Compiler_grammarParser.ExpressionContext expression) {
-        if(expression.IDENTIFIER() != null){
-            if(expression.PLUS() != null) return new Binary("+",
-                    new LocalOrFieldVar(new Type(""),expression.IDENTIFIER().getText()),
+        if (expression.IDENTIFIER() != null) {
+            if (expression.PLUS() != null) return new Binary("+",
+                    new LocalOrFieldVar(new Type(""), expression.IDENTIFIER().getText()),
                     convertToExpression(expression.expression()));
 
-            if(expression.MINUS() != null) return new Binary("-",
-                    new LocalOrFieldVar(new Type(""),expression.IDENTIFIER().getText()),
+            if (expression.MINUS() != null) return new Binary("-",
+                    new LocalOrFieldVar(new Type(""), expression.IDENTIFIER().getText()),
                     convertToExpression(expression.expression()));
 
-            if(expression.MUL() != null) return new Binary("*",
-                    new LocalOrFieldVar(new Type(""),expression.IDENTIFIER().getText()),
+            if (expression.MUL() != null) return new Binary("*",
+                    new LocalOrFieldVar(new Type(""), expression.IDENTIFIER().getText()),
                     convertToExpression(expression.expression()));
 
-            if(expression.DIV() != null) return new Binary("/",
-                    new LocalOrFieldVar(new Type(""),expression.IDENTIFIER().getText()),
+            if (expression.DIV() != null) return new Binary("/",
+                    new LocalOrFieldVar(new Type(""), expression.IDENTIFIER().getText()),
                     convertToExpression(expression.expression()));
 
-            if(expression.MOD() != null) return new Binary("%",
-                    new LocalOrFieldVar(new Type(""),expression.IDENTIFIER().getText()),
+            if (expression.MOD() != null) return new Binary("%",
+                    new LocalOrFieldVar(new Type(""), expression.IDENTIFIER().getText()),
                     convertToExpression(expression.expression()));
 
-            return new LocalOrFieldVar(new Type(""),expression.IDENTIFIER().getText());
+            return new LocalOrFieldVar(new Type(""), expression.IDENTIFIER().getText());
         }
         //expression.literal() != null
-        if(expression.PLUS() != null) return new Binary("+",
+        if (expression.PLUS() != null) return new Binary("+",
                 convertToLiteral(expression.literal()),
                 convertToExpression(expression.expression()));
 
-        if(expression.MINUS() != null) return new Binary("-",
+        if (expression.MINUS() != null) return new Binary("-",
                 convertToLiteral(expression.literal()),
                 convertToExpression(expression.expression()));
 
-        if(expression.MUL() != null) return new Binary("*",
+        if (expression.MUL() != null) return new Binary("*",
                 convertToLiteral(expression.literal()),
                 convertToExpression(expression.expression()));
 
-        if(expression.DIV() != null) return new Binary("/",
+        if (expression.DIV() != null) return new Binary("/",
                 convertToLiteral(expression.literal()),
                 convertToExpression(expression.expression()));
 
-        if(expression.MOD() != null) return new Binary("%",
+        if (expression.MOD() != null) return new Binary("%",
                 convertToLiteral(expression.literal()),
                 convertToExpression(expression.expression()));
-        return new Unary("",convertToLiteral(expression.literal()));
+        return new Unary("", convertToLiteral(expression.literal()));
     }
 
     private static IExpr convertToLiteral(Compiler_grammarParser.LiteralContext literal) {
-        if(literal.INTLITERAL() != null) return new IntegerLit(Integer.parseInt(literal.INTLITERAL().getText()));
-        if(literal.BOOLLITERAL() != null) return new BoolLit(literal.BOOLLITERAL().getText().equals("true"));
-        if(literal.CHARLITERAL() != null) return new CharLit(literal.CHARLITERAL().getText().charAt(0));
-        if(literal.STRINGLITERAL() != null) return new StringLit(literal.STRINGLITERAL().getText());
+        if (literal.INTLITERAL() != null) return new IntegerLit(Integer.parseInt(literal.INTLITERAL().getText()));
+        if (literal.BOOLLITERAL() != null) return new BoolLit(literal.BOOLLITERAL().getText().equals("true"));
+        if (literal.CHARLITERAL() != null) return new CharLit(literal.CHARLITERAL().getText().charAt(0));
+        if (literal.STRINGLITERAL() != null) return new StringLit(literal.STRINGLITERAL().getText());
         return new JNull();
     }
 

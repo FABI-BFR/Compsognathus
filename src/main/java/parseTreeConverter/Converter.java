@@ -12,6 +12,7 @@ import semantikCheck.stmtexpr.Assign;
 import semantikCheck.stmtexpr.LeftSideExpr;
 import semantikCheck.stmtexpr.MethodCall;
 import semantikCheck.stmtexpr.New;
+
 import java.util.ArrayList;
 
 
@@ -34,21 +35,23 @@ public class Converter {
         List<Method> methods = new ArrayList<>();
         List<Field> fields = new ArrayList<>();
         List<Constructor> constructors = new ArrayList<>();
-        if (!classContext.classbody().isEmpty()) {
-            classContext.classbody()
-                    .classbodydeclarations()
-                    .classbodydeclaration()
-                    .forEach(classbodydeclarationContext -> {
-                        if (!classbodydeclarationContext.isEmpty()) {
-                            if (classbodydeclarationContext.methoddeclaration() != null) {
-                                methods.add(convertToMethod(classbodydeclarationContext.methoddeclaration()));
-                            } else if (classbodydeclarationContext.fielddeclaration() != null) {
-                                fields.addAll(convertToFields(classbodydeclarationContext.fielddeclaration()));
-                            } else if (classbodydeclarationContext.constructordeclaration() != null) {
-                                constructors.add(convertToConstructor(classbodydeclarationContext.constructordeclaration()));
+        if (classContext.classbody() != null) {
+            if (classContext.classbody().classbodydeclarations() != null) {
+                classContext.classbody()
+                        .classbodydeclarations()
+                        .classbodydeclaration()
+                        .forEach(classbodydeclarationContext -> {
+                            if (!classbodydeclarationContext.isEmpty()) {
+                                if (classbodydeclarationContext.methoddeclaration() != null) {
+                                    methods.add(convertToMethod(classbodydeclarationContext.methoddeclaration()));
+                                } else if (classbodydeclarationContext.fielddeclaration() != null) {
+                                    fields.addAll(convertToFields(classbodydeclarationContext.fielddeclaration()));
+                                } else if (classbodydeclarationContext.constructordeclaration() != null) {
+                                    constructors.add(convertToConstructor(classbodydeclarationContext.constructordeclaration()));
+                                }
                             }
-                        }
-                    });
+                        });
+            }
         } else if (classContext.classbody().isEmpty()) {
             return new Class(classContext.CLASSIDENTIFIER().getText(),
                     null,
@@ -134,8 +137,9 @@ public class Converter {
         if (header.methoddeclarator().formalparameterlist() != null) {
             parameters.addAll(convertToParameters(header.methoddeclarator().formalparameterlist()));
         }
+
         Block body = new Block(new ArrayList<>());
-        if (methodcontext.methodbody().isEmpty()) {
+        if (methodcontext.methodbody() != null) {
             body = convertToBlock(methodcontext.methodbody().block());
         }
         if (header.type() == null) {
@@ -146,7 +150,10 @@ public class Converter {
 
     private static Block convertToBlock(Compiler_grammarParser.BlockContext blockContext) {
         List<IStmt> stmts = new ArrayList<>();
-        if (blockContext.blockstatements() == null) return new Block(new ArrayList<>());
+        if (blockContext.blockstatements() == null) {
+            stmts.add(new EmptyStmt());
+            return new Block(stmts);
+        }
         blockContext.blockstatements().blockstatement().forEach(blockstatementContext -> {
                     if (blockstatementContext.localvariabledeclaration() != null) {
                         stmts.addAll(convertToLocalVarDecls(blockstatementContext.localvariabledeclaration()));
@@ -220,7 +227,7 @@ public class Converter {
             return convertToEmptyStatement();
         }
         if (statementwithoutrailingsubstatementContext.expressionstatement() != null) {
-            return convertToExpressionStatement(statementwithoutrailingsubstatementContext.expressionstatement());
+            return new StmtExprStmt(convertToExpressionStatement(statementwithoutrailingsubstatementContext.expressionstatement())) ;
         } else { //returnstatement
             return convertToReturnStatement(statementwithoutrailingsubstatementContext.returnstatement());
         }
@@ -230,8 +237,8 @@ public class Converter {
         return new EmptyStmt();
     }
 
-    private static IStmtExpr convertToExpressionStatement(Compiler_grammarParser.ExpressionstatementContext expressionstatementContext) {
-        return (IStmtExpr) convertToStatementExpression(expressionstatementContext.statementexpression());
+    private static IExpr convertToExpressionStatement(Compiler_grammarParser.ExpressionstatementContext expressionstatementContext) {
+        return convertToStatementExpression(expressionstatementContext.statementexpression());
     }
 
     private static IExpr convertToStatementExpression(Compiler_grammarParser.StatementexpressionContext statementexpressionContext) {
@@ -277,7 +284,7 @@ public class Converter {
     }
 
     private static List<IExpr> convertToArgumentList(Compiler_grammarParser.ArgumentlistContext argumentlist) {
-        if (argumentlist.expression() == null) return new ArrayList<>();
+        if (argumentlist == null || argumentlist.expression() == null) return new ArrayList<>();
         List<IExpr> exprs = new ArrayList<>();
         exprs.add(convertToExpression(argumentlist.expression()));
         exprs.addAll(convertToArgumentList(argumentlist.argumentlist()));
@@ -416,10 +423,10 @@ public class Converter {
             return new MethodCall(new New(new Type(methodcallexpression.newexpression().name().getText()), constructorArgs),
                     methodcallexpression.IDENTIFIER().getText(), arguments);
         }
-        if(methodcallexpression.IDENTIFIER() != null){
-            return new MethodCall(convertToName(methodcallexpression.name()),methodcallexpression.IDENTIFIER().getText(),arguments);
-        }else{
-            return new MethodCall(new This(),methodcallexpression.name().getText(),arguments);
+        if (methodcallexpression.IDENTIFIER() != null) {
+            return new MethodCall(convertToName(methodcallexpression.name()), methodcallexpression.IDENTIFIER().getText(), arguments);
+        } else {
+            return new MethodCall(new This(), methodcallexpression.name().getText(), arguments);
         }
     }
 
@@ -480,6 +487,7 @@ public class Converter {
 
     private static List<Parameter> convertToParameters(Compiler_grammarParser.FormalparameterlistContext parameterListContext) {
         List<Parameter> parameters = new ArrayList<>();
+        if(parameterListContext == null) return parameters;
         parameters.add(convertToParameter(parameterListContext.formalparameter()));
         if (parameterListContext.formalparameterlist() == null) return parameters;
         parameters.addAll(convertToParameters(parameterListContext.formalparameterlist()));

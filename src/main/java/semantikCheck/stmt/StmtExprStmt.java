@@ -3,24 +3,28 @@ package semantikCheck.stmt;
 import semantikCheck.Class;
 import semantikCheck.Parameter;
 import semantikCheck.Type;
+import semantikCheck.interfaces.IExpr;
 import semantikCheck.interfaces.IStmt;
 
 import java.util.List;
 
-public class EmptyStmt implements IStmt {
-    final Type type;
+public class StmtExprStmt implements IStmt {
+    IExpr expression;
+    Type type;
+    public StmtExprStmt(IExpr expression){
+        this.expression = expression;
+    }
+
     @Override
     public Type getType() {
-        return type ;
+        return type;
     }
 
     @Override
     public void setType(Type type) {
+        this.type = type;
+    }
 
-    }
-    public EmptyStmt(){
-        this.type = new Type("null");
-    }
     @Override
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
 

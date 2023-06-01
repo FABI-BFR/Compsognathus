@@ -403,7 +403,7 @@ public class Converter {
         if (assignmentexpressionContext.methodcallexpression() != null) {
             return convertToMethodCall(assignmentexpressionContext.methodcallexpression());
         } else { //assignmentexpressionContext.newexpression() != null
-
+            return convertToNewExpression(assignmentexpressionContext.newexpression());
         }
     }
 

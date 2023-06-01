@@ -26,7 +26,7 @@ public class TestMain {
         Program pg = Converter.convertToProgram(tree);*/
 
 
-        String folderpath = "../exampleClasses";
+        String folderpath = "src/main/test/exampleClasses";
         List<File> fileList = listFilesInFolder(folderpath);
         System.out.println("hallo");
     }

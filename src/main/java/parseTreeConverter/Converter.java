@@ -178,9 +178,8 @@ public class Converter {
             return convertToWhileStatement(statementContext.whilestatement());
         }
         else{ //statementwithoutrailingsubstatement
-
+            return convertToStatementWithoutRailingSubStatement(statementContext.statementwithoutrailingsubstatement());
         }
-
     }
 
     private static IStmt convertToIfStatement(Compiler_grammarParser.IfstatementContext ifstatementContext){
@@ -222,6 +221,21 @@ public class Converter {
         }
     }
 
+    private static IStmt convertToEmptyStatement(Compiler_grammarParser.EmptystatementContext emptystatementContext){
+        return null; //Was soll ich hier returnen? Gibt nur Semicolon
+    }
+
+    private static IStmt convertToExpressionStatement(Compiler_grammarParser.ExpressionstatementContext expressionstatementContext){
+        return convertToStatementExpression(expressionstatementContext.statementexpression());
+    }
+
+    private static IStmt convertToReturnStatement(Compiler_grammarParser.ReturnstatementContext returnstatementContext){
+        if(returnstatementContext.expression() != null){
+            return new Return(convertToExpression(returnstatementContext.expression()));
+        }else{
+            return null; //richtig so?
+        }
+    }
     private static IExpr convertToCompareExpression(Compiler_grammarParser.CompareexpressionContext compareexpressionContext){
         if(compareexpressionContext.name() != null){
             if(compareexpressionContext.logicaloperator() != null){

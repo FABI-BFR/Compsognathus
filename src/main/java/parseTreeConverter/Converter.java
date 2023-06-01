@@ -93,10 +93,7 @@ public class Converter {
         }
 
         List<Parameter> parameters = getParameter(head.formalparameterlist());
-
-        //Todo Block
-        //Block block = getBlock(body.block());
-        Block block = new Block(new ArrayList<>());
+        Block block = body.block() != null ? convertToBlock(body.block()) : new Block(new ArrayList<>());
 
         return new Constructor(name, parameters, block, access);
     }

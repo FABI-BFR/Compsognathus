@@ -418,10 +418,13 @@ public class Converter {
         if (methodcallexpression.newexpression() != null) {
             List<IExpr> constructorArgs = methodcallexpression.newexpression().argumentlist() != null ?
                     convertToArgumentList(methodcallexpression.newexpression().argumentlist()) : new ArrayList<>();
-            List<IExpr> methodArgs = methodcallexpression.argumentlist() != null ?
-                    convertToArgumentList(methodcallexpression.argumentlist()) : new ArrayList<>();
             return new MethodCall(new New(new Type(methodcallexpression.newexpression().name().getText()), constructorArgs),
-                    methodcallexpression.IDENTIFIER().getText(), methodArgs);
+                    methodcallexpression.IDENTIFIER().getText(), arguments);
+        }
+        if(methodcallexpression.IDENTIFIER() != null){
+            return new MethodCall(convertToName(methodcallexpression.name()),methodcallexpression.IDENTIFIER().getText(),arguments);
+        }else{
+            return new MethodCall(new This(),methodcallexpression.name().getText(),arguments);
         }
     }
 

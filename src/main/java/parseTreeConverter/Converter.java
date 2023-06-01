@@ -7,12 +7,10 @@ import semantikCheck.expr.*;
 import semantikCheck.interfaces.IExpr;
 import semantikCheck.interfaces.IStmt;
 import semantikCheck.interfaces.IStmtExpr;
-import semantikCheck.stmt.Block;
-import semantikCheck.stmt.If;
-import semantikCheck.stmt.Return;
-import semantikCheck.stmt.While;
+import semantikCheck.stmt.*;
 import semantikCheck.stmtexpr.Assign;
 import semantikCheck.stmtexpr.LeftSideExpr;
+import semantikCheck.stmtexpr.New;
 
 import javax.swing.plaf.nimbus.State;
 import java.io.InputStream;
@@ -202,7 +200,7 @@ public class Converter {
             return convertToIfElseStatementNoShortIf(statementnoshortifContext.ifelsestatementnoshortif());
         }
         else { //whilestatementnoshortif
-            return convertToWhileStatementNoShortif(statementnoshortifContext.whilestatementnoshortif());
+            return convertToWhileStatementNoShortIf(statementnoshortifContext.whilestatementnoshortif());
         }
     }
 
@@ -218,7 +216,7 @@ public class Converter {
         return convertToStatementNoShortIf(statementnoshortif2Context.statementnoshortif());
     }
 
-    private static IStmt convertToWhileStatementNoShortif(Compiler_grammarParser.WhilestatementnoshortifContext whilestatementnoshortifContext){
+    private static IStmt convertToWhileStatementNoShortIf(Compiler_grammarParser.WhilestatementnoshortifContext whilestatementnoshortifContext){
         return new While(convertToCompareExpression(whilestatementnoshortifContext.compareexpression()), convertToStatementNoShortIf(whilestatementnoshortifContext.statementnoshortif()));
     }
 
@@ -238,11 +236,74 @@ public class Converter {
     }
 
     private static IStmt convertToEmptyStatement(Compiler_grammarParser.EmptystatementContext emptystatementContext){
-        return null; //Was soll ich hier returnen? Gibt nur Semicolon
+        return new EmptyStmt();
     }
 
-    private static IStmt convertToExpressionStatement(Compiler_grammarParser.ExpressionstatementContext expressionstatementContext){
-        return convertToStatementExpression(expressionstatementContext.statementexpression());
+    private static IStmtExpr convertToExpressionStatement(Compiler_grammarParser.ExpressionstatementContext expressionstatementContext){
+        return (IStmtExpr) convertToStatementExpression(expressionstatementContext.statementexpression());
+    }
+
+    private static IExpr convertToStatementExpression(Compiler_grammarParser.StatementexpressionContext statementexpressionContext){
+        if(statementexpressionContext.expression() != null){
+            return convertToExpression(statementexpressionContext.expression());
+        }
+        if(statementexpressionContext.assignment() != null){
+            return convertToAssignment(statementexpressionContext.assignment());
+        }
+        if(statementexpressionContext.preincrementexpression() != null){
+            return new Binary("+",new IntegerLit(1),
+                    new LocalOrFieldVar(new Type("int"),statementexpressionContext.preincrementexpression().name().getText()));
+        }
+        if(statementexpressionContext.predecrementexpression() != null){
+            return new Binary("-",
+                    new LocalOrFieldVar(new Type("int"),statementexpressionContext.predecrementexpression().name().getText()),new IntegerLit(1));
+        }
+        if(statementexpressionContext.postincrementexpression() != null){
+            return new Binary("+",new IntegerLit(1),
+                    new LocalOrFieldVar(new Type("int"),statementexpressionContext.postincrementexpression().name().getText()));
+        }
+        if(statementexpressionContext.postdecrementexpression() != null){
+            return new Binary("-",
+                    new LocalOrFieldVar(new Type("int"),statementexpressionContext.postdecrementexpression().name().getText()),new IntegerLit(1));
+        }
+        if(statementexpressionContext.methodcallexpression() != null){
+            //@TODO Methodcall überarbeiten
+        }
+        else{ //newexpression
+            return convertToNewExpression(statementexpressionContext.newexpression());
+        }
+    }
+
+    private static IExpr convertToAssignment(Compiler_grammarParser.AssignmentContext assignmentContext){
+        return new Assign((LeftSideExpr) convertToName(assignmentContext.name()) , convertToAssignExpr(assignmentContext.assignmentexpression()));
+    }
+
+    private static IExpr convertToNewExpression(Compiler_grammarParser.NewexpressionContext newexpressionContext){
+        if(newexpressionContext.argumentlist() != null){
+            return new New(new Type(newexpressionContext.name().getText()), convertToArgumentList(newexpressionContext.argumentlist()));
+        }
+        else{
+            return new New(new Type(newexpressionContext.name().getText()), null);
+        }
+    }
+
+
+
+    private static IExpr convertToName(Compiler_grammarParser.NameContext nameContext){
+        if(nameContext.simplename() != null) {
+            return convertToSimpleName(nameContext.simplename());
+        }
+        else{ //qualifiedname
+            return convertToQualifiedName(nameContext.qualifiedname());
+        }
+    }
+
+    private static IExpr convertToSimpleName(Compiler_grammarParser.SimplenameContext simplenameContext){
+        return new LocalOrFieldVar(new Type(""),simplenameContext.IDENTIFIER().getText());
+    }
+
+    private static IExpr convertToQualifiedName(Compiler_grammarParser.QualifiednameContext qualifiednameContext){
+        return new LocalOrFieldVar(new Type(""), qualifiednameContext.IDENTIFIER().getText());
     }
 
     private static IStmt convertToReturnStatement(Compiler_grammarParser.ReturnstatementContext returnstatementContext){

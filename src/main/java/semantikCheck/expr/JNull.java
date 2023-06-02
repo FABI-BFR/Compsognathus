@@ -25,4 +25,7 @@ public class JNull implements IExpr {
         type = new Type("null");
 
     }
+    public String toString(String indent) {
+        return indent + "Type: Jnull\n";
+    }
 }

@@ -9,23 +9,24 @@ public class Parameter {
         this.name = name;
     }
 
-    public Type getType()
-    {
+    public Type getType() {
         return type;
     }
 
-    public void setType(Type type)
-    {
+    public void setType(Type type) {
         this.type = type;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
+    }
+
+    public String toString(String indent) {
+        return indent + "Type:" + type + "\n"
+                + indent + "Name:" + name + "\n";
     }
 }

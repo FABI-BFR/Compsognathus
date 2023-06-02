@@ -12,10 +12,11 @@ public class Constructor implements SemChecker {
     private Block statement;
     private Access access;
 
-    public Constructor ( String name, List<Parameter> parameter, Block statement) {
-        this( name, parameter, statement, Access.PUBLIC);
+    public Constructor(String name, List<Parameter> parameter, Block statement) {
+        this(name, parameter, statement, Access.PUBLIC);
     }
-    public Constructor ( String name, List<Parameter> parameter, Block statement, Access access) {
+
+    public Constructor(String name, List<Parameter> parameter, Block statement, Access access) {
         this.name = name;
         this.parameter = new ArrayList<>();
         if (parameter != null && !parameter.isEmpty()) {
@@ -24,54 +25,58 @@ public class Constructor implements SemChecker {
         this.statement = statement;
         if (access == null) {
             this.access = Access.PUBLIC;
-        }
-        else
-        {
+        } else {
             this.access = access;
         }
     }
-    public String getName()
-    {
+
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public List<Parameter> getParameter()
-    {
+    public List<Parameter> getParameter() {
         return parameter;
     }
 
-    public void setParameter(List<Parameter> parameter)
-    {
+    public void setParameter(List<Parameter> parameter) {
         this.parameter = parameter;
     }
 
-    public Block getStatement()
-    {
+    public Block getStatement() {
         return statement;
     }
 
-    public void setStatement(Block statement)
-    {
+    public void setStatement(Block statement) {
         this.statement = statement;
     }
 
-    public Access getAccess()
-    {
+    public Access getAccess() {
         return access;
     }
 
-    public void setAccess(Access access)
-    {
+    public void setAccess(Access access) {
         this.access = access;
     }
 
     @Override
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
 
+    }
+
+    public String toString(String indent) {
+        String constructor = "";
+        constructor += indent + "Name:" + name + "\n";
+        constructor += indent + "Access:" + access.toString(indent + "\t") + "\n";
+        constructor += indent + "Parameter:\n";
+        for (Parameter p : parameter) {
+            constructor += p.toString(indent + "\t");
+        }
+        constructor += indent + "Statement:\n"
+                + statement.toString(indent + "\t");
+        return constructor;
     }
 }

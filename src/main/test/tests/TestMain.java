@@ -42,6 +42,7 @@ Immer bei expression über unary zu Literal
         CommonTokenStream token;
         Compiler_grammarParser parser;
         Program pg;
+
         Compiler_grammarParser.CompilationunitContext tree;
         for (File file : fileList) {
             lexer = new Compiler_grammarLexer(CharStreams.fromFileName(file.getPath()));
@@ -49,6 +50,7 @@ Immer bei expression über unary zu Literal
             parser = new Compiler_grammarParser(token);
             tree = parser.compilationunit();
             pg = Converter.convertToProgram(tree);
+            pg.toString("\t");
             writeJsonFile(file,tests.JsonConverter.convertToJson(pg));
         }
     }

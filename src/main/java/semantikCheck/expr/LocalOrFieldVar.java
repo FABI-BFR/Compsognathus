@@ -56,4 +56,10 @@ public class LocalOrFieldVar implements IStmtExpr {
             Checker.addSymbolNotFoundError(currentClass.getName(), name);
         }
     }
+    public String toString(String indent) {
+        String localOrFieldVar = "";
+        localOrFieldVar += indent + "Type" + type.toString(indent+"\t");
+        localOrFieldVar += indent + "Name" + name + "\n";
+        return localOrFieldVar;
+    }
 }

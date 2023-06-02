@@ -37,7 +37,7 @@ public class New implements IStmtExpr {
 
     }
 
-    public boolean isStored () {
+    public boolean isStored() {
         return methodStored;
     }
 
@@ -65,7 +65,7 @@ public class New implements IStmtExpr {
 
         Method tempConstructor = null;
         for (Method m : tempMethod) {
-            if(m.getAccess() == Access.PUBLIC && m.getParameter().size() == parameters.size() && Checker.checkArgument(expressions, m.getParameter())) {
+            if (m.getAccess() == Access.PUBLIC && m.getParameter().size() == parameters.size() && Checker.checkArgument(expressions, m.getParameter())) {
                 tempConstructor = m;
                 break;
             }
@@ -78,5 +78,14 @@ public class New implements IStmtExpr {
         method = tempConstructor;
 
 
+    }
+    public String toString(String indent) {
+        String newS = "";
+        newS += indent +"Type" + type + "\n";
+        newS += indent + "Expressions:\n";
+        for(IExpr e : expressions){
+            newS += e.toString(indent+"\t")+ "\n";
+        }
+        return newS;
     }
 }

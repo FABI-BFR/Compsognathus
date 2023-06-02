@@ -8,5 +8,5 @@ public interface IStmtExpr extends IExpr,IStmt{
 
     void setType(Type type);
 
-
+    String toString(String indent);
 }

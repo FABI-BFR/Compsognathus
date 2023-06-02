@@ -32,4 +32,11 @@ public class Unary implements IExpr {
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
         expression.semCheck(parameters, classes, currentClass);
     }
+    public String toString(String indent) {
+        String unary = "";
+        unary += indent + "Operator:"+operator + "\n";
+        unary += indent + "Expression:\n"
+                + expression.toString(indent+"\t");
+        return unary;
+    }
 }

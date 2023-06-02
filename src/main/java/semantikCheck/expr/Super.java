@@ -25,5 +25,7 @@ public class Super implements IExpr {
         type = new Type("java.lang.Object");
 
     }
-
+    public String toString(String indent) {
+        return indent + "Type" + type.toString(indent+"\t");
+    }
 }

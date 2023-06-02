@@ -5,4 +5,6 @@ import semantikCheck.Type;
 public interface IExpr extends SemChecker{
     Type getType();
     void setType(Type type);
+
+    String toString(String indent);
 }

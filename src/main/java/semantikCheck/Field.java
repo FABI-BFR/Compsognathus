@@ -49,4 +49,13 @@ public class Field {
     {
         this.access = access;
     }
+
+    public String toString(String indent){
+        String program = "";
+        program += indent + "Type:" + type.toString(indent+"\t") + "\n";
+        program += indent+ "Name" + name +"\n";
+        program += indent + "Access" + access.toString(indent+"\t") + "\n";
+
+        return program;
+    }
 }

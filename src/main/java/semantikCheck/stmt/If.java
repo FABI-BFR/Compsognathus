@@ -73,4 +73,14 @@ public class If  implements IStmt {
             }
         }
     }
+
+    public String toString(String indent){
+        String ifstmt = "";
+        ifstmt += indent + "Type: " + type.toString(indent+"\t") + "\n";
+        ifstmt += indent + "Expression:" + expression.toString(indent+"\t") + "\n";
+        ifstmt += indent + "IfStmt:" + ifStmt.toString(indent+"\t");
+        ifstmt += indent + "ElseStmt:" + elseStmt.toString(indent+"\t") +"\n";
+
+        return ifstmt;
+    }
 }

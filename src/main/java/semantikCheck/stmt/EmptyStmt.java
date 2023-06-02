@@ -25,4 +25,8 @@ public class EmptyStmt implements IStmt {
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
 
     }
+
+    public String toString(String indent){
+        return indent + "Type" + type.toString(indent+"\t");
+    }
 }

@@ -98,4 +98,18 @@ public class Method implements SemChecker {
             }
         }
     }
+
+    public String toString(String indent){
+        String method = "";
+        method += indent + "Type: " + type.toString(indent+"\t") + "\n";
+        method += indent + "Name:" + name + "\n";
+        method += indent + "Access:" + access.toString(indent+"\t") + "\n";
+        method += indent + "Parameter:" + "\n";
+        for(Parameter p : parameter){
+            method +=( indent + p.toString(indent+"\t"));
+        }
+        method += indent + "Statement:\n"
+                + statement.toString(indent+"\t") + "\n";
+        return method;
+    }
 }

@@ -29,4 +29,12 @@ public class StmtExprStmt implements IStmt {
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
 
     }
+
+    public String toString(String indent){
+        String stmtExprStmt = "";
+        stmtExprStmt += indent + "Type: " + type.toString(indent+"\t") + "\n";
+        stmtExprStmt += indent + "Expression:" + expression.toString(indent+"\t") + "\n";
+
+        return stmtExprStmt;
+    }
 }

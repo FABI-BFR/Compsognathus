@@ -1,11 +1,11 @@
 public class Main {
     int i;
     String temp;
-    public int i, b;
+    private int i, b;
 
     public Main() {
         this.i = 0;
-        temp = empty;
+        temp = "null";
         int c;
 
     }
@@ -30,7 +30,7 @@ public class Main {
     }
 
     public void doABackflip(){
-        setStringIf(1, 2, true, "fischomat");
+        setStringIf(1, 1, true, "fischomat");
         int f;
         f = geti();
         while(f <= 10){

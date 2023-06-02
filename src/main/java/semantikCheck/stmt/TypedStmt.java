@@ -34,4 +34,12 @@ public class TypedStmt implements IStmt {
     public void setStatement(IStmt statement) {
         this.statement = statement;
     }
+
+    public String toString(String indent){
+        String typedStmt = "";
+        typedStmt += indent + "Type: " + type.toString(indent+"\t") + "\n";
+        typedStmt += indent + "Statement:" + statement.toString(indent+"\t") + "\n";
+
+        return typedStmt;
+    }
 }

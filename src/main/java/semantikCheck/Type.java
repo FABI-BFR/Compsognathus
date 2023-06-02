@@ -16,4 +16,8 @@ public class Type
     {
         this.type = type;
     }
+
+    public String toString(String indent){
+        return type+"\n";
+    }
 }

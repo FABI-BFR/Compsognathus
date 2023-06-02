@@ -56,4 +56,14 @@ public class Block implements IStmt{
         }
 
     }
+
+    public String toString(String indent){
+        String block = "";
+        block += indent + "Type: " + type.toString(indent+"\t") + "\n";
+        block += indent + "Statements:" + "\n";
+        for(IStmt s : statements) {
+            block += (indent + s.toString(indent + "\t"));
+        }
+        return block;
+    }
 }

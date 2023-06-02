@@ -7,6 +7,7 @@ import semantikCheck.expr.LocalOrFieldVar;
 import semantikCheck.expr.Super;
 import semantikCheck.expr.This;
 import semantikCheck.interfaces.IExpr;
+import semantikCheck.interfaces.IStmt;
 import semantikCheck.interfaces.IStmtExpr;
 
 import java.util.ArrayList;
@@ -111,5 +112,18 @@ public class MethodCall implements IStmtExpr {
         method = parameterMethod;
         type = parameterMethod.getType();
 
+    }
+
+    public String toString(String indent){
+        String methodCall = "";
+        methodCall += indent + "Type:" + type.toString(indent+"\t") + "\n";
+        methodCall += indent + "Name:" + name + "\n";
+        methodCall += indent + "Objekt:" + object.toString(indent+"\t") + "\n";
+        methodCall += indent + "Parameters:" + "\n";
+        for(IExpr p : parameters){
+            methodCall += (indent + p.toString(indent + "\t") + "\n");
+        }
+
+        return methodCall;
     }
 }

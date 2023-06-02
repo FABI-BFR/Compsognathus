@@ -1,0 +1,42 @@
+Program: {
+Classes: [
+	Class: {
+	Name: ClassWithMethdWithParameter
+	Access: public
+	Fields: [
+	]
+	Methods: [
+		Method: {
+		Type: void
+		Name: doSomething
+		Access: public
+		Parameter: [
+			Parameter: {
+			Type: int
+			Name: parameterInt
+			}
+		]
+		Statement: {
+			Block: {
+				Return: {
+				Expression: 
+					JNull: {}
+				}
+			}
+		}
+		}
+	]
+	Constructors: [
+		Constructor: {
+		Name: ClassWithMethdWithParameter
+		Access: public
+		Parameter: [
+		]
+		Statement: 
+			Block: {
+			}
+		}
+	]
+	}
+]
+}

@@ -1,0 +1,45 @@
+Program: {
+Classes: [
+	Class: {
+	Name: ClassWithMethodWithoutParametsReturnsString
+	Access: public
+	Fields: [
+	]
+	Methods: [
+		Method: {
+		Type: String
+		Name: getString
+		Access: public
+		Parameter: [
+		]
+		Statement: {
+			Block: {
+				Return: {
+				Expression: 
+					Unary: {
+					Operator: 
+					Expression: 
+						StringLit: {
+						Type: String
+						Value: "Hallo"
+						}
+					}
+				}
+			}
+		}
+		}
+	]
+	Constructors: [
+		Constructor: {
+		Name: ClassWithMethodWithoutParametsReturnsString
+		Access: public
+		Parameter: [
+		]
+		Statement: 
+			Block: {
+			}
+		}
+	]
+	}
+]
+}

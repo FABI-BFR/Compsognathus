@@ -1,0 +1,47 @@
+Program: {
+Classes: [
+	Class: {
+	Name: WhileLoop
+	Access: public
+	Fields: [
+	]
+	Methods: [
+		Method: {
+		Type: void
+		Name: doSomething
+		Access: public
+		Parameter: [
+		]
+		Statement: {
+			Block: {
+				While: { 
+				Expression: 
+					BoolLit: {
+					Type: Boolean
+					Value: true
+					}
+				Statement: 
+					Block: {
+						EmptyStatement: {
+						Type: null
+						}
+					}
+				}
+			}
+		}
+		}
+	]
+	Constructors: [
+		Constructor: {
+		Name: WhileLoop
+		Access: public
+		Parameter: [
+		]
+		Statement: 
+			Block: {
+			}
+		}
+	]
+	}
+]
+}

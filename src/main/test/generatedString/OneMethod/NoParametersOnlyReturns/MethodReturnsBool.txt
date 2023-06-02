@@ -1,0 +1,45 @@
+Program: {
+Classes: [
+	Class: {
+	Name: ClassWithMethodWithoutParametsReturnsBool
+	Access: public
+	Fields: [
+	]
+	Methods: [
+		Method: {
+		Type: boolean
+		Name: getBool
+		Access: public
+		Parameter: [
+		]
+		Statement: {
+			Block: {
+				Return: {
+				Expression: 
+					Unary: {
+					Operator: 
+					Expression: 
+						BoolLit: {
+						Type: Boolean
+						Value: true
+						}
+					}
+				}
+			}
+		}
+		}
+	]
+	Constructors: [
+		Constructor: {
+		Name: ClassWithMethodWithoutParametsReturnsBool
+		Access: public
+		Parameter: [
+		]
+		Statement: 
+			Block: {
+			}
+		}
+	]
+	}
+]
+}

@@ -38,8 +38,8 @@ public class TypedStmt implements IStmt {
     public String toString(String indent){
         String typedStmt = "";
         typedStmt += indent + "Type: " + type.toString(indent+"\t") + "\n";
-        typedStmt += indent + "Statement:" + statement.toString(indent+"\t") + "\n";
+        typedStmt += indent + "Statement: " + statement.toString(indent+"\t") + "\n";
 
-        return typedStmt;
+        return typedStmt + "\n";
     }
 }

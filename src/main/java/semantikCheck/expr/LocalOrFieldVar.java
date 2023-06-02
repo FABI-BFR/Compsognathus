@@ -57,9 +57,10 @@ public class LocalOrFieldVar implements IStmtExpr {
         }
     }
     public String toString(String indent) {
-        String localOrFieldVar = "";
-        localOrFieldVar += indent + "Type" + type.toString(indent+"\t");
-        localOrFieldVar += indent + "Name" + name + "\n";
-        return localOrFieldVar;
+        String localOrFieldVar = indent+"LocalOrFieldVar: {\n";
+        if(type.getType() != "")localOrFieldVar += indent + "Type:"
+                + type.toString(indent+"\t" )+ "\n";
+        localOrFieldVar += indent + "Name: " + name + "\n";
+        return localOrFieldVar + indent+"}\n";
     }
 }

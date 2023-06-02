@@ -121,9 +121,9 @@ public class MethodCall implements IStmtExpr {
                 + object.toString(indent+"\t"); //+"\n"
         methodCall += indent + "Parameters: [" + "\n";
         for(IExpr p : parameters){
-            methodCall += (indent + p.toString(indent + "\t") + "\n");
+            methodCall +=p.toString(indent + "\t");
         }
-
-        return methodCall;
+        methodCall += indent + "]\n";
+        return methodCall + indent+"}\n";
     }
 }

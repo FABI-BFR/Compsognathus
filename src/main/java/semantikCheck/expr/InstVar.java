@@ -64,10 +64,11 @@ public class InstVar implements IExpr {
         type = field.getType();
     }
     public String toString(String indent) {
-        String instVar = "";
-        instVar += indent + "Type" + type.toString(indent+"\t");
-        instVar += indent + "Name:"+varName+"\n";
-        instVar += indent + "Expression" + expression.toString(indent+"\t");
-        return instVar;
+        String instVar = indent + "Instvar: {\n";
+        instVar += indent +  " Type: " + type.toString(indent+"\t") +"\n";
+        instVar += indent + "Name: "+varName+"\n";
+        instVar += indent + "Expression: \n"
+                + expression.toString(indent+"\t");
+        return instVar + indent+"}\n";
     }
 }

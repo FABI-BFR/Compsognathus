@@ -45,13 +45,14 @@ public class Binary implements IExpr {
     }
 
     public String toString(String indent) {
-        String binary = "";
-        binary += indent +"Type" + type + "\n";
-        binary += indent + "Operator:"+operator + "\n";
-        binary += indent + "Leftside:\n"
-                + exprLeft.toString(indent+"\t");
-        binary += indent + "Rightside:\n"
-                + exprRight.toString(indent+"\t");
-        return binary;
+        String binary = indent + "Binary: {\n";
+        binary += indent + "Operator: " + operator + "\n";
+        binary += indent + "Leftside: {\n"
+                + exprLeft.toString(indent + "\t")
+                + indent + "}\n";
+        binary += indent + "Rightside: {\n"
+                + exprRight.toString(indent + "\t")
+                + indent + "}\n";
+        return binary + indent + "}\n";
     }
 }

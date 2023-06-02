@@ -34,7 +34,7 @@ public class StringLit implements IExpr {
     public String toString(String indent) {
         String Stringlit = indent + "StringLit: {\n";
         Stringlit += indent + "Type: String\n";
-        Stringlit += indent + "Value:" + value + "\n";
-        return Stringlit;
+        Stringlit += indent + "Value: " + value + "\n";
+        return Stringlit + indent+"}\n";
     }
 }

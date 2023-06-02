@@ -81,11 +81,11 @@ public class New implements IStmtExpr {
     }
     public String toString(String indent) {
         String newS = "";
-        newS += indent +"Type" + type + "\n";
-        newS += indent + "Expressions:\n";
+        newS += indent +"Type " + type + "\n";
+        newS += indent + "Expressions: \n";
         for(IExpr e : expressions){
             newS += e.toString(indent+"\t")+ "\n";
         }
-        return newS;
+        return newS + "\n";
     }
 }

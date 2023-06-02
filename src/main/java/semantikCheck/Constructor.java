@@ -68,15 +68,16 @@ public class Constructor implements SemChecker {
     }
 
     public String toString(String indent) {
-        String constructor = "";
-        constructor += indent + "Name:" + name + "\n";
-        constructor += indent + "Access:" + access.toString(indent + "\t") + "\n";
-        constructor += indent + "Parameter:\n";
+        String constructor = indent +"Constructor: {\n";
+        constructor += indent + "Name: " + name + "\n";
+        constructor += indent + "Access: " + access.toString(indent + "\t") + "\n";
+        constructor += indent + "Parameter: [\n";
         for (Parameter p : parameter) {
             constructor += p.toString(indent + "\t");
         }
-        constructor += indent + "Statement:\n"
+        constructor += indent + "]\n";
+        constructor += indent + "Statement: \n"
                 + statement.toString(indent + "\t");
-        return constructor;
+        return constructor +indent+ "}\n";
     }
 }

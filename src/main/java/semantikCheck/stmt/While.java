@@ -63,6 +63,6 @@ public class While implements IStmt {
                 + expression.toString(indent+"\t");
         whileStmt += indent + "Statement: \n" + statement.toString(indent+"\t");
 
-        return whileStmt;
+        return whileStmt + indent+"}\n";
     }
 }

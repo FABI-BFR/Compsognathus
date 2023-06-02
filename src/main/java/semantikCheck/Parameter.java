@@ -26,7 +26,9 @@ public class Parameter {
     }
 
     public String toString(String indent) {
-        return indent + "Type:" + type + "\n"
-                + indent + "Name:" + name + "\n";
+        String parameter = indent + "Parameter: {\n";
+        parameter += indent + "Type: "+type.toString(indent+"\t") + "\n";
+        parameter += indent + "Name: "+name + "\n";
+        return parameter + indent + "}\n";
     }
 }

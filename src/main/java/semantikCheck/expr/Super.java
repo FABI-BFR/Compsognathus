@@ -28,6 +28,8 @@ public class Super implements IExpr {
     }
 
     public String toString(String indent) {
-        return indent + "Type" + type.toString(indent+"\t");
+        return indent + "Super: {\n"
+                + indent + "Type: " + type.toString(indent + "\t") + "\n"
+                + indent + "}\n";
     }
 }

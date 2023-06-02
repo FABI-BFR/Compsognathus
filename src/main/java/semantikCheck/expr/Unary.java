@@ -33,10 +33,10 @@ public class Unary implements IExpr {
         expression.semCheck(parameters, classes, currentClass);
     }
     public String toString(String indent) {
-        String unary = "";
-        unary += indent + "Operator:"+operator + "\n";
-        unary += indent + "Expression:\n"
+        String unary = indent + "Unary: {\n";
+        unary += indent + "Operator: "+operator + "\n";
+        unary += indent + "Expression: \n"
                 + expression.toString(indent+"\t");
-        return unary;
+        return unary + indent+"}\n";
     }
 }

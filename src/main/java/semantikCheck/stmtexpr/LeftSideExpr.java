@@ -11,6 +11,7 @@ public class LeftSideExpr {
     }
 
     public String toString(String indent){
-        return indent + "Expression: " + expression.toString(indent + "\t") + "\n";
+        return indent + "Expression: " + "\n"
+                + expression.toString(indent + "\t");
     }
 }

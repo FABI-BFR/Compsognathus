@@ -16,6 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TestMain {
+    /*
+    Bei Compares Type auf Boolean setzen
+Bei Assign von this.temp
+Unary -> StringLit? Bei Statement
+Immer bei expression über unary zu Literal
+     */
 
     public static void main(String[] args) throws IOException {
 

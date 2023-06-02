@@ -32,7 +32,7 @@ public class CharLit implements IExpr {
 
     }
     public String toString(String indent) {
-        String charlit = "";
+        String charlit = indent + "CharLit: {\n";
         charlit += indent + "Type: Char\n";
         charlit += indent + "Value:" + value + "\n";
         return charlit;

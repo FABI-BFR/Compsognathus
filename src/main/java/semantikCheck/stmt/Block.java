@@ -9,13 +9,13 @@ import semantikCheck.interfaces.IStmt;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Block implements IStmt{
+public class Block implements IStmt {
     private List<IStmt> statements;
     private Type type;
 
     public Block(List<IStmt> stmts) {
         this.statements = new ArrayList<>();
-        if(stmts != null && !stmts.isEmpty()) {
+        if (stmts != null && !stmts.isEmpty()) {
             statements.addAll(stmts);
         }
     }
@@ -24,7 +24,7 @@ public class Block implements IStmt{
         return statements;
     }
 
-    public void setStatements(List<IStmt> stmts){
+    public void setStatements(List<IStmt> stmts) {
         statements = stmts;
     }
 
@@ -48,7 +48,7 @@ public class Block implements IStmt{
 
         type = new Type("void");
         if (statements.size() > 0) {
-            for (int i = 0; i< statements.size(); i++) {
+            for (int i = 0; i < statements.size(); i++) {
                 if (!(statements.get(i) instanceof TypedStmt)) {
                     type.setType(Checker.upperBound(type, statements.get(i).getType()));
                 }
@@ -57,13 +57,11 @@ public class Block implements IStmt{
 
     }
 
-    public String toString(String indent){
-        String block = "";
-        block += indent + "Type: " + type.toString(indent+"\t") + "\n";
-        block += indent + "Statements:" + "\n";
-        for(IStmt s : statements) {
-            block += (indent + s.toString(indent + "\t"));
+    public String toString(String indent) {
+        String block = indent + "Block: {\n";
+        for (IStmt s : statements) {
+            block += s.toString(indent + "\t");
         }
-        return block;
+        return block + indent + "}" + "\n";
     }
 }

@@ -26,6 +26,6 @@ public class JNull implements IExpr {
 
     }
     public String toString(String indent) {
-        return indent + "Type: Jnull\n";
+        return indent + "JNull: {}\n";
     }
 }

@@ -16,11 +16,11 @@ public class Method implements SemChecker {
     private Block statement;
     private Access access;
 
-    public Method (Type type, String name, List<Parameter> parameter, Block statement) {
+    public Method(Type type, String name, List<Parameter> parameter, Block statement) {
         this(type, name, parameter, statement, Access.PUBLIC);
     }
 
-    public Method (Type type, String name, List<Parameter> parameter, Block statement, Access access) {
+    public Method(Type type, String name, List<Parameter> parameter, Block statement, Access access) {
         this.type = type;
         this.name = name;
         this.parameter = new ArrayList<>();
@@ -30,60 +30,48 @@ public class Method implements SemChecker {
         this.statement = statement;
         if (access == null) {
             access = Access.PUBLIC;
-        }
-        else
-        {
+        } else {
             this.access = access;
         }
     }
 
-    public Type getType()
-    {
+    public Type getType() {
         return type;
     }
 
-    public void setType(Type type)
-    {
+    public void setType(Type type) {
         this.type = type;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public List<Parameter> getParameter()
-    {
+    public List<Parameter> getParameter() {
         return parameter;
     }
 
-    public void setParameter(List<Parameter> parameter)
-    {
+    public void setParameter(List<Parameter> parameter) {
         this.parameter = parameter;
     }
 
-    public Block getStatement()
-    {
+    public Block getStatement() {
         return statement;
     }
 
-    public void setStatement(Block statement)
-    {
+    public void setStatement(Block statement) {
         this.statement = statement;
     }
 
-    public Access getAccess()
-    {
+    public Access getAccess() {
         return access;
     }
 
-    public void setAccess(Access access)
-    {
+    public void setAccess(Access access) {
         this.access = access;
     }
 
@@ -93,23 +81,25 @@ public class Method implements SemChecker {
             var temp = new ArrayList<>(parameters);
             temp.addAll(this.parameter);
             statement.semCheck(temp, classes, currentClass);
-            if(!type.equals(statement.getType())) {
+            if (!type.equals(statement.getType())) {
                 Checker.addIncompatibleTypeError(currentClass.getName(), type, statement.getType());
             }
         }
     }
 
-    public String toString(String indent){
-        String method = "";
-        method += indent + "Type: " + type.toString(indent+"\t") + "\n";
-        method += indent + "Name:" + name + "\n";
-        method += indent + "Access:" + access.toString(indent+"\t") + "\n";
-        method += indent + "Parameter:" + "\n";
-        for(Parameter p : parameter){
-            method +=( indent + p.toString(indent+"\t"));
+    public String toString(String indent) {
+        String method = indent + "Method: {\n";
+        method += indent + "Type: " + type.toString(indent + "\t") + "\n";
+        method += indent + "Name: " + name + "\n";
+        method += indent + "Access: " + access.toString(indent + "\t") + "\n";
+        method += indent + "Parameter: [" + "\n";
+        for (Parameter p : parameter) {
+            method += p.toString(indent + "\t");
         }
-        method += indent + "Statement:\n"
-                + statement.toString(indent+"\t") + "\n";
-        return method;
+        method += indent + "]\n";
+        method += indent + "Statement: {\n"
+                + statement.toString(indent + "\t")
+                + indent + "}\n";
+        return method + indent + "}\n";
     }
 }

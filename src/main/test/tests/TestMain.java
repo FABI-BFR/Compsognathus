@@ -34,10 +34,10 @@ Immer bei expression über unary zu Literal
         Program pg = Converter.convertToProgram(tree);*/
 
 
-        //String folderpath = "src/main/test/exampleClasses";
-        //List<File> fileList = listFilesInFolder(folderpath);
-        List<File> fileList = new ArrayList<>();
-        fileList.add(new File("src/main/test/exampleClasses/LongTestFile.java"));
+        String folderpath = "src/main/test/exampleClasses";
+        List<File> fileList = listFilesInFolder(folderpath);
+        //List<File> fileList = new ArrayList<>();
+        //fileList.add(new File("src/main/test/exampleClasses/LongTestFile.java"));
         Compiler_grammarLexer lexer;
         CommonTokenStream token;
         Compiler_grammarParser parser;
@@ -50,14 +50,15 @@ Immer bei expression über unary zu Literal
             parser = new Compiler_grammarParser(token);
             tree = parser.compilationunit();
             pg = Converter.convertToProgram(tree);
-            pg.toString("\t");
-            writeJsonFile(file,tests.JsonConverter.convertToJson(pg));
+            //pg.toString("\t");
+            //writeFile(file,tests.JsonConverter.convertToJson(pg));
+            writeFile(file,pg.toString(""));
         }
     }
 
-    public static void writeJsonFile(File file, String jsonFiles) {
-        String newPath = file.getPath().replace("exampleClasses", "generatedJson");
-        newPath = newPath.replace(".java",".json");
+    public static void writeFile(File file, String jsonFiles) {
+        String newPath = file.getPath().replace("exampleClasses", "generatedString");
+        newPath = newPath.replace(".java",".txt");
         File newFile = new File(newPath);
         String directory = newFile.getParentFile().getPath();
         FileWriter writer;

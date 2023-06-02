@@ -31,7 +31,7 @@ public class IntegerLit implements IExpr {
         type = new Type("int");
     }
     public String toString(String indent) {
-        String intlit = "";
+        String intlit = indent + "IntegerLit: {\n";
         intlit += indent + "Type: Integer\n";
         intlit += indent + "Value:" + value + "\n";
         return intlit;

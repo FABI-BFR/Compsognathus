@@ -36,7 +36,7 @@ public class BoolLit implements IExpr {
     }
 
     public String toString(String indent) {
-        String boollit = "";
+        String boollit = indent + "BoolLit: {\n";
         boollit += indent + "Type: Boolean\n";
         boollit += indent + "Value:" + value + "\n";
         return boollit;

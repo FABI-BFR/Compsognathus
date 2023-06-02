@@ -45,10 +45,9 @@ public class Return implements IStmt {
     }
 
     public String toString(String indent){
-        String returnStmt = "";
-        returnStmt += indent + "Type: " + type.toString(indent+"\t") + "\n";
-        returnStmt += indent + "Expression:" + expression.toString(indent +"\t") +  "\n";
-
-        return returnStmt;
+        String returnStmt = indent +"Return: {\n";
+        returnStmt += indent + "Expression: \n"
+                + expression.toString(indent +"\t");
+        return returnStmt + indent+"}\n";
     }
 }

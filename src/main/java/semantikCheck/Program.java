@@ -33,10 +33,11 @@ public class Program implements SemChecker
 
     }
     public String toString(String indent){
-        String program = "";
+        String program = indent +"Program: {\n";
+        program += indent + "Classes: [\n";
         for(Class c : classes){
-            program += indent + c.toString(indent+"\t") + "\n";
+            program += c.toString(indent+"\t");
         }
-        return program;
+        return program +indent +"]\n"+indent +  "}\n";
     }
 }

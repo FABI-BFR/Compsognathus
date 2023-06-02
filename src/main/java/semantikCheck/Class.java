@@ -123,21 +123,23 @@ public class Class implements SemChecker {
     }
 
     public String toString(String indent){
-        String program = "";
-        program += indent + "Name:" + name + "\n";
-        program += indent + "Access" + access.toString(indent+"\t") + "\n";
-        program += indent+ "Fields" + "\n";
+        String program = indent +"Class: {\n";
+        program += indent + "Name: " + name + "\n";
+        program += indent + "Access: " + access.toString(indent+"\t") + "\n";
+        program += indent+ "Fields: [" + "\n";
         for(Field f : fields){
-            program +=( indent + f.toString(indent+"\t"));
+            program += f.toString(indent+"\t");
         }
-        program += indent+ "Methods" + "\n";
+        program += indent + "]\n";
+        program += indent+ "Methods: [" + "\n";
         for(Method m : methods){
-            program +=( indent + m.toString(indent+"\t"));
+            program += m.toString(indent+"\t");
         }
-        program += indent+ "Constructors" + "\n";
+        program += indent + "]\n";
+        program += indent+ "Constructors: [" + "\n";
         for(Constructor c : constructors){
-            program +=( indent + c.toString(indent+"\t"));
+            program += c.toString(indent+"\t");
         }
-        return program;
+        return program + indent +"]\n"+indent +"}\n";
     }
 }

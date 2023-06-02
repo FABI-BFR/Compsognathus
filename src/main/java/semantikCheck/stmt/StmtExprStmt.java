@@ -31,10 +31,8 @@ public class StmtExprStmt implements IStmt {
     }
 
     public String toString(String indent){
-        String stmtExprStmt = "";
-        stmtExprStmt += indent + "Type: " + type.toString(indent+"\t") + "\n";
-        stmtExprStmt += indent + "Expression:" + expression.toString(indent+"\t") + "\n";
-
-        return stmtExprStmt;
+        String stmtExprStmt = indent + "StmtExpr: { \n";
+        stmtExprStmt += expression.toString(indent+"\t");
+        return stmtExprStmt + indent+"}\n";
     }
 }

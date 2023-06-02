@@ -18,6 +18,6 @@ public class Type
     }
 
     public String toString(String indent){
-        return type+"\n";
+        return type;
     }
 }

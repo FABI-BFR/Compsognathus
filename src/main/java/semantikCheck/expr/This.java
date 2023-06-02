@@ -25,6 +25,6 @@ public class This  implements IExpr {
         type.setType(currentClass.getName());
     }
     public String toString(String indent) {
-        return indent + "Type" + type.toString(indent+"\t");
+        return indent + "This: {}\n";
     }
 }

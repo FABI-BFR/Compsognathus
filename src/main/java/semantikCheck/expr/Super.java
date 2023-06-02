@@ -10,6 +10,7 @@ import java.util.List;
 public class Super implements IExpr {
 
     private Type type;
+
     @Override
     public Type getType() {
         return type;
@@ -25,6 +26,7 @@ public class Super implements IExpr {
         type = new Type("java.lang.Object");
 
     }
+
     public String toString(String indent) {
         return indent + "Type" + type.toString(indent+"\t");
     }

@@ -41,6 +41,7 @@ public class CompsognathusCompiler
                             System.out.println(error);
                         }
                         System.err.println("Failed to compile" + arg);
+                        System.out.println("Fehler beim Typcheck.");
                         return;
                     }
 
@@ -57,12 +58,12 @@ public class CompsognathusCompiler
                     }
 
                 } else {
-                    System.out.println("Ungültige Java Klasse: " + arg);
+                    System.out.println("Ungueltige Java Klasse: " + arg);
                     return;
                 }
         }
         } else {
-            System.out.println("Die Parameterübergabe sind ungültig.");
+            System.out.println("Die Parameteruebergabe sind ungueltig.");
             return;
         }
     }

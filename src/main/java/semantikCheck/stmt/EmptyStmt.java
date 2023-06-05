@@ -8,7 +8,7 @@ import semantikCheck.interfaces.IStmt;
 import java.util.List;
 
 public class EmptyStmt implements IStmt {
-    final Type type;
+    private Type type;
     @Override
     public Type getType() {
         return type ;
@@ -18,11 +18,10 @@ public class EmptyStmt implements IStmt {
     public void setType(Type type) {
 
     }
-    public EmptyStmt(){
-        this.type = new Type("null");
-    }
+
     @Override
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
+        type = new Type("null");
 
     }
 }

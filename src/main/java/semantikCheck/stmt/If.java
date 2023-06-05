@@ -59,7 +59,7 @@ public class If  implements IStmt {
     @Override
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
         expression.semCheck(parameters,classes,currentClass);
-        if(!expression.getType().equals("boolean")) {
+        if(!expression.getType().getType().equals("boolean")) {
             Checker.addIncompatibleTypeError(currentClass.getName(), new Type("boolean"), expression.getType());
         }
 

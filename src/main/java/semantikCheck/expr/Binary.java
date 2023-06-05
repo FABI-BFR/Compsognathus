@@ -40,7 +40,7 @@ public class Binary implements IExpr{
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
         exprLeft.semCheck(parameters, classes, currentClass);
         exprRight.semCheck(parameters, classes, currentClass);
-        if(!Checker.upperBound(exprLeft.getType(), exprRight.getType()).equals(exprLeft.getType())) {
+        if(!Checker.upperBound(exprLeft.getType(), exprRight.getType()).equals(exprLeft.getType().getType())) {
             Checker.addBinaryExpressionError(currentClass.getName(), exprLeft.getType().toString(), exprRight.getType().toString(), operator);
         }
     }

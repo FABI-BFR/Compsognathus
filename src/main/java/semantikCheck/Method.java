@@ -93,7 +93,7 @@ public class Method implements SemChecker {
             var temp = new ArrayList<>(parameters);
             temp.addAll(this.parameter);
             statement.semCheck(temp, classes, currentClass);
-            if(!type.equals(statement.getType())) {
+            if(!type.getType().equals(statement.getType().getType())) {
                 Checker.addIncompatibleTypeError(currentClass.getName(), type, statement.getType());
             }
         }

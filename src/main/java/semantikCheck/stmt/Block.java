@@ -42,12 +42,12 @@ public class Block implements IStmt{
     @Override
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
 
-        for (IStmt statment : statements) {
-            statment.semCheck(parameters, classes, currentClass);
+        for (IStmt statement : statements) {
+            statement.semCheck(parameters, classes, currentClass);
         }
 
         type = new Type("void");
-        if (statements.size() > 0) {
+        if (statements.size() > 1) {
             for (int i = 0; i< statements.size(); i++) {
                 if (!(statements.get(i) instanceof TypedStmt)) {
                     type.setType(Checker.upperBound(type, statements.get(i).getType()));

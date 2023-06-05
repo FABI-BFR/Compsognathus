@@ -73,7 +73,7 @@ public class Program implements SemChecker
             }
         }
         for (Class c : classes) {
-            c.semCheck(parameters, classes, currentClass);
+            c.semCheck(parameters, classes, c);
         }
 
     }

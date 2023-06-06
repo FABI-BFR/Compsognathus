@@ -14,4 +14,12 @@ public class LeftSideExpr {
         return indent + "Expression: " + "\n"
                 + expression.toString(indent + "\t");
     }
+
+    public IExpr getExpression() {
+        return expression;
+    }
+
+    public void setExpression(IExpr expression) {
+        this.expression = expression;
+    }
 }

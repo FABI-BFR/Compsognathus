@@ -328,7 +328,7 @@ public class ByteCodeGenerator
      * @param _method Object containg mehtod stuff
      * @param _stmt Statement to resolve
      */
-    private void visitWhile(MethodGenerator _method, While _stmt)
+    private void visitWhile(@NotNull MethodGenerator _method, @NotNull While _stmt)
     {
         Label loop = new Label();
         _method.getMethodVisitor().visitLabel(loop);
@@ -345,7 +345,8 @@ public class ByteCodeGenerator
      * @param method Object containing method stuff
      * @param stmt Statement to resolve
      */
-    private void visitTypedStmt(MethodGenerator method, TypedStmt stmt)
+    private void visitTypedStmt(@NotNull MethodGenerator method,
+                                @NotNull TypedStmt stmt)
     {
         //Todo implementieren
     }
@@ -355,7 +356,8 @@ public class ByteCodeGenerator
      * @param method Object containing method stuff
      * @param stmt Statement to resolve
      */
-    private void visitReturn(MethodGenerator method, Return stmt)
+    private void visitReturn(@NotNull MethodGenerator method,
+                             @NotNull Return stmt)
     {
         resolveExpr(method, stmt.getExpression());
         method.getMethodVisitor().visitInsn(parseReturnType(stmt.getType()));
@@ -366,7 +368,8 @@ public class ByteCodeGenerator
      * @param _method Object containing method stuff
      * @param _stmt Statement to resolve
      */
-    private void visitIfStmt(MethodGenerator _method, If _stmt) {
+    private void visitIfStmt(@NotNull MethodGenerator _method,
+                             @NotNull If _stmt) {
         resolveExpr(_method,_stmt.getExpression());
         Label elseLabel = new Label();
         _method.getMethodVisitor().visitJumpInsn(Opcodes.IFNE, elseLabel);
@@ -380,9 +383,7 @@ public class ByteCodeGenerator
 
     private void visitInstVar(@NotNull MethodGenerator _method,
                               @NotNull InstVar _instVar){
-        //Todo implementieren
         resolveExpr(_method,_instVar.expression);
-        /*
         if (_instVar.isStore()) {
             _method.getMethodVisitor().visitFieldInsn(Opcodes.PUTFIELD,
                     _instVar.expression.getType().getType(),
@@ -393,12 +394,22 @@ public class ByteCodeGenerator
                     _instVar.expression.getType().getType(),
                     _instVar.varName,
                     _instVar.getType().getType());
-        }*/
+        }
     }
 
     private void visitAssign(@NotNull MethodGenerator _method,
                              @NotNull Assign _assign){
-        //Todo implementieren
+
+        var left = (IExpr)_assign.getLeftSideExpr();
+
+        if (left instanceof LocalOrFieldVar) {
+            if (!((LocalOrFieldVar)left).isLocal()) {
+                _method.getMethodVisitor().visitVarInsn(Opcodes.ALOAD, 0);
+            }
+        }
+        resolveExpr(_method, _assign.getExpression());
+        resolveExpr(_method, _assign.getLeftSideExpr().getExpression());
+
     }
 
     private void visitMethodCall(@NotNull MethodGenerator _method,
@@ -643,7 +654,6 @@ public class ByteCodeGenerator
                 _method.getMethodVisitor().visitInsn(Opcodes.IXOR);
                 break;
             case "!":
-                //Todo fertig implementieren
                 resolveExpr(_method, _unary.expression);
                 Label exprIsTrue = new Label();
                 Label endIf = new Label();
@@ -662,6 +672,11 @@ public class ByteCodeGenerator
         }
     }
 
+    private void visitStmtExprStmt(@NotNull MethodGenerator _method,
+                                   @NotNull StmtExprStmt _stmtExprStmt)
+    {
+        resolveStmtExpr(_method, _stmtExprStmt.getExpression());
+    }
 
     /**
      * resolves a statement
@@ -670,15 +685,14 @@ public class ByteCodeGenerator
      */
     private void resolveStmt(@NotNull MethodGenerator _method,
                              @NotNull IStmt _stmt){
-        //TODO check for statements and visit them
         if(_stmt instanceof Block){
             visitBlockStmt(_method, (Block)_stmt,false);
         }else if(_stmt instanceof If){
             visitIfStmt(_method,(If)_stmt);
         } else if(_stmt instanceof Return){
             visitReturn(_method,(Return)_stmt);
-        } else if(_stmt instanceof TypedStmt){
-            visitTypedStmt(_method,(TypedStmt)_stmt);
+        } else if(_stmt instanceof StmtExprStmt){
+            visitStmtExprStmt(_method,(StmtExprStmt)_stmt);
         }else if(_stmt instanceof While){
             visitWhile(_method,(While)_stmt);
         } else {
@@ -693,10 +707,10 @@ public class ByteCodeGenerator
      */
     private void resolveExpr(@NotNull MethodGenerator _method,
                              @NotNull IExpr _expr){
-        //Todo imlpementieren
-
         if(_expr instanceof Binary){
             visitBinary(_method, (Binary) _expr);
+        } else if(_expr instanceof Unary) {
+            visitUnary(_method, (Unary) _expr);
         } else if(_expr instanceof BoolLit){
             visitBoolExpr(_method, (BoolLit) _expr);
         } else if(_expr instanceof CharLit){
@@ -715,9 +729,10 @@ public class ByteCodeGenerator
             visitSuper(_method, (Super) _expr);
         } else if(_expr instanceof This){
             visitThis(_method, (This) _expr);
-        } else if(_expr instanceof Unary){
-            visitUnary(_method, (Unary) _expr);
-        } else {
+        } else if(_expr instanceof StmtExprStmt){
+            visitStmtExprStmt(_method, (StmtExprStmt) _expr);
+        }
+        else {
             throw new InvalidExpressionException(_expr + " is not a valid Expression!");
         }
     }

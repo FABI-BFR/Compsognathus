@@ -12,14 +12,20 @@ public class InstVar implements IExpr {
     public String varName;
     public IExpr expression;
     public Type type;
+    private boolean store;
 
 
-    public InstVar(String varName, IExpr expression, Type type) {
+    public InstVar(String varName, IExpr expression, Type type, boolean store) {
         this.varName = varName;
         this.expression = expression;
         this.type = type;
+        this.store = store;
     }
 
+
+    public boolean isStore() {
+        return store;
+    }
 
     @Override
     public Type getType() {

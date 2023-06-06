@@ -5,6 +5,7 @@ import semantikCheck.Parameter;
 import semantikCheck.Type;
 import semantikCheck.interfaces.IExpr;
 import semantikCheck.interfaces.IStmt;
+import semantikCheck.interfaces.IStmtExpr;
 
 import java.util.List;
 
@@ -23,6 +24,14 @@ public class StmtExprStmt implements IStmt {
     @Override
     public void setType(Type type) {
         this.type = type;
+    }
+
+    public IStmtExpr getExpression() {
+        return (IStmtExpr)expression;
+    }
+
+    public void setExpression(IExpr expression) {
+        this.expression = expression;
     }
 
     @Override

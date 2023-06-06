@@ -6,6 +6,7 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import parseTreeConverter.Converter;
 import semantikCheck.Program;
+import semantikCheck.checker.Checker;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -34,15 +35,15 @@ Immer bei expression über unary zu Literal
         Program pg = Converter.convertToProgram(tree);*/
 
 
-        String folderpath = "src/main/test/exampleClasses";
-        List<File> fileList = listFilesInFolder(folderpath);
-        //List<File> fileList = new ArrayList<>();
-        //fileList.add(new File("src/main/test/exampleClasses/LongTestFile.java"));
+        //String folderpath = "src/main/test/exampleClasses";
+        //List<File> fileList = listFilesInFolder(folderpath);
+        List<File> fileList = new ArrayList<>();
+        fileList.add(new File("src/main/test/exampleClasses/LongTestFile.java"));
         Compiler_grammarLexer lexer;
         CommonTokenStream token;
         Compiler_grammarParser parser;
         Program pg;
-
+        Checker checker = new Checker();
         Compiler_grammarParser.CompilationunitContext tree;
         for (File file : fileList) {
             lexer = new Compiler_grammarLexer(CharStreams.fromFileName(file.getPath()));
@@ -51,9 +52,21 @@ Immer bei expression über unary zu Literal
             tree = parser.compilationunit();
             pg = Converter.convertToProgram(tree);
             //pg.toString("\t");
+            pg = checker.check(pg);
             //writeFile(file,tests.JsonConverter.convertToJson(pg));
             writeFile(file,pg.toString(""));
+
         }
+//        Checker checker =  new Checker();
+//        generatedProgram = checker.check(generatedProgram);
+//        var errors = checker.getErrors();
+//        if(errors != null && errors.size() > 0) {
+//            for (String error : errors ) {
+//                System.out.println(error);
+//            }
+//            System.err.println("Failed to compile" + arg);
+//            return;
+//        }
     }
 
     public static void writeFile(File file, String jsonFiles) {

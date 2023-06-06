@@ -24,7 +24,6 @@ public class Binary implements IExpr {
 
     }
 
-
     @Override
     public Type getType() {
         return type;

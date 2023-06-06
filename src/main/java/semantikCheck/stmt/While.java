@@ -56,4 +56,13 @@ public class While implements IStmt {
         statement.semCheck(parameters, classes, currentClass);
         type = statement.getType();
     }
+
+    public String toString(String indent){
+        String whileStmt = indent + "While: { \n";
+        whileStmt += indent + "Expression: \n"
+                + expression.toString(indent+"\t");
+        whileStmt += indent + "Statement: \n" + statement.toString(indent+"\t");
+
+        return whileStmt + indent+"}\n";
+    }
 }

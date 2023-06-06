@@ -6,4 +6,5 @@ public interface IStmt extends SemChecker {
     Type getType();
 
     void setType(Type type);
+    String toString(String indent);
 }

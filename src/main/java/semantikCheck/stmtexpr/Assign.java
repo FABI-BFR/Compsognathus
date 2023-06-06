@@ -64,4 +64,14 @@ public class Assign implements IStmtExpr {
             Checker.addIncompatibleTypeError(currentClass.getName(), leftSideExpr.expression.getType(), expression.getType());
         }
     }
+
+    public String toString(String indent){
+        String assign = "";
+        assign += indent + "LeftSideExpression: " + "\n"
+                + leftSideExpr.toString(indent+"\t");
+        assign += indent + "Expression: " + "\n"
+                + expression.toString(indent+"\t");
+
+        return assign;
+    }
 }

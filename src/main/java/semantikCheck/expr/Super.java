@@ -10,6 +10,7 @@ import java.util.List;
 public class Super implements IExpr {
 
     private Type type;
+
     @Override
     public Type getType() {
         return type;
@@ -26,4 +27,9 @@ public class Super implements IExpr {
 
     }
 
+    public String toString(String indent) {
+        return indent + "Super: {\n"
+                + indent + "Type: " + type.toString(indent + "\t") + "\n"
+                + indent + "}\n";
+    }
 }

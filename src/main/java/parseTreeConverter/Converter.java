@@ -328,7 +328,8 @@ public class Converter {
             if (compareexpressionContext.logicaloperator() != null) {
                 return new Binary(compareexpressionContext.logicaloperator().getText(), new LocalOrFieldVar(new Type(""), compareexpressionContext.BOOLLITERAL().getText()), convertToCompareExpression(compareexpressionContext.compareexpression()));
             } else {
-                return new LocalOrFieldVar(new Type("Boolean"), compareexpressionContext.BOOLLITERAL().getText());
+                return new BoolLit(compareexpressionContext.BOOLLITERAL().getText().equals("true"));
+                //return new LocalOrFieldVar(new Type("Boolean"), compareexpressionContext.BOOLLITERAL().getText());
             }
         }
         if (compareexpressionContext.IDENTIFIER() != null) {

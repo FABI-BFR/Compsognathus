@@ -1,0 +1,37 @@
+Program: {
+Classes: [
+	Class: {
+	Name: OneEmptyMethod
+	Access: public
+	Fields: [
+	]
+	Methods: [
+		Method: {
+		Type: int
+		Name: test
+		Access: public
+		Parameter: [
+		]
+		Statement: {
+			Block: {
+				EmptyStatement: {
+				Type: null
+				}
+			}
+		}
+		}
+	]
+	Constructors: [
+		Constructor: {
+		Name: OneEmptyMethod
+		Access: public
+		Parameter: [
+		]
+		Statement: 
+			Block: {
+			}
+		}
+	]
+	}
+]
+}

@@ -9,4 +9,8 @@ public enum Access {
     Access(String s) {
         sAccess = s;
     }
+
+    public String toString(String indent){
+        return sAccess;
+    }
 }

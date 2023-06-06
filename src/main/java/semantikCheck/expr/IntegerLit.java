@@ -30,4 +30,10 @@ public class IntegerLit implements IExpr {
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
         type = new Type("int");
     }
+    public String toString(String indent) {
+        String intlit = indent + "IntegerLit: {\n";
+        intlit += indent + "Type: Integer\n";
+        intlit += indent + "Value: " + value + "\n";
+        return intlit + indent+"}\n";
+    }
 }

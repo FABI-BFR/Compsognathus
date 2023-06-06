@@ -24,5 +24,7 @@ public class This  implements IExpr {
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
         type.setType(currentClass.getName());
     }
-
+    public String toString(String indent) {
+        return indent + "This: {}\n";
+    }
 }

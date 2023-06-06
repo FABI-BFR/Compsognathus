@@ -1,0 +1,28 @@
+Program: {
+Classes: [
+	Class: {
+	Name: ClassWithOneBoolParameter
+	Access: public
+	Fields: [
+		Field: {
+		Type: boolean
+		Name: par
+		Access: public
+		}
+	]
+	Methods: [
+	]
+	Constructors: [
+		Constructor: {
+		Name: ClassWithOneBoolParameter
+		Access: public
+		Parameter: [
+		]
+		Statement: 
+			Block: {
+			}
+		}
+	]
+	}
+]
+}

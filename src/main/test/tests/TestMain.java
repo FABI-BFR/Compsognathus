@@ -6,6 +6,7 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import parseTreeConverter.Converter;
 import semantikCheck.Program;
+import semantikCheck.checker.Checker;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -42,6 +43,7 @@ Immer bei expression über unary zu Literal
         CommonTokenStream token;
         Compiler_grammarParser parser;
         Program pg;
+        Checker checker = new Checker();
         Compiler_grammarParser.CompilationunitContext tree;
         for (File file : fileList) {
             lexer = new Compiler_grammarLexer(CharStreams.fromFileName(file.getPath()));
@@ -49,13 +51,27 @@ Immer bei expression über unary zu Literal
             parser = new Compiler_grammarParser(token);
             tree = parser.compilationunit();
             pg = Converter.convertToProgram(tree);
-            writeJsonFile(file,tests.JsonConverter.convertToJson(pg));
+            //pg.toString("\t");
+            pg = checker.check(pg);
+            //writeFile(file,tests.JsonConverter.convertToJson(pg));
+            writeFile(file,pg.toString(""));
+
         }
+//        Checker checker =  new Checker();
+//        generatedProgram = checker.check(generatedProgram);
+//        var errors = checker.getErrors();
+//        if(errors != null && errors.size() > 0) {
+//            for (String error : errors ) {
+//                System.out.println(error);
+//            }
+//            System.err.println("Failed to compile" + arg);
+//            return;
+//        }
     }
 
-    public static void writeJsonFile(File file, String jsonFiles) {
-        String newPath = file.getPath().replace("exampleClasses", "generatedJson");
-        newPath = newPath.replace(".java",".json");
+    public static void writeFile(File file, String jsonFiles) {
+        String newPath = file.getPath().replace("exampleClasses", "generatedString");
+        newPath = newPath.replace(".java",".txt");
         File newFile = new File(newPath);
         String directory = newFile.getParentFile().getPath();
         FileWriter writer;

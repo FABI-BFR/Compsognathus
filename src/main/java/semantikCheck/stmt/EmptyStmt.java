@@ -11,7 +11,7 @@ public class EmptyStmt implements IStmt {
     private Type type;
     @Override
     public Type getType() {
-        return type ;
+        return type;
     }
 
     @Override
@@ -19,9 +19,16 @@ public class EmptyStmt implements IStmt {
 
     }
 
+
     @Override
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
         type = new Type("null");
 
+    }
+
+    public String toString(String indent) {
+        return indent + "EmptyStatement: {\n"
+                + indent + "Type: " + type.toString(indent + "\t") + "\n"
+                + indent + "}\n";
     }
 }

@@ -73,4 +73,16 @@ public class If  implements IStmt {
             }
         }
     }
+
+    public String toString(String indent){
+        String ifstmt = indent +"IfStatement: {\n";
+        ifstmt +=  expression.toString(indent+"\t");
+        ifstmt += indent + "IfBranch: {"  + "\n"
+                + ifStmt.toString(indent+"\t")
+                +indent+"}\n";
+        if(elseStmt != null)ifstmt += indent + "ElseBranch: {\n"
+                + elseStmt.toString(indent+"\t")
+                +indent+"}\n";
+        return ifstmt + indent+"}\n";
+    }
 }

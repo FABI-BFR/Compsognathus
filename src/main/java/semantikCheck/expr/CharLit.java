@@ -31,4 +31,10 @@ public class CharLit implements IExpr {
         type = new Type("char");
 
     }
+    public String toString(String indent) {
+        String charlit = indent + "CharLit: {\n";
+        charlit += indent + "Type: Char\n";
+        charlit += indent + "Value: " + value + "\n";
+        return charlit + indent+"}\n";
+    }
 }

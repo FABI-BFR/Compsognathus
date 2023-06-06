@@ -9,13 +9,13 @@ import semantikCheck.interfaces.IStmt;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Block implements IStmt{
+public class Block implements IStmt {
     private List<IStmt> statements;
     private Type type;
 
     public Block(List<IStmt> stmts) {
         this.statements = new ArrayList<>();
-        if(stmts != null && !stmts.isEmpty()) {
+        if (stmts != null && !stmts.isEmpty()) {
             statements.addAll(stmts);
         }
     }
@@ -24,7 +24,7 @@ public class Block implements IStmt{
         return statements;
     }
 
-    public void setStatements(List<IStmt> stmts){
+    public void setStatements(List<IStmt> stmts) {
         statements = stmts;
     }
 
@@ -55,5 +55,13 @@ public class Block implements IStmt{
             }
         }
 
+    }
+
+    public String toString(String indent) {
+        String block = indent + "Block: {\n";
+        for (IStmt s : statements) {
+            block += s.toString(indent + "\t");
+        }
+        return block + indent + "}" + "\n";
     }
 }

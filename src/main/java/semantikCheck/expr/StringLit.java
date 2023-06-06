@@ -31,4 +31,10 @@ public class StringLit implements IExpr {
         type = new Type("java.lang.String");
 
     }
+    public String toString(String indent) {
+        String Stringlit = indent + "StringLit: {\n";
+        Stringlit += indent + "Type: String\n";
+        Stringlit += indent + "Value: " + value + "\n";
+        return Stringlit + indent+"}\n";
+    }
 }

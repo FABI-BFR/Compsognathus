@@ -121,4 +121,25 @@ public class Class implements SemChecker {
             m.semCheck(parameters, classes, this);
         }
     }
+
+    public String toString(String indent){
+        String program = indent +"Class: {\n";
+        program += indent + "Name: " + name + "\n";
+        program += indent + "Access: " + access.toString(indent+"\t") + "\n";
+        program += indent+ "Fields: [" + "\n";
+        for(Field f : fields){
+            program += f.toString(indent+"\t");
+        }
+        program += indent + "]\n";
+        program += indent+ "Methods: [" + "\n";
+        for(Method m : methods){
+            program += m.toString(indent+"\t");
+        }
+        program += indent + "]\n";
+        program += indent+ "Constructors: [" + "\n";
+        for(Constructor c : constructors){
+            program += c.toString(indent+"\t");
+        }
+        return program + indent +"]\n"+indent +"}\n";
+    }
 }

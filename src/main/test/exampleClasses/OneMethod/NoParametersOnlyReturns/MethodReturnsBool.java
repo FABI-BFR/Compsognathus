@@ -1,3 +1,7 @@
 public class ClassWithMethodWithoutParametsReturnsBool {
-    public boolean getBool(){return true;}
+    int i = 5;
+    public boolean getBool() {
+
+        return true;
+    }
 }

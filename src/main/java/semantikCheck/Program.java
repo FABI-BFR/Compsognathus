@@ -75,7 +75,7 @@ public class Program implements SemChecker
         for (Class c : classes) {
             c.semCheck(parameters, classes, c);
         }
-
+        int a;
     }
     public String toString(String indent){
         String program = indent +"Program: {\n";

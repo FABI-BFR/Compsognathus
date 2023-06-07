@@ -28,7 +28,7 @@ public class EmptyStmt implements IStmt {
 
     public String toString(String indent) {
         return indent + "EmptyStatement: {\n"
-                + indent + "Type: " + type.toString(indent + "\t") + "\n"
+                + indent + "Type: " + "null" + "\n"
                 + indent + "}\n";
     }
 }

@@ -38,7 +38,7 @@ Immer bei expression über unary zu Literal
         //String folderpath = "src/main/test/exampleClasses";
         //List<File> fileList = listFilesInFolder(folderpath);
         List<File> fileList = new ArrayList<>();
-        fileList.add(new File("src/main/test/exampleClasses/LongTestFile.java"));
+        fileList.add(new File("src/main/test/exampleClasses/OneMethod/NoParametersOnlyReturns/MethodReturnsBool.java"));
         Compiler_grammarLexer lexer;
         CommonTokenStream token;
         Compiler_grammarParser parser;
@@ -52,10 +52,9 @@ Immer bei expression über unary zu Literal
             tree = parser.compilationunit();
             pg = Converter.convertToProgram(tree);
             //pg.toString("\t");
-            pg = checker.check(pg);
+            //pg = checker.check(pg);
             //writeFile(file,tests.JsonConverter.convertToJson(pg));
             writeFile(file,pg.toString(""));
-
         }
 //        Checker checker =  new Checker();
 //        generatedProgram = checker.check(generatedProgram);
@@ -69,7 +68,7 @@ Immer bei expression über unary zu Literal
 //        }
     }
 
-    public static void writeFile(File file, String jsonFiles) {
+    public static void writeFile(File file, String generatedFiles) {
         String newPath = file.getPath().replace("exampleClasses", "generatedString");
         newPath = newPath.replace(".java",".txt");
         File newFile = new File(newPath);
@@ -79,7 +78,7 @@ Immer bei expression über unary zu Literal
             Files.createDirectories(Paths.get(directory));
             newFile.createNewFile();
             writer = new FileWriter(newFile);
-            writer.write(jsonFiles);
+            writer.write(generatedFiles);
             writer.close();
         } catch (IOException e) {
             throw new RuntimeException(e);

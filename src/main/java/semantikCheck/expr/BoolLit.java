@@ -32,7 +32,6 @@ public class BoolLit implements IExpr {
     @Override
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
         type = new Type("boolean");
-
     }
 
     public String toString(String indent) {

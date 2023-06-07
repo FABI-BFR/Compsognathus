@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 
 import java.util.List;
+import java.util.Locale;
 
 public class Converter {
     public static Program convertToProgram(Compiler_grammarParser.CompilationunitContext parseTree) {
@@ -292,7 +293,7 @@ public class Converter {
     }
 
 
-    private static IExpr convertToName(Compiler_grammarParser.NameContext nameContext) {
+    private static LocalOrFieldVar convertToName(Compiler_grammarParser.NameContext nameContext) {
         if (nameContext.simplename() != null) {
             return convertToSimpleName(nameContext.simplename());
         } else { //qualifiedname
@@ -300,11 +301,11 @@ public class Converter {
         }
     }
 
-    private static IExpr convertToSimpleName(Compiler_grammarParser.SimplenameContext simplenameContext) {
+    private static LocalOrFieldVar convertToSimpleName(Compiler_grammarParser.SimplenameContext simplenameContext) {
         return new LocalOrFieldVar(new Type(""), simplenameContext.IDENTIFIER().getText());
     }
 
-    private static IExpr convertToQualifiedName(Compiler_grammarParser.QualifiednameContext qualifiednameContext) {
+    private static LocalOrFieldVar convertToQualifiedName(Compiler_grammarParser.QualifiednameContext qualifiednameContext) {
         return new LocalOrFieldVar(new Type(""), qualifiednameContext.IDENTIFIER().getText());
     }
 
@@ -377,10 +378,10 @@ public class Converter {
     }
 
     private static IStmt convertToLocalVarDecl(Compiler_grammarParser.VariabledeclaratorContext variabledeclaratorContext, Type type) {
-        String name = variabledeclaratorContext.IDENTIFIER().getText();
-        if (variabledeclaratorContext.assignmentexpression() == null) return new LocalOrFieldVar(type, name);
+        if (variabledeclaratorContext.assignmentexpression() == null) return new LocalOrFieldVar(type, variabledeclaratorContext.IDENTIFIER().getText());
+        LocalOrFieldVar var = convertToName(variabledeclaratorContext.name());
         IExpr stmtExpr = convertToAssignExpr(variabledeclaratorContext.assignmentexpression());
-        return new Assign(new LeftSideExpr(new LocalOrFieldVar(type, name)), stmtExpr);
+        return new Assign(new LeftSideExpr(new LocalOrFieldVar(type, var.name)), stmtExpr);
     }
 
     private static IExpr convertToAssignExpr(Compiler_grammarParser.AssignmentexpressionContext assignmentexpressionContext) {

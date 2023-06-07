@@ -242,7 +242,7 @@ emptystatement:     SEMICOLON;
 expressionstatement:    statementexpression SEMICOLON;
 
 returnstatement:    RETURN SEMICOLON |
-                    RETURN expression SEMICOLON;
+                    RETURN statementexpression SEMICOLON;
 
 statementnoshortif1:    statementnoshortif;
 statementnoshortif2:    statementnoshortif;

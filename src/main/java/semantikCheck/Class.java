@@ -112,11 +112,6 @@ public class Class implements SemChecker {
             }
         }
 
-        if(!methods.stream().anyMatch(m -> m.getName().equals(name))){
-            Method m = new Method(new Type("void"), name, null, new Block(null));
-            methods.add(m);
-        }
-
         for (Method m : methods) {
             m.semCheck(parameters, classes, this);
         }

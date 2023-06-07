@@ -44,7 +44,7 @@ public class Checker {
         String a = _at.getType();
         String b = _bt.getType();
 
-        if ((a != null && a.equals(b)) || b == null || b.equals("void") || b.equals("null")) {
+        if (a.equals(b) || b == null || b.equals("void") || b.equals("null")) {
             return a;
         } else if (a == null || a.equals("void") || a.equals("null")) {
             return b;
@@ -85,7 +85,7 @@ public class Checker {
     }
 
     public static void addIncompatibleTypeError(String classname, Type expectedType, Type currentType) {
-        errors.add("Error in class " + classname + ": Incompatible types " + currentType.toString() + " cannot be converted to " + expectedType.toString());
+        errors.add("Error in class " + classname + ": Incompatible types " + currentType.getType() + " cannot be converted to " + expectedType.getType());
     }
 
     public static void addSymbolNotFoundError(String className, String symbol) {
@@ -105,7 +105,7 @@ public class Checker {
     }
 
     public static void addDereferenceError (String className, Type type) {
-        errors.add("Error in class " + className + ": " + type.toString() + " cannot be dereferenced");
+        errors.add("Error in class " + className + ": " + type.getType() + " cannot be dereferenced");
     }
 
     public static void addBinaryExpressionError (String className, String left, String right, String operator) {

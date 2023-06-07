@@ -47,7 +47,7 @@ public class Block implements IStmt {
         }
 
         type = new Type("void");
-        if (statements.size() > 1) {
+        if (statements.size() > 0) {
             for (int i = 0; i< statements.size(); i++) {
                 if (!(statements.get(i) instanceof TypedStmt)) {
                     type.setType(Checker.upperBound(type, statements.get(i).getType()));

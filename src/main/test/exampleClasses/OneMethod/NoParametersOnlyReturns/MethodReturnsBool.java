@@ -1,7 +1,6 @@
 public class ClassWithMethodWithoutParametsReturnsBool {
-    int i;
+    int i = 5;
     public boolean getBool() {
-        i = 5;
         return true;
     }
 }

@@ -1,3 +1,3 @@
 public class ClassWithMethodReturnsInt {
-    public int getInt(){return 1;}
+    public int getInt(){return "Hallo";}
 }

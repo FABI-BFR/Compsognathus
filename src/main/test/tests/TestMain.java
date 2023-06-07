@@ -38,7 +38,7 @@ Immer bei expression über unary zu Literal
         //String folderpath = "src/main/test/exampleClasses";
         //List<File> fileList = listFilesInFolder(folderpath);
         List<File> fileList = new ArrayList<>();
-        fileList.add(new File("src/main/test/exampleClasses/OneMethod/NoParametersOnlyReturns/MethodReturnsBool.java"));
+        fileList.add(new File("src/main/test/exampleClasses/OneMethod/OneParameters/MethodWithBoolParameter.java"));
         Compiler_grammarLexer lexer;
         CommonTokenStream token;
         Compiler_grammarParser parser;
@@ -55,17 +55,15 @@ Immer bei expression über unary zu Literal
             //pg = checker.check(pg);
             //writeFile(file,tests.JsonConverter.convertToJson(pg));
             writeFile(file,pg.toString(""));
+
         }
-//        Checker checker =  new Checker();
-//        generatedProgram = checker.check(generatedProgram);
-//        var errors = checker.getErrors();
-//        if(errors != null && errors.size() > 0) {
-//            for (String error : errors ) {
-//                System.out.println(error);
-//            }
-//            System.err.println("Failed to compile" + arg);
-//            return;
-//        }
+        var errors = checker.getErrors();
+        if(errors != null && errors.size() > 0) {
+            for (String error : errors ) {
+                System.out.println(error);
+            }
+            return;
+        }
     }
 
     public static void writeFile(File file, String generatedFiles) {

@@ -1,5 +1,6 @@
 public class ClassWithMethodWithBoolParameter {
-    public void doSomething(boolean parameterBool){
+    int i = 0;
+    public void doSomething(boolean parameterBool) {
         return ;
     }
 }

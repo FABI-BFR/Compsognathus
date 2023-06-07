@@ -34,11 +34,10 @@ Immer bei expression über unary zu Literal
         Compiler_grammarParser.CompilationunitContext tree = parser.compilationunit();
         Program pg = Converter.convertToProgram(tree);*/
 
-
-        //String folderpath = "src/main/test/exampleClasses";
-        //List<File> fileList = listFilesInFolder(folderpath);
-        List<File> fileList = new ArrayList<>();
-        fileList.add(new File("src/main/test/exampleClasses/OneMethod/OneParameters/MethodWithBoolParameter.java"));
+        String folderpath = "src/main/test/exampleClasses";
+        List<File> fileList = listFilesInFolder(folderpath);
+        //List<File> fileList = new ArrayList<>();
+        //fileList.add(new File("src/main/test/exampleClasses/OneMethod/OneParameters/MethodWithBoolParameter.java"));
         Compiler_grammarLexer lexer;
         CommonTokenStream token;
         Compiler_grammarParser parser;

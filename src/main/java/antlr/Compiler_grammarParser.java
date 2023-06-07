@@ -1,4 +1,4 @@
-// Generated from java-escape by ANTLR 4.11.1
+// Generated from D:/_Studium/SWE_Projekt/Compsognathus/src/main/java/antlr\Compiler_grammar.g4 by ANTLR 4.12.0
 package antlr;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue"})
 public class Compiler_grammarParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.11.1", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.12.0", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -131,7 +131,7 @@ public class Compiler_grammarParser extends Parser {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "java-escape"; }
+	public String getGrammarFileName() { return "Compiler_grammar.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -229,7 +229,7 @@ public class Compiler_grammarParser extends Parser {
 			setState(125);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (((_la) & ~0x3f) == 0 && ((1L << _la) & 15797783067885568L) != 0) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 15797783067885568L) != 0)) {
 				{
 				{
 				setState(122);
@@ -363,7 +363,7 @@ public class Compiler_grammarParser extends Parser {
 			{
 			setState(138);
 			_la = _input.LA(1);
-			if ( !(((_la) & ~0x3f) == 0 && ((1L << _la) & 15762598695796736L) != 0) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 15762598695796736L) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -487,7 +487,7 @@ public class Compiler_grammarParser extends Parser {
 			setState(151);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (((_la) & ~0x3f) == 0 && ((1L << _la) & 3835118547915243520L) != 0) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 3835118547915243520L) != 0)) {
 				{
 				{
 				setState(148);
@@ -1112,7 +1112,7 @@ public class Compiler_grammarParser extends Parser {
 			{
 			setState(216);
 			_la = _input.LA(1);
-			if ( !(((_la) & ~0x3f) == 0 && ((1L << _la) & 303465209266176L) != 0) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 303465209266176L) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -2149,7 +2149,7 @@ public class Compiler_grammarParser extends Parser {
 			setState(338);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la - 4)) & ~0x3f) == 0 && ((1L << (_la - 4)) & 2212527388644933633L) != 0) {
+			while (((((_la - 4)) & ~0x3f) == 0 && ((1L << (_la - 4)) & 2212527388644933633L) != 0)) {
 				{
 				{
 				setState(335);
@@ -2852,7 +2852,7 @@ public class Compiler_grammarParser extends Parser {
 			{
 			setState(412);
 			_la = _input.LA(1);
-			if ( !(((_la) & ~0x3f) == 0 && ((1L << _la) & 1098697943040L) != 0) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 1098697943040L) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -3113,8 +3113,8 @@ public class Compiler_grammarParser extends Parser {
 	public static class ReturnstatementContext extends ParserRuleContext {
 		public TerminalNode RETURN() { return getToken(Compiler_grammarParser.RETURN, 0); }
 		public TerminalNode SEMICOLON() { return getToken(Compiler_grammarParser.SEMICOLON, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
+		public StatementexpressionContext statementexpression() {
+			return getRuleContext(StatementexpressionContext.class,0);
 		}
 		public ReturnstatementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -3157,7 +3157,7 @@ public class Compiler_grammarParser extends Parser {
 				setState(429);
 				match(RETURN);
 				setState(430);
-				expression();
+				statementexpression();
 				setState(431);
 				match(SEMICOLON);
 				}
@@ -4266,7 +4266,7 @@ public class Compiler_grammarParser extends Parser {
 			{
 			setState(563);
 			_la = _input.LA(1);
-			if ( !((((_la - 43)) & ~0x3f) == 0 && ((1L << (_la - 43)) & 3670081L) != 0) ) {
+			if ( !(((((_la - 43)) & ~0x3f) == 0 && ((1L << (_la - 43)) & 3670081L) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -4557,7 +4557,7 @@ public class Compiler_grammarParser extends Parser {
 		"\u0000\u01a6\u01a7\u0005\u0014\u0000\u0000\u01a7U\u0001\u0000\u0000\u0000"+
 		"\u01a8\u01a9\u0003d2\u0000\u01a9\u01aa\u0005\u0014\u0000\u0000\u01aaW"+
 		"\u0001\u0000\u0000\u0000\u01ab\u01ac\u00056\u0000\u0000\u01ac\u01b2\u0005"+
-		"\u0014\u0000\u0000\u01ad\u01ae\u00056\u0000\u0000\u01ae\u01af\u0003*\u0015"+
+		"\u0014\u0000\u0000\u01ad\u01ae\u00056\u0000\u0000\u01ae\u01af\u0003d2"+
 		"\u0000\u01af\u01b0\u0005\u0014\u0000\u0000\u01b0\u01b2\u0001\u0000\u0000"+
 		"\u0000\u01b1\u01ab\u0001\u0000\u0000\u0000\u01b1\u01ad\u0001\u0000\u0000"+
 		"\u0000\u01b2Y\u0001\u0000\u0000\u0000\u01b3\u01b4\u0003^/\u0000\u01b4"+

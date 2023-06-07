@@ -11,6 +11,7 @@ public class Unary implements IExpr {
     public String operator;
 
     public IExpr expression;
+    private Type type;
 
     public Unary(String operator, IExpr expression) {
 
@@ -21,16 +22,17 @@ public class Unary implements IExpr {
 
     @Override
     public Type getType() {
-        return expression.getType();
+        return type;
     }
 
     @Override
     public void setType(Type type) {
-
+        this.type = type;
     }
     @Override
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
         expression.semCheck(parameters, classes, currentClass);
+        type = expression.getType();
     }
     public String toString(String indent) {
         String unary = indent + "Unary: {\n";

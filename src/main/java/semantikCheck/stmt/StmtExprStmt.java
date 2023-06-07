@@ -37,6 +37,7 @@ public class StmtExprStmt implements IStmt {
     @Override
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
         expression.semCheck(parameters,classes,currentClass);
+        type = expression.getType();
     }
 
     public String toString(String indent){

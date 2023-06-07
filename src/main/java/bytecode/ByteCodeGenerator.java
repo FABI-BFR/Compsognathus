@@ -503,8 +503,8 @@ public class ByteCodeGenerator
         _method.getMethodVisitor().visitMethodInsn(Opcodes.INVOKESPECIAL,
                 _new.getType().getType(),
                 "<init>",
-                parseMethodType(_new.method.getType(),
-                        _new.method.getParameter()),
+                parseMethodType(_new.constructor.getType(),
+                        _new.constructor.getParameter()),
                 false);
 
         if (!_new.isStored()) {

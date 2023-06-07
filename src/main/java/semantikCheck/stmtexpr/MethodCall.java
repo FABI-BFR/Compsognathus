@@ -56,24 +56,25 @@ public class MethodCall implements IStmtExpr {
     @Override
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass)
     {
-        if (object == null) {
-            object = new This();
-        }
         object.semCheck(parameters, classes, currentClass);
         this.parameters.forEach(p -> p.semCheck(parameters, classes, currentClass));
         if (!(object instanceof LocalOrFieldVar) || (object instanceof This) || (object instanceof Super)) {
             Checker.addDereferenceError(currentClass.getName(), type);
+            this.type = new Type("null");
+            return;
         }
         Type classType = object.getType();
         Class tempClass = null;
         for(Class c : classes) {
-            if(c.getName().equals(classType.toString())) {
+            if(c.getName().equals(classType.getType())) {
                 tempClass = c;
                 break;
             }
         }
         if (tempClass == null) {
-            Checker.addSymbolNotFoundError(currentClass.getName(), "class" + classType.toString());
+            Checker.addSymbolNotFoundError(currentClass.getName(), "class" + classType.getType());
+            this.type = new Type("null");
+            return;
         }
 
         List<Method> tempMethods = new ArrayList<>();
@@ -85,6 +86,8 @@ public class MethodCall implements IStmtExpr {
 
         if (tempMethods.isEmpty()) {
             Checker.addSymbolNotFoundError(currentClass.getName(), "method" + name);
+            this.type = new Type("null");
+            return;
         }
 
         List<Method> accessableMethods = new ArrayList<>();
@@ -96,6 +99,8 @@ public class MethodCall implements IStmtExpr {
 
         if (accessableMethods.isEmpty()) {
             Checker.addAccessError(currentClass.getName(), name);
+            this.type = new Type("null");
+            return;
         }
 
         Method parameterMethod = null;
@@ -107,6 +112,8 @@ public class MethodCall implements IStmtExpr {
         }
         if (parameterMethod == null) {
             Checker.addArgumentError(currentClass.getName(), name);
+            this.type = new Type("null");
+            return;
         }
 
         method = parameterMethod;

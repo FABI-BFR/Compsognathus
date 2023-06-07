@@ -22,13 +22,13 @@ public class EmptyStmt implements IStmt {
 
     @Override
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
-        type = new Type("null");
+        type = new Type("void");
 
     }
 
     public String toString(String indent) {
         return indent + "EmptyStatement: {\n"
-                + indent + "Type: " + "null" + "\n"
+                + indent + "Type: " + "void" + "\n"
                 + indent + "}\n";
     }
 }

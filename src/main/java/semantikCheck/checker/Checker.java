@@ -44,9 +44,9 @@ public class Checker {
         String a = _at.getType();
         String b = _bt.getType();
 
-        if (a.equals(b) || b == null || b.equals("void") || b.equals("null")) {
+        if (a.equals(b) || b.equals("void") || b.equals("null")) {
             return a;
-        } else if (a == null || a.equals("void") || a.equals("null")) {
+        } else if (a.equals("void") || a.equals("null")) {
             return b;
         } else {
             return "java.lang.Object";
@@ -55,12 +55,12 @@ public class Checker {
 
     public static boolean matchChecker(Type _at, Type _bt) {
         String bound = upperBound(_at,_bt);
-        return bound.equals(_at);
+        return bound.equals(_at.getType());
     }
 
     public static boolean checkParam (List<Parameter> parameters, List<Parameter> arguments) {
         for(int i=0; i< arguments.size(); i++){
-            if (!Checker.upperBound(parameters.get(i).getType(), arguments.get(i).getType()).equals(arguments.get(i).getType())) {
+            if (!Checker.upperBound(parameters.get(i).getType(), arguments.get(i).getType()).equals(arguments.get(i).getType().getType())) {
                 return false;
             }
         }
@@ -69,7 +69,7 @@ public class Checker {
 
     public static boolean checkArgument(List<IExpr> parameters, List<Parameter> arguments) {
         for(int i=0; i<arguments.size(); i++){
-            if (!Checker.upperBound(parameters.get(i).getType(), arguments.get(i).getType()).equals(arguments.get(i).getType())) {
+            if (!Checker.upperBound(parameters.get(i).getType(), arguments.get(i).getType()).equals(arguments.get(i).getType().getType())) {
                 return false;
             }
         }

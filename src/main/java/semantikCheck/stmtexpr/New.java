@@ -6,7 +6,6 @@ import semantikCheck.checker.Checker;
 import semantikCheck.interfaces.IExpr;
 import semantikCheck.interfaces.IStmtExpr;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class New implements IStmtExpr {
@@ -14,7 +13,7 @@ public class New implements IStmtExpr {
     private Type type;
     public List<IExpr> expressions;
     public boolean methodStored;
-    public Method method;
+    public Constructor constructor;
 
     public New(Type type, List<IExpr> expressions, boolean methodStored) {
         this.type = type;
@@ -54,29 +53,31 @@ public class New implements IStmtExpr {
 
         if (tempClass == null) {
             Checker.addSymbolNotFoundError(currentClass.getName(), "class" + type);
+            this.type = new Type("null");
+            return;
         }
 
-        List<Method> tempMethod = new ArrayList<>();
-        for (Method m : tempClass.getMethods()) {
-            if (m.getName().equals(type.toString())) {
-                tempMethod.add(m);
-            }
-        }
-
-        Method tempConstructor = null;
-        for (Method m : tempMethod) {
-            if (m.getAccess() == Access.PUBLIC && m.getParameter().size() == parameters.size() && Checker.checkArgument(expressions, m.getParameter())) {
-                tempConstructor = m;
+        Constructor tempConstructor = null;
+        for ( Constructor c : tempClass.getConstructors()) {
+            if(c.getParameter().size() == this.expressions.size() && Checker.checkArgument(this.expressions,  c.getParameter())){
+                tempConstructor = c;
                 break;
             }
         }
 
         if (tempConstructor == null) {
-            Checker.addArgumentError(currentClass.getName(), "constructor" + type.toString());
+            Checker.addArgumentError(currentClass.getName(), "constructor" + type.getType());
+            this.type = new Type("null");
+            return;
         }
 
-        method = tempConstructor;
+        if (tempConstructor.getAccess() != Access.PUBLIC) {
+            Checker.addAccessError(currentClass.getName(), "constructor" + type.getType());
+            this.type = new Type("null");
+            return;
+        }
 
+        constructor = tempConstructor;
 
     }
     public String toString(String indent) {

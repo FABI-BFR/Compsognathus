@@ -41,7 +41,7 @@ public class InstVar implements IExpr {
     @Override
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
         expression.semCheck(parameters, classes, currentClass);
-        if(!(expression instanceof LocalOrFieldVar || expression instanceof  This || expression instanceof Super)) {
+        if(!(expression instanceof LocalOrFieldVar || expression instanceof This || expression instanceof Super)) {
             Checker.addDereferenceError(currentClass.getName(), type);
         }
 

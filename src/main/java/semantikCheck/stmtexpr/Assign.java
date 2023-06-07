@@ -56,12 +56,12 @@ public class Assign implements IStmtExpr {
     @Override
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass)
     {
-        leftSideExpr.expression.semCheck(parameters, classes, currentClass);
+        leftSideExpr.semCheck(parameters, classes, currentClass);
         expression.semCheck(parameters, classes, currentClass);
         type = expression.getType();
 
-        if (!Checker.upperBound(leftSideExpr.expression.getType(), expression.getType()).equals(leftSideExpr.expression.getType())) {
-            Checker.addIncompatibleTypeError(currentClass.getName(), leftSideExpr.expression.getType(), expression.getType());
+        if (!Checker.upperBound(leftSideExpr.getType(), expression.getType()).equals(leftSideExpr.getType().getType())) {
+            Checker.addIncompatibleTypeError(currentClass.getName(), leftSideExpr.getType(), expression.getType());
         }
     }
 

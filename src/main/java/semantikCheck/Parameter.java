@@ -1,6 +1,10 @@
 package semantikCheck;
 
-public class Parameter {
+import semantikCheck.interfaces.SemChecker;
+
+import java.util.List;
+
+public class Parameter implements SemChecker {
     private Type type;
     private String name;
 
@@ -30,5 +34,10 @@ public class Parameter {
         parameter += indent + "Type: "+type.toString(indent+"\t") + "\n";
         parameter += indent + "Name: "+name + "\n";
         return parameter + indent + "}\n";
+    }
+
+    @Override
+    public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
+
     }
 }

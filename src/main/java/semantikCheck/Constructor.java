@@ -1,5 +1,6 @@
 package semantikCheck;
 
+import semantikCheck.checker.Checker;
 import semantikCheck.interfaces.SemChecker;
 import semantikCheck.stmt.Block;
 
@@ -64,7 +65,11 @@ public class Constructor implements SemChecker {
 
     @Override
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
-
+        if (statement != null) {
+            var temp = new ArrayList<>(parameters);
+            temp.addAll(this.parameter);
+            statement.semCheck(temp, classes, currentClass);
+        }
     }
 
     public String toString(String indent) {

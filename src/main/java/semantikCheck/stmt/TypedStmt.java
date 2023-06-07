@@ -25,6 +25,7 @@ public class TypedStmt implements IStmt {
     @Override
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
         statement.semCheck(parameters, classes, currentClass);
+        type = statement.getType();
     }
 
     public IStmt getStatement() {

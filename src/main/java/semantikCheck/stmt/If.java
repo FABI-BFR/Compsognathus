@@ -63,16 +63,13 @@ public class If  implements IStmt {
             Checker.addIncompatibleTypeError(currentClass.getName(), new Type("boolean"), expression.getType());
         }
 
-        type = new Type("void");
-        if (ifStmt != null) {
-            ifStmt.semCheck(parameters, classes, currentClass);
-            type = ifStmt.getType();
-            if(elseStmt != null) {
-                elseStmt.semCheck(parameters, classes, currentClass);
-                type.setType(Checker.upperBound(type, elseStmt.getType()));
+        ifStmt.semCheck(parameters, classes, currentClass);
+        type = ifStmt.getType();
+        if(elseStmt != null) {
+            elseStmt.semCheck(parameters, classes, currentClass);
+            type.setType(Checker.upperBound(type, elseStmt.getType()));
             }
         }
-    }
 
     public String toString(String indent){
         String ifstmt = indent +"IfStatement: {\n";

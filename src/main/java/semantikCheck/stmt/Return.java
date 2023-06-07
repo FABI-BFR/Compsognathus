@@ -35,13 +35,12 @@ public class Return implements IStmt {
 
     @Override
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
-        if (expression != null) {
-            expression.semCheck(parameters, classes, currentClass);
-            type = expression.getType();
-        } else {
+        if (expression == null) {
             type = new Type ("void");
+            return;
         }
-
+        expression.semCheck(parameters, classes, currentClass);
+        type = expression.getType();
     }
 
     public String toString(String indent){

@@ -39,8 +39,9 @@ public class Binary implements IExpr {
         exprLeft.semCheck(parameters, classes, currentClass);
         exprRight.semCheck(parameters, classes, currentClass);
         if(!Checker.upperBound(exprLeft.getType(), exprRight.getType()).equals(exprLeft.getType().getType())) {
-            Checker.addBinaryExpressionError(currentClass.getName(), exprLeft.getType().toString(), exprRight.getType().toString(), operator);
+            Checker.addBinaryExpressionError(currentClass.getName(), exprLeft.getType().getType(), exprRight.getType().getType(), operator);
         }
+        type = exprLeft.getType();
     }
 
     public String toString(String indent) {

@@ -3,6 +3,7 @@ package bytecode;
 import bytecode.exceptions.InvalidExpressionException;
 import bytecode.exceptions.InvalidStatementException;
 import bytecode.exceptions.InvalidStatementExpressionException;
+import com.sun.source.tree.EmptyStatementTree;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -678,6 +679,11 @@ public class ByteCodeGenerator
         resolveStmtExpr(_method, _stmtExprStmt.getExpression());
     }
 
+    private void visitEmptyStmt(@NotNull MethodGenerator _method,
+                                @NotNull EmptyStmt _emptyStmt){
+        _method.getMethodVisitor().visitInsn(Opcodes.NOP);
+    }
+
     /**
      * resolves a statement
      * @param _method Object containing method stuff
@@ -695,7 +701,9 @@ public class ByteCodeGenerator
             visitStmtExprStmt(_method,(StmtExprStmt)_stmt);
         }else if(_stmt instanceof While){
             visitWhile(_method,(While)_stmt);
-        } else {
+        } else if (_stmt instanceof EmptyStmt){
+            visitEmptyStmt(_method, (EmptyStmt) _stmt);
+        }else {
             throw new InvalidStatementException(_stmt + " is not a valid Statement!");
         }
     }

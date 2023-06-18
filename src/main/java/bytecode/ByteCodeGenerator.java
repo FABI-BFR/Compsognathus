@@ -46,6 +46,22 @@ public class ByteCodeGenerator
                     "java/lang/Object",
                     null);
 
+            // Visit fields
+            for(Field f : c.getFields()){
+                String fieldName = f.getName();
+                String type = parseType(f.getType());
+                Object val = f.getValue();
+
+                classGenerator.getFields().put(fieldName, type);
+                FieldVisitor fv = classGenerator.getClassWriter().visitField(
+                        parseVisibility(f.getAccess()), // Visibility
+                        fieldName,                      // Fieldname
+                        type,                           // Type
+                        null,
+                        val);
+
+                fv.visitEnd();
+            }
 
             //Visit constructor
             for (Constructor constructor : c.getConstructors()) {
@@ -89,21 +105,6 @@ public class ByteCodeGenerator
 
                 mv.visitMaxs(0,0);
                 mv.visitEnd();
-            }
-
-            // Visit fields
-            for(Field f : c.getFields()){
-                String fieldName = f.getName();
-                String type = parseType(f.getType());
-
-                classGenerator.getFields().put(fieldName, type);
-                FieldVisitor fv = classGenerator.getClassWriter().visitField(
-                        parseVisibility(f.getAccess()), // Visibility
-                        fieldName,                      // Fieldname
-                        type,                           // Type
-                        null,
-                        null);
-                fv.visitEnd();
             }
 
             classGenerator.getClassWriter().visitEnd();
@@ -355,13 +356,13 @@ public class ByteCodeGenerator
     /**
      * Resolves a Return Statement
      * @param method Object containing method stuff
-     * @param stmt Statement to resolve
+     * @param _return Statement to resolve
      */
     private void visitReturn(@NotNull MethodGenerator method,
-                             @NotNull Return stmt)
+                             @NotNull Return _return)
     {
-        resolveExpr(method, stmt.getExpression());
-        method.getMethodVisitor().visitInsn(parseReturnType(stmt.getType()));
+        resolveExpr(method, _return.getExpression());
+        method.getMethodVisitor().visitInsn(parseReturnType(_return.getType()));
     }
 
     /**
@@ -374,11 +375,15 @@ public class ByteCodeGenerator
         resolveExpr(_method,_stmt.getExpression());
         Label elseLabel = new Label();
         _method.getMethodVisitor().visitJumpInsn(Opcodes.IFNE, elseLabel);
-        resolveStmt(_method, _stmt.getIfStmt());
+        IStmt ifStmt = _stmt.getIfStmt();
+        resolveStmt(_method, ifStmt);
         Label end = new Label();
         _method.getMethodVisitor().visitJumpInsn(Opcodes.GOTO, end);
-        _method.getMethodVisitor().visitLabel(elseLabel);
-        resolveStmt(_method,_stmt.getElseStmt());
+        IStmt elseStmt = _stmt.getElseStmt();
+        if (elseStmt != null) {
+            _method.getMethodVisitor().visitLabel(elseLabel);
+            resolveStmt(_method,elseStmt);
+        }
         _method.getMethodVisitor().visitLabel(end);
     }
 

@@ -696,7 +696,7 @@ public class ByteCodeGenerator
             visitReturn(_method,(Return)_stmt);
         } else if(_stmt instanceof StmtExprStmt){
             visitStmtExprStmt(_method,(StmtExprStmt)_stmt);
-        }else if(_stmt instanceof While){
+        } else if(_stmt instanceof While){
             visitWhile(_method,(While)_stmt);
         } else if (_stmt instanceof EmptyStmt){
             visitEmptyStmt(_method, (EmptyStmt) _stmt);
@@ -715,8 +715,6 @@ public class ByteCodeGenerator
 
         if(_expr instanceof Binary){
             visitBinary(_method, (Binary) _expr);
-        } else if(_expr instanceof StmtExprStmt){
-            visitStmtExprStmt(_method, (StmtExprStmt) _expr);
         } else if(_expr instanceof Unary) {
             visitUnary(_method, (Unary) _expr);
         } else if(_expr instanceof BoolLit){
@@ -746,9 +744,6 @@ public class ByteCodeGenerator
         if(_stmtExpr instanceof Assign){
             visitAssign(_method, (Assign) _stmtExpr);
         } else if (_stmtExpr instanceof MethodCall){
-
-            //Todo cast failes?
-
             visitMethodCall(_method, (MethodCall) _stmtExpr);
         } else if(_stmtExpr instanceof New){
             visitNew(_method, (New) _stmtExpr);

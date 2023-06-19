@@ -411,6 +411,11 @@ public class ByteCodeGenerator
 
     }
 
+    private void visitLocalVarDecl(@NotNull MethodGenerator _method,
+                                   @NotNull LocalVarDecl _localVarDecl){
+
+    }
+
     private void visitMethodCall(@NotNull MethodGenerator _method,
                                  @NotNull MethodCall _methodCall){
         resolveExpr(_method, _methodCall.object);
@@ -687,19 +692,22 @@ public class ByteCodeGenerator
      * @param _stmt statement to resolve
      */
     private void resolveStmt(@NotNull MethodGenerator _method,
-                             @NotNull IStmt _stmt){
-        if(_stmt instanceof Block){
-            visitBlockStmt(_method, (Block)_stmt,false);
-        }else if(_stmt instanceof If){
-            visitIfStmt(_method,(If)_stmt);
-        } else if(_stmt instanceof Return){
-            visitReturn(_method,(Return)_stmt);
-        } else if(_stmt instanceof StmtExprStmt){
-            visitStmtExprStmt(_method,(StmtExprStmt)_stmt);
-        } else if(_stmt instanceof While){
-            visitWhile(_method,(While)_stmt);
-        } else if (_stmt instanceof EmptyStmt){
+                             @NotNull IStmt _stmt)
+    {
+        if (_stmt instanceof Block) {
+            visitBlockStmt(_method, (Block) _stmt, false);
+        } else if (_stmt instanceof If) {
+            visitIfStmt(_method, (If) _stmt);
+        } else if (_stmt instanceof Return) {
+            visitReturn(_method, (Return) _stmt);
+        } else if (_stmt instanceof StmtExprStmt) {
+            visitStmtExprStmt(_method, (StmtExprStmt) _stmt);
+        } else if (_stmt instanceof While) {
+            visitWhile(_method, (While) _stmt);
+        } else if (_stmt instanceof EmptyStmt) {
             visitEmptyStmt(_method, (EmptyStmt) _stmt);
+        } else if (_stmt instanceof LocalVarDecl){
+            visitLocalVarDecl(_method, (LocalVarDecl) _stmt);
         }else {
             throw new InvalidStatementException(_stmt + " is not a valid Statement!");
         }

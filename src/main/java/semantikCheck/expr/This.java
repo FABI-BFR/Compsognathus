@@ -22,7 +22,7 @@ public class This  implements IExpr {
 
     @Override
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
-        type.setType(currentClass.getName());
+        type = new Type(currentClass.getName());
     }
     public String toString(String indent) {
         return indent + "This: {}\n";

@@ -59,7 +59,7 @@ public class ByteCodeGenerator
                         fieldName,                      // Fieldname
                         type,                           // Type
                         null,
-                        val);
+                        null);
 
                 fv.visitEnd();
             }
@@ -102,6 +102,9 @@ public class ByteCodeGenerator
                 visitBlockStmt(method, m.getStatement(), false);
 
                 //return of method
+
+                int res = parseReturnType(m.getType());
+
                 mv.visitInsn(parseReturnType(m.getType()));
 
                 mv.visitMaxs(0,0);
@@ -193,6 +196,7 @@ public class ByteCodeGenerator
     @Contract(pure = true)
     private int parseReturnType(@NotNull Type _type)
     {
+        int result;
         String type = _type.getType();
 
         return switch (type)
@@ -201,7 +205,7 @@ public class ByteCodeGenerator
                     case "long" -> Opcodes.LRETURN;
                     case "float" -> Opcodes.FRETURN;
                     case "double" -> Opcodes.DRETURN;
-                    case "void" -> Opcodes.RETURN;
+                    case "void" ->  Opcodes.RETURN;
                     default -> Opcodes.ARETURN;
                 };
     }

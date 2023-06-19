@@ -378,10 +378,10 @@ public class Converter {
     }
 
     private static IStmt convertToLocalVarDecl(Compiler_grammarParser.VariabledeclaratorContext variabledeclaratorContext, Type type) {
-        if (variabledeclaratorContext.assignmentexpression() == null) return new LocalOrFieldVar(type, variabledeclaratorContext.IDENTIFIER().getText());
+        if (variabledeclaratorContext.assignmentexpression() == null) return new LocalVarDecl(type, variabledeclaratorContext.IDENTIFIER().getText());
         LocalOrFieldVar var = convertToName(variabledeclaratorContext.name());
         IExpr stmtExpr = convertToAssignExpr(variabledeclaratorContext.assignmentexpression());
-        return new Assign(new LeftSideExpr(new LocalOrFieldVar(type, var.name)), stmtExpr);
+        return new Assign(new LeftSideExpr(new LocalVarDecl(type, var.name)), stmtExpr);
     }
 
     private static IExpr convertToAssignExpr(Compiler_grammarParser.AssignmentexpressionContext assignmentexpressionContext) {

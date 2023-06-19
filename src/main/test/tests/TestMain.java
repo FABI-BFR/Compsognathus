@@ -38,7 +38,7 @@ Immer bei expression über unary zu Literal
         //String folderpath = "src/main/test/exampleClasses";
         //List<File> fileList = listFilesInFolder(folderpath);
         List<File> fileList = new ArrayList<>();
-        fileList.add(new File("src/main/test/exampleClasses/OneMethod/OneParameters/MethodWithBoolParameter.java"));
+        fileList.add(new File("src/main/test/exampleClasses/LongTestFile.java"));
         Compiler_grammarLexer lexer;
         CommonTokenStream token;
         Compiler_grammarParser parser;

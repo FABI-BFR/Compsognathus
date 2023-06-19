@@ -358,11 +358,12 @@ public class Converter {
             }
         }
         if (compareexpressionContext.methodcallexpression() != null) {
-            if (compareexpressionContext.logicaloperator() != null) {
+            return convertToMethodCall(compareexpressionContext.methodcallexpression());
+            /*if (compareexpressionContext.logicaloperator() != null) {
                 return new Binary(compareexpressionContext.logicaloperator().getText(), new LocalOrFieldVar(new Type(""), compareexpressionContext.methodcallexpression().getText()), convertToCompareExpression(compareexpressionContext.compareexpression()));
             } else {
                 return new LocalOrFieldVar(new Type("Boolean"), compareexpressionContext.methodcallexpression().getText());
-            }
+            }*/
         } else { //expression
             if (compareexpressionContext.logicaloperator() != null) {
                 return new Binary(compareexpressionContext.logicaloperator().getText(), new Binary(compareexpressionContext.compareoperator().getText(), convertToExpression1(compareexpressionContext.expression1()), convertToExpression2(compareexpressionContext.expression2())), convertToCompareExpression(compareexpressionContext.compareexpression()));

@@ -132,7 +132,6 @@ public class Converter {
         if (header.accessmodifier().isEmpty()) ac = Access.PUBLIC;
         else ac = getForAccessModifier(header.accessmodifier());
 
-
         List<Parameter> parameters = new ArrayList<>();
 
         if (header.methoddeclarator().formalparameterlist() != null) {
@@ -243,9 +242,9 @@ public class Converter {
     }
 
     private static IExpr convertToStatementExpression(Compiler_grammarParser.StatementexpressionContext statementexpressionContext) {
-        if (statementexpressionContext.expression() != null) {
+        /*if (statementexpressionContext.expression() != null) {
             return convertToExpression(statementexpressionContext.expression());
-        }
+        }*/
         if (statementexpressionContext.assignment() != null) {
             return convertToAssignment(statementexpressionContext.assignment());
         }
@@ -273,14 +272,24 @@ public class Converter {
     }
 
     private static IExpr convertToAssignment(Compiler_grammarParser.AssignmentContext assignmentContext) {
+        if(assignmentContext.THIS() != null){
+           return new Assign(new LeftSideExpr( new LocalOrFieldVar(new Type(""), assignmentContext.name().getText())),convertToAssignExpr(assignmentContext.assignmentexpression()));
+        } else if(assignmentContext.abstracttype() != null){
+            return new Assign(new LeftSideExpr(new LocalVarDecl(getType(assignmentContext.abstracttype()), assignmentContext.name().getText())),
+                                                            convertToAssignExpr(assignmentContext.assignmentexpression()));
+        }
         return new Assign(new LeftSideExpr(convertToName(assignmentContext.name())), convertToAssignExpr(assignmentContext.assignmentexpression()));
     }
 
     private static IExpr convertToNewExpression(Compiler_grammarParser.NewexpressionContext newexpressionContext) {
-        if (newexpressionContext.argumentlist() != null) {
+        if (newexpressionContext.argumentlist() != null && newexpressionContext.name() != null) {
             return new New(new Type(newexpressionContext.name().getText()), convertToArgumentList(newexpressionContext.argumentlist()));
-        } else {
+        } else if (newexpressionContext.argumentlist() == null && newexpressionContext.name() != null){
             return new New(new Type(newexpressionContext.name().getText()), null);
+        } else if (newexpressionContext.argumentlist() != null && newexpressionContext.CLASSIDENTIFIER() != null){
+            return  new New(new Type(newexpressionContext.CLASSIDENTIFIER().getText()), convertToArgumentList(newexpressionContext.argumentlist()));
+        } else {
+            return new New(new Type(newexpressionContext.CLASSIDENTIFIER().getText()), null);
         }
     }
 
@@ -552,12 +561,17 @@ public class Converter {
                 return new Type("boolean");
             }
         } else if (typeContext.abstracttype() != null) {
-            if (typeContext.abstracttype().name() != null) {
-                return new Type(typeContext.abstracttype().name().getText());
-            } else if (typeContext.abstracttype().STRING() != null) {
-                return new Type("java.lang.String");
-            }
+            return getType(typeContext.abstracttype());
         }
         return new Type("");
+    }
+    private static Type getType(Compiler_grammarParser.AbstracttypeContext abstracttypeContext){
+        if (abstracttypeContext.name() != null) {
+            return new Type(abstracttypeContext.name().getText());
+        } else if (abstracttypeContext.STRING() != null) {
+            return new Type("java.lang.String");
+        } else{ // (abstracttypeContext.CLASSIDENTIFIER() != null)
+            return new Type(abstracttypeContext.CLASSIDENTIFIER().getText());
+        }
     }
 }

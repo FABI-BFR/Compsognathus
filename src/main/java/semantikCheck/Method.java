@@ -15,6 +15,7 @@ public class Method implements SemChecker {
     private List<Parameter> parameter;
     private Block statement;
     private Access access;
+    private boolean isStatic;
 
     public Method(Type type, String name, List<Parameter> parameter, Block statement) {
         this(type, name, parameter, statement, Access.PUBLIC);

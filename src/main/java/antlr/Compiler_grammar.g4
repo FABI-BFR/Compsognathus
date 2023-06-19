@@ -117,6 +117,8 @@ argumentlist:       expression |
 
 fielddeclaration:   type variabledeclarators SEMICOLON|
                     accessmodifier type variabledeclarators SEMICOLON;
+                    /*CLASSIDENTIFIER variabledeclarator SEMICOLON |
+                    accessmodifier CLASSIDENTIFIER variabledeclarator SEMICOLON;*/
 
 type:               primitivetype |
                     abstracttype;
@@ -126,7 +128,8 @@ primitivetype:      BOOLEAN |
                     CHAR;
 
 abstracttype:       STRING |
-                    name;
+                    name |
+                    CLASSIDENTIFIER;
 
 name:               simplename |
                     qualifiedname;
@@ -185,6 +188,7 @@ blockstatement:     localvariabledeclaration SEMICOLON|
                     statement;
 
 localvariabledeclaration: type variabledeclarators;
+                    //CLASSIDENTIFIER variabledeclarators;
 
 statement:          ifstatement |
                     ifelsestatement |
@@ -255,7 +259,7 @@ ifelsestatementnoshortif:   IF LBRACE compareexpression RBRACE statementnoshorti
 
 whilestatementnoshortif:    WHILE LBRACE compareexpression RBRACE statementnoshortif;
 
-statementexpression:    expression |
+statementexpression:    /*expression |*/
                     assignment |
                     preincrementexpression |
                     predecrementexpression |
@@ -265,8 +269,8 @@ statementexpression:    expression |
                     newexpression; //classinstancecreationexpression
 
 assignment:         name ASSIGN assignmentexpression |
-                    THIS DOT name ASSIGN assignmentexpression;
-
+                    THIS DOT name ASSIGN assignmentexpression |
+                    abstracttype name ASSIGN assignmentexpression;
 
 assignmentexpression:   expression |
                     preincrementexpression |
@@ -326,7 +330,9 @@ primary:            name |
 fieldaccess:        primary DOT IDENTIFIER;*/
 
 newexpression:      NEW name LBRACE RBRACE |
-                    NEW name LBRACE argumentlist RBRACE;
+                    NEW name LBRACE argumentlist RBRACE |
+                    NEW CLASSIDENTIFIER LBRACE RBRACE |
+                    NEW CLASSIDENTIFIER LBRACE argumentlist RBRACE;
 
 literal:            INTLITERAL |
                     BOOLLITERAL |

@@ -95,6 +95,7 @@ Classes: [
 				IfBranch: {
 					Block: {
 						StmtExpr: { 
+							Assignment: {
 							LeftSideExpression: 
 								Expression: 
 									LocalOrFieldVar: {
@@ -104,6 +105,7 @@ Classes: [
 								LocalOrFieldVar: {
 								Name: temp
 								}
+							}
 						}
 					}
 				}
@@ -125,6 +127,7 @@ Classes: [
 					IfBranch: {
 						Block: {
 							StmtExpr: { 
+								Assignment: {
 								LeftSideExpression: 
 									Expression: 
 										LocalOrFieldVar: {
@@ -135,12 +138,14 @@ Classes: [
 									Type: String
 									Value: "fisch"
 									}
+								}
 							}
 						}
 					}
 					ElseBranch: {
 						Block: {
 							StmtExpr: { 
+								Assignment: {
 								LeftSideExpression: 
 									Expression: 
 										LocalOrFieldVar: {
@@ -151,6 +156,7 @@ Classes: [
 									Type: String
 									Value: "kein fisch"
 									}
+								}
 							}
 						}
 					}
@@ -198,6 +204,7 @@ Classes: [
 					Name: f
 				}
 				StmtExpr: { 
+					Assignment: {
 					LeftSideExpression: 
 						Expression: 
 							LocalOrFieldVar: {
@@ -211,6 +218,7 @@ Classes: [
 						Parameters: [
 						]
 						}
+					}
 				}
 				While: { 
 				Expression: 
@@ -262,6 +270,7 @@ Classes: [
 		Statement: 
 			Block: {
 				StmtExpr: { 
+					Assignment: {
 					LeftSideExpression: 
 						Expression: 
 							LocalOrFieldVar: {
@@ -272,8 +281,10 @@ Classes: [
 						Type: int
 						Value: 0
 						}
+					}
 				}
 				StmtExpr: { 
+					Assignment: {
 					LeftSideExpression: 
 						Expression: 
 							LocalOrFieldVar: {
@@ -284,6 +295,7 @@ Classes: [
 						Type: String
 						Value: "null"
 						}
+					}
 				}
 				LocalVarDecl: { 
 					Type: int
@@ -307,6 +319,7 @@ Classes: [
 		Statement: 
 			Block: {
 				StmtExpr: { 
+					Assignment: {
 					LeftSideExpression: 
 						Expression: 
 							LocalOrFieldVar: {
@@ -316,8 +329,10 @@ Classes: [
 						LocalOrFieldVar: {
 						Name: i
 						}
+					}
 				}
 				StmtExpr: { 
+					Assignment: {
 					LeftSideExpression: 
 						Expression: 
 							LocalOrFieldVar: {
@@ -327,6 +342,7 @@ Classes: [
 						LocalOrFieldVar: {
 						Name: temp
 						}
+					}
 				}
 				LocalVarDecl: { 
 					Type: int

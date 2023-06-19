@@ -17,6 +17,30 @@ Classes: [
 		}
 	]
 	Methods: [
+		Method: {
+		Type: void
+		Name: check
+		Access: public
+		Parameter: [
+		]
+		Statement: {
+			Block: {
+				Assignment: {
+				LeftSideExpression: 
+					Expression: 
+						LocalVarDecl: { 
+							Type: int
+							Name: j
+						}
+				Expression: 
+					IntegerLit: {
+					Type: int
+					Value: 5
+					}
+				}
+			}
+		}
+		}
 	]
 	Constructors: [
 		Constructor: {

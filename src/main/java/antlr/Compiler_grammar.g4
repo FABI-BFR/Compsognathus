@@ -246,7 +246,10 @@ emptystatement:     SEMICOLON;
 expressionstatement:    statementexpression SEMICOLON;
 
 returnstatement:    RETURN SEMICOLON |
-                    RETURN statementexpression SEMICOLON;
+                    RETURN returnexpression SEMICOLON;
+
+returnexpression:   expression |
+                    statementexpression;
 
 statementnoshortif1:    statementnoshortif;
 statementnoshortif2:    statementnoshortif;
@@ -259,7 +262,7 @@ ifelsestatementnoshortif:   IF LBRACE compareexpression RBRACE statementnoshorti
 
 whilestatementnoshortif:    WHILE LBRACE compareexpression RBRACE statementnoshortif;
 
-statementexpression:    /*expression |*/
+statementexpression:/*expression |*/
                     assignment |
                     preincrementexpression |
                     predecrementexpression |

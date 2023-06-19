@@ -319,10 +319,18 @@ public class Converter {
     }
 
     private static IStmt convertToReturnStatement(Compiler_grammarParser.ReturnstatementContext returnstatementContext) {
-        if (returnstatementContext.statementexpression() != null) {
-            return new Return(convertToStatementExpression(returnstatementContext.statementexpression()));
+        if (returnstatementContext.returnexpression() != null) {
+            return new Return(convertToReturnExpression(returnstatementContext.returnexpression()));
         } else {
             return new Return(new JNull());
+        }
+    }
+
+    private static IExpr convertToReturnExpression(Compiler_grammarParser.ReturnexpressionContext returnexpressionContext){
+        if(returnexpressionContext.statementexpression() !=null){
+            return convertToStatementExpression(returnexpressionContext.statementexpression());
+        } else {
+            return convertToExpression(returnexpressionContext.expression());
         }
     }
 

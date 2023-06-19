@@ -83,6 +83,7 @@ public class New implements IStmtExpr {
     public String toString(String indent) {
         String newS = "";
         newS += indent +"Type " + type + "\n";
+        if(expressions == null){return newS + "\n";}
         newS += indent + "Expressions: \n";
         for(IExpr e : expressions){
             newS += e.toString(indent+"\t")+ "\n";

@@ -3,6 +3,7 @@ package bytecode;
 import bytecode.exceptions.InvalidExpressionException;
 import bytecode.exceptions.InvalidStatementException;
 import bytecode.exceptions.InvalidStatementExpressionException;
+import com.sun.source.tree.EmptyStatementTree;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,6 +17,7 @@ import semantikCheck.interfaces.IStmt;
 import semantikCheck.interfaces.IStmtExpr;
 import semantikCheck.stmt.*;
 import semantikCheck.stmtexpr.Assign;
+import semantikCheck.stmtexpr.LeftSideExpr;
 import semantikCheck.stmtexpr.MethodCall;
 import semantikCheck.stmtexpr.New;
 
@@ -45,6 +47,22 @@ public class ByteCodeGenerator
                     "java/lang/Object",
                     null);
 
+            // Visit fields
+            for(Field f : c.getFields()){
+                String fieldName = f.getName();
+                String type = parseType(f.getType());
+                Object val = f.getValue();
+
+                classGenerator.getFields().put(fieldName, type);
+                FieldVisitor fv = classGenerator.getClassWriter().visitField(
+                        parseVisibility(f.getAccess()), // Visibility
+                        fieldName,                      // Fieldname
+                        type,                           // Type
+                        null,
+                        null);
+
+                fv.visitEnd();
+            }
 
             //Visit constructor
             for (Constructor constructor : c.getConstructors()) {
@@ -88,21 +106,6 @@ public class ByteCodeGenerator
 
                 mv.visitMaxs(0,0);
                 mv.visitEnd();
-            }
-
-            // Visit fields
-            for(Field f : c.getFields()){
-                String fieldName = f.getName();
-                String type = parseType(f.getType());
-
-                classGenerator.getFields().put(fieldName, type);
-                FieldVisitor fv = classGenerator.getClassWriter().visitField(
-                        parseVisibility(f.getAccess()), // Visibility
-                        fieldName,                      // Fieldname
-                        type,                           // Type
-                        null,
-                        null);
-                fv.visitEnd();
             }
 
             classGenerator.getClassWriter().visitEnd();
@@ -190,6 +193,7 @@ public class ByteCodeGenerator
     @Contract(pure = true)
     private int parseReturnType(@NotNull Type _type)
     {
+        int result;
         String type = _type.getType();
 
         return switch (type)
@@ -198,7 +202,7 @@ public class ByteCodeGenerator
                     case "long" -> Opcodes.LRETURN;
                     case "float" -> Opcodes.FRETURN;
                     case "double" -> Opcodes.DRETURN;
-                    case "void" -> Opcodes.RETURN;
+                    case "void" ->  Opcodes.RETURN;
                     default -> Opcodes.ARETURN;
                 };
     }
@@ -302,17 +306,6 @@ public class ByteCodeGenerator
     }
 
     /**
-     * Resolves a Super Expression
-     * @param _method Object containing method stuff
-     * @param _super Expression to resolve
-     */
-    private void visitSuper(@NotNull MethodGenerator _method,
-                            @NotNull Super _super)
-    {
-        //TODO Implementieren
-    }
-
-    /**
      * Resolves a Expression
      * @param _method Object containing method stuff
      * @param _this Expression to resolve
@@ -354,13 +347,13 @@ public class ByteCodeGenerator
     /**
      * Resolves a Return Statement
      * @param method Object containing method stuff
-     * @param stmt Statement to resolve
+     * @param _return Statement to resolve
      */
     private void visitReturn(@NotNull MethodGenerator method,
-                             @NotNull Return stmt)
+                             @NotNull Return _return)
     {
-        resolveExpr(method, stmt.getExpression());
-        method.getMethodVisitor().visitInsn(parseReturnType(stmt.getType()));
+        resolveExpr(method, _return.getExpression());
+        method.getMethodVisitor().visitInsn(parseReturnType(_return.getType()));
     }
 
     /**
@@ -373,11 +366,15 @@ public class ByteCodeGenerator
         resolveExpr(_method,_stmt.getExpression());
         Label elseLabel = new Label();
         _method.getMethodVisitor().visitJumpInsn(Opcodes.IFNE, elseLabel);
-        resolveStmt(_method, _stmt.getIfStmt());
+        IStmt ifStmt = _stmt.getIfStmt();
+        resolveStmt(_method, ifStmt);
         Label end = new Label();
         _method.getMethodVisitor().visitJumpInsn(Opcodes.GOTO, end);
-        _method.getMethodVisitor().visitLabel(elseLabel);
-        resolveStmt(_method,_stmt.getElseStmt());
+        IStmt elseStmt = _stmt.getElseStmt();
+        if (elseStmt != null) {
+            _method.getMethodVisitor().visitLabel(elseLabel);
+            resolveStmt(_method,elseStmt);
+        }
         _method.getMethodVisitor().visitLabel(end);
     }
 
@@ -414,7 +411,7 @@ public class ByteCodeGenerator
 
     private void visitMethodCall(@NotNull MethodGenerator _method,
                                  @NotNull MethodCall _methodCall){
-        resolveExpr(_method, _methodCall);
+        resolveExpr(_method, _methodCall.object);
 
         for (IExpr param : _methodCall.parameters) {
             resolveExpr(_method, param);
@@ -503,7 +500,7 @@ public class ByteCodeGenerator
         _method.getMethodVisitor().visitMethodInsn(Opcodes.INVOKESPECIAL,
                 _new.getType().getType(),
                 "<init>",
-                parseMethodType(_new.constructor.getType(),
+                parseMethodType(_new.constructor.getStatement().getType(),
                         _new.constructor.getParameter()),
                 false);
 
@@ -678,6 +675,11 @@ public class ByteCodeGenerator
         resolveStmtExpr(_method, _stmtExprStmt.getExpression());
     }
 
+    private void visitEmptyStmt(@NotNull MethodGenerator _method,
+                                @NotNull EmptyStmt _emptyStmt){
+        _method.getMethodVisitor().visitInsn(Opcodes.NOP);
+    }
+
     /**
      * resolves a statement
      * @param _method Object containing method stuff
@@ -695,7 +697,9 @@ public class ByteCodeGenerator
             visitStmtExprStmt(_method,(StmtExprStmt)_stmt);
         }else if(_stmt instanceof While){
             visitWhile(_method,(While)_stmt);
-        } else {
+        } else if (_stmt instanceof EmptyStmt){
+            visitEmptyStmt(_method, (EmptyStmt) _stmt);
+        }else {
             throw new InvalidStatementException(_stmt + " is not a valid Statement!");
         }
     }
@@ -709,6 +713,8 @@ public class ByteCodeGenerator
                              @NotNull IExpr _expr){
         if(_expr instanceof Binary){
             visitBinary(_method, (Binary) _expr);
+        } else if(_expr instanceof StmtExprStmt){
+            visitStmtExprStmt(_method, (StmtExprStmt) _expr);
         } else if(_expr instanceof Unary) {
             visitUnary(_method, (Unary) _expr);
         } else if(_expr instanceof BoolLit){
@@ -725,12 +731,8 @@ public class ByteCodeGenerator
             visitLocalOrFieldVar(_method, (LocalOrFieldVar) _expr);
         } else if(_expr instanceof StringLit){
             visitStringExpr(_method, (StringLit) _expr);
-        } else if(_expr instanceof Super){
-            visitSuper(_method, (Super) _expr);
         } else if(_expr instanceof This){
             visitThis(_method, (This) _expr);
-        } else if(_expr instanceof StmtExprStmt){
-            visitStmtExprStmt(_method, (StmtExprStmt) _expr);
         }
         else {
             throw new InvalidExpressionException(_expr + " is not a valid Expression!");
@@ -742,6 +744,9 @@ public class ByteCodeGenerator
         if(_stmtExpr instanceof Assign){
             visitAssign(_method, (Assign) _stmtExpr);
         } else if (_stmtExpr instanceof MethodCall){
+
+            //Todo cast failes?
+
             visitMethodCall(_method, (MethodCall) _stmtExpr);
         } else if(_stmtExpr instanceof New){
             visitNew(_method, (New) _stmtExpr);

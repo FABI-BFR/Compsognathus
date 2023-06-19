@@ -58,7 +58,7 @@ public class MethodCall implements IStmtExpr {
     {
         object.semCheck(parameters, classes, currentClass);
         this.parameters.forEach(p -> p.semCheck(parameters, classes, currentClass));
-        if (!(object instanceof LocalOrFieldVar) || (object instanceof This) || (object instanceof Super)) {
+        if (!((object instanceof LocalOrFieldVar) || (object instanceof This) || (object instanceof Super))) {
             Checker.addDereferenceError(currentClass.getName(), type);
             this.type = new Type("null");
             return;

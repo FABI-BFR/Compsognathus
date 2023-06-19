@@ -522,12 +522,14 @@ public class Converter {
     }
 
     private static Field convertToField(Compiler_grammarParser.VariabledeclaratorContext variableContext, Access access, Type type) {
+
         if(variableContext.assignmentexpression() == null){
             return new Field(type, variableContext.IDENTIFIER().getText(), access);
-
         }
+
+
         LocalOrFieldVar var = convertToName(variableContext.name());
-        return new Field(type, var.name , access, convertToAssignExpr(variableContext.assignmentexpression()));
+        return new Field(type, var.name , access, convertToAssignExpr(variableContext.assignmentexpression()), variableContext.assignmentexpression().getText());
 
     }
 

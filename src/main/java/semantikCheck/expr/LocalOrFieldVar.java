@@ -1,5 +1,6 @@
 package semantikCheck.expr;
 
+import com.sun.jdi.Field;
 import semantikCheck.Class;
 import semantikCheck.Parameter;
 import semantikCheck.Type;
@@ -55,6 +56,8 @@ public class LocalOrFieldVar implements IStmtExpr {
         if (tempParameter == null) {
             Checker.addSymbolNotFoundError(currentClass.getName(), name);
         }
+        local = !(tempParameter instanceof Field);
+        type = tempParameter.getType();
     }
     public String toString(String indent) {
         String localOrFieldVar = indent+"LocalOrFieldVar: {\n";

@@ -10,10 +10,12 @@ import java.util.List;
 public class LocalVarDecl implements IStmtExpr {
     private Type type;
     private String name;
+    public Parameter localVar;
 
     public LocalVarDecl(Type type, String name){
         this.type = type;
         this.name = name;
+        localVar = new Parameter(type, name);
     }
 
     @Override
@@ -35,6 +37,6 @@ public class LocalVarDecl implements IStmtExpr {
 
     @Override
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
-
+        parameters.add(localVar);
     }
 }

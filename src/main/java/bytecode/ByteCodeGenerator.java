@@ -102,9 +102,6 @@ public class ByteCodeGenerator
                 visitBlockStmt(method, m.getStatement(), false);
 
                 //return of method
-
-                int res = parseReturnType(m.getType());
-
                 mv.visitInsn(parseReturnType(m.getType()));
 
                 mv.visitMaxs(0,0);
@@ -414,7 +411,7 @@ public class ByteCodeGenerator
 
     private void visitMethodCall(@NotNull MethodGenerator _method,
                                  @NotNull MethodCall _methodCall){
-        resolveExpr(_method, _methodCall);
+        resolveExpr(_method, _methodCall.object);
 
         for (IExpr param : _methodCall.parameters) {
             resolveExpr(_method, param);
@@ -716,6 +713,8 @@ public class ByteCodeGenerator
                              @NotNull IExpr _expr){
         if(_expr instanceof Binary){
             visitBinary(_method, (Binary) _expr);
+        } else if(_expr instanceof StmtExprStmt){
+            visitStmtExprStmt(_method, (StmtExprStmt) _expr);
         } else if(_expr instanceof Unary) {
             visitUnary(_method, (Unary) _expr);
         } else if(_expr instanceof BoolLit){
@@ -734,8 +733,6 @@ public class ByteCodeGenerator
             visitStringExpr(_method, (StringLit) _expr);
         } else if(_expr instanceof This){
             visitThis(_method, (This) _expr);
-        } else if(_expr instanceof StmtExprStmt){
-            visitStmtExprStmt(_method, (StmtExprStmt) _expr);
         }
         else {
             throw new InvalidExpressionException(_expr + " is not a valid Expression!");
@@ -747,6 +744,9 @@ public class ByteCodeGenerator
         if(_stmtExpr instanceof Assign){
             visitAssign(_method, (Assign) _stmtExpr);
         } else if (_stmtExpr instanceof MethodCall){
+
+            //Todo cast failes?
+
             visitMethodCall(_method, (MethodCall) _stmtExpr);
         } else if(_stmtExpr instanceof New){
             visitNew(_method, (New) _stmtExpr);

@@ -17,6 +17,7 @@ import semantikCheck.interfaces.IStmt;
 import semantikCheck.interfaces.IStmtExpr;
 import semantikCheck.stmt.*;
 import semantikCheck.stmtexpr.Assign;
+import semantikCheck.stmtexpr.LeftSideExpr;
 import semantikCheck.stmtexpr.MethodCall;
 import semantikCheck.stmtexpr.New;
 
@@ -301,17 +302,6 @@ public class ByteCodeGenerator
                                  @NotNull StringLit _stringExpr)
     {
         _method.getMethodVisitor().visitLdcInsn(_stringExpr.value);
-    }
-
-    /**
-     * Resolves a Super Expression
-     * @param _method Object containing method stuff
-     * @param _super Expression to resolve
-     */
-    private void visitSuper(@NotNull MethodGenerator _method,
-                            @NotNull Super _super)
-    {
-        //TODO Implementieren
     }
 
     /**
@@ -738,8 +728,6 @@ public class ByteCodeGenerator
             visitLocalOrFieldVar(_method, (LocalOrFieldVar) _expr);
         } else if(_expr instanceof StringLit){
             visitStringExpr(_method, (StringLit) _expr);
-        } else if(_expr instanceof Super){
-            visitSuper(_method, (Super) _expr);
         } else if(_expr instanceof This){
             visitThis(_method, (This) _expr);
         } else if(_expr instanceof StmtExprStmt){

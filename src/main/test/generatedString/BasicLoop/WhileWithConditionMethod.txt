@@ -1,0 +1,65 @@
+Program: {
+Classes: [
+	Class: {
+	Name: WhileWithConditionMethod
+	Access: public
+	Fields: [
+	]
+	Methods: [
+		Method: {
+		Type: void
+		Name: doSomething
+		Access: public
+		Parameter: [
+		]
+		Statement: {
+			Block: {
+				While: { 
+				Expression: 
+					LocalOrFieldVar: {
+					Type:Boolean
+					Name: isTrue()
+					}
+				Statement: 
+					Block: {
+						EmptyStatement: {
+						Type: void
+						}
+					}
+				}
+			}
+		}
+		}
+		Method: {
+		Type: boolean
+		Name: isTrue
+		Access: public
+		Parameter: [
+		]
+		Statement: {
+			Block: {
+				Return: {
+				Expression: 
+					BoolLit: {
+					Type: Boolean
+					Value: true
+					}
+				}
+			}
+		}
+		}
+	]
+	Constructors: [
+		Constructor: {
+		Name: WhileWithConditionMethod
+		Access: public
+		Parameter: [
+		]
+		Statement: 
+			Block: {
+			}
+		}
+	]
+	}
+]
+}

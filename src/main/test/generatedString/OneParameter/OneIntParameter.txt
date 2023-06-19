@@ -1,0 +1,28 @@
+Program: {
+Classes: [
+	Class: {
+	Name: ClassWithOneIntParameter
+	Access: public
+	Fields: [
+		Field: {
+		Type: int
+		Name: par
+		Access: public
+		}
+	]
+	Methods: [
+	]
+	Constructors: [
+		Constructor: {
+		Name: ClassWithOneIntParameter
+		Access: public
+		Parameter: [
+		]
+		Statement: 
+			Block: {
+			}
+		}
+	]
+	}
+]
+}

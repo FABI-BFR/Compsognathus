@@ -1,0 +1,49 @@
+Program: {
+Classes: [
+	Class: {
+	Name: NewClass
+	Access: public
+	Fields: [
+		Field: {
+		Type: Test
+		Name: t
+		Access: public
+		}
+	]
+	Methods: [
+		Method: {
+		Type: void
+		Name: createT
+		Access: public
+		Parameter: [
+		]
+		Statement: {
+			Block: {
+				StmtExpr: { 
+					LeftSideExpression: 
+						Expression: 
+							LocalOrFieldVar: {
+							Name: t
+							}
+					Expression: 
+						Type semantikCheck.Type@482f8f11
+
+				}
+			}
+		}
+		}
+	]
+	Constructors: [
+		Constructor: {
+		Name: NewClass
+		Access: public
+		Parameter: [
+		]
+		Statement: 
+			Block: {
+			}
+		}
+	]
+	}
+]
+}

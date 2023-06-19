@@ -1,0 +1,34 @@
+Program: {
+Classes: [
+	Class: {
+	Name: OneAttributeInitialized
+	Access: public
+	Fields: [
+		Field: {
+		Type: int
+		Name: i
+		Access: public
+		Expression: {
+			IntegerLit: {
+			Type: int
+			Value: 5
+			}
+		}
+		}
+	]
+	Methods: [
+	]
+	Constructors: [
+		Constructor: {
+		Name: OneAttributeInitialized
+		Access: public
+		Parameter: [
+		]
+		Statement: 
+			Block: {
+			}
+		}
+	]
+	}
+]
+}

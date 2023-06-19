@@ -321,13 +321,15 @@ public class ByteCodeGenerator
      * @param _method Object containg mehtod stuff
      * @param _stmt Statement to resolve
      */
-    private void visitWhile(@NotNull MethodGenerator _method, @NotNull While _stmt)
+    private void visitWhile(@NotNull MethodGenerator _method,
+                            @NotNull While _stmt)
     {
         Label loop = new Label();
         _method.getMethodVisitor().visitLabel(loop);
         resolveExpr(_method, _stmt.getExpression());
         Label end = new Label();
-        _method.getMethodVisitor().visitJumpInsn(Opcodes.IFNE, end);
+        //TODO check if IFEQ or IFNE
+        _method.getMethodVisitor().visitJumpInsn(Opcodes.IFEQ, end);
         resolveStmt(_method, _stmt.getStatement());
         _method.getMethodVisitor().visitJumpInsn(Opcodes.GOTO, loop);
         _method.getMethodVisitor().visitLabel(end);
@@ -420,11 +422,10 @@ public class ByteCodeGenerator
         int opcode = _methodCall.getType().getType().equals(_method.getClassGenerator().getName())
                 ? Opcodes.INVOKESPECIAL : Opcodes.INVOKEVIRTUAL;
         _method.getMethodVisitor().visitMethodInsn(opcode,
-                _methodCall.getType().getType(),
-                _methodCall.name,
-                parseMethodType(_methodCall.method.getType(),
-                        _methodCall.method.getParameter()),
-                false);
+                                                    _methodCall.object.getType().getType(),
+                                                    _methodCall.name,
+                                                    parseMethodType(_methodCall.method.getType(), _methodCall.method.getParameter()),
+                                            false);
 
         if (!_methodCall.isStored()) {
             _method.getMethodVisitor().visitInsn(Opcodes.POP);
@@ -711,6 +712,7 @@ public class ByteCodeGenerator
      */
     private void resolveExpr(@NotNull MethodGenerator _method,
                              @NotNull IExpr _expr){
+
         if(_expr instanceof Binary){
             visitBinary(_method, (Binary) _expr);
         } else if(_expr instanceof StmtExprStmt){

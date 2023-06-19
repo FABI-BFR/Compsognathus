@@ -310,8 +310,8 @@ public class Converter {
     }
 
     private static IStmt convertToReturnStatement(Compiler_grammarParser.ReturnstatementContext returnstatementContext) {
-        if (returnstatementContext.expression() != null) {
-            return new Return(convertToExpression(returnstatementContext.expression()));
+        if (returnstatementContext.statementexpression() != null) {
+            return new Return(convertToStatementExpression(returnstatementContext.statementexpression()));
         } else {
             return new Return(new JNull());
         }
@@ -476,7 +476,7 @@ public class Converter {
         if (expression.MOD() != null) return new Binary("%",
                 convertToLiteral(expression.literal()),
                 convertToExpression(expression.expression()));
-        return new Unary("", convertToLiteral(expression.literal()));
+        return convertToLiteral(expression.literal());
     }
 
     private static IExpr convertToLiteral(Compiler_grammarParser.LiteralContext literal) {

@@ -71,7 +71,6 @@ public class Assign implements IStmtExpr {
                 + leftSideExpr.toString(indent+"\t");
         assign += indent + "Expression: " + "\n"
                 + expression.toString(indent+"\t");
-
         return assign;
     }
 }

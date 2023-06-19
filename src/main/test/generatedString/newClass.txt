@@ -19,15 +19,19 @@ Classes: [
 		]
 		Statement: {
 			Block: {
-				StmtExpr: { 
-					LeftSideExpression: 
-						Expression: 
-							LocalOrFieldVar: {
-							Name: t
-							}
+				Assignment: {
+				LeftSideExpression: 
 					Expression: 
-						Type semantikCheck.Type@482f8f11
-
+						LocalVarDecl: { 
+							Type: Test
+							Name: t
+						}
+				Expression: 
+					New: {
+					Type Test
+					Parameter: [
+					]
+					}
 				}
 			}
 		}

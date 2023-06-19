@@ -58,8 +58,8 @@ public class New implements IStmtExpr {
         }
 
         Constructor tempConstructor = null;
-        for ( Constructor c : tempClass.getConstructors()) {
-            if(c.getParameter().size() == this.expressions.size() && Checker.checkArgument(this.expressions,  c.getParameter())){
+        for (Constructor c : tempClass.getConstructors()) {
+            if (c.getParameter().size() == this.expressions.size() && Checker.checkArgument(this.expressions, c.getParameter())) {
                 tempConstructor = c;
                 break;
             }
@@ -80,14 +80,17 @@ public class New implements IStmtExpr {
         constructor = tempConstructor;
 
     }
+
     public String toString(String indent) {
-        String newS = "";
-        newS += indent +"Type " + type + "\n";
-        if(expressions == null){return newS + "\n";}
-        newS += indent + "Expressions: \n";
-        for(IExpr e : expressions){
-            newS += e.toString(indent+"\t")+ "\n";
+        String newS = indent + "New: {\n";
+        newS += indent + "Type " + type.getType() + "\n";
+        newS += indent + "Parameter: [\n";
+        if (expressions != null) {
+            for (IExpr e : expressions) {
+                newS += e.toString(indent + "\t");
+            }
         }
-        return newS + "\n";
+        newS += indent + "]\n";
+        return newS + indent + "}\n";
     }
 }

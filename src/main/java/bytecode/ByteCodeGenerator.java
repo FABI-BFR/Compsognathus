@@ -18,7 +18,9 @@ import semantikCheck.stmt.*;
 import semantikCheck.stmtexpr.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 
 public class ByteCodeGenerator
@@ -399,18 +401,19 @@ public class ByteCodeGenerator
             }
         }
 
-        resolveExpr(_method, _assign.getExpression());
-
         if(_assign.getLeftSideExpr().expression instanceof IStmtExpr){
             resolveStmtExpr(_method, (IStmtExpr) _assign.getLeftSideExpr().expression);
         } else {
             resolveExpr(_method, _assign.getLeftSideExpr().getExpression());
         }
+
+        resolveExpr(_method, _assign.getExpression());
+
+
     }
 
     private void visitLocalVarDecl(@NotNull MethodGenerator _method,
                                    @NotNull LocalVarDecl _localVarDecl){
-
         int opcode;
 
         switch (_localVarDecl.getType().getType()){
@@ -424,14 +427,15 @@ public class ByteCodeGenerator
                 break;
         }
 
+        //Security with regard to some declarations occuring twice
         if (!_method.getVariables().containsKey(_localVarDecl.localVar.getName())) {
-            _method.getVariables().put(_localVarDecl.localVar.getName(), _method.getVariables().size() + 1);
+            _method.getVariables().put(_localVarDecl.localVar.getName(), _method.getVariables().size());
         }
 
-        _method.getMethodVisitor().visitVarInsn(opcode,
-                _method.getVariables()
-                        .floorEntry(_localVarDecl.localVar.getName())
-                        .getValue());
+        int varIndex = _method.getVariables().get(_localVarDecl.localVar.getName());
+
+        //Pass on the opcode and calculate the index of the Variable
+        _method.getMethodVisitor().visitVarInsn(opcode, varIndex);
     }
 
     private void visitMethodCall(@NotNull MethodGenerator _method,
@@ -756,8 +760,7 @@ public class ByteCodeGenerator
             visitStringExpr(_method, (StringLit) _expr);
         } else if(_expr instanceof This){
             visitThis(_method, (This) _expr);
-        }
-        else {
+        } else {
             throw new InvalidExpressionException(_expr + " is not a valid Expression!");
         }
     }

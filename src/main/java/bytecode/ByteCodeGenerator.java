@@ -407,7 +407,12 @@ public class ByteCodeGenerator
             resolveExpr(_method, _assign.getLeftSideExpr().getExpression());
         }
 
-        resolveExpr(_method, _assign.getExpression());
+        if(_assign.getExpression() instanceof IStmtExpr){
+            resolveStmtExpr(_method, (IStmtExpr) _assign.getExpression());
+        } else {
+            resolveExpr(_method, _assign.getExpression());
+        }
+
 
 
     }

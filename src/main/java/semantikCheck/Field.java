@@ -2,8 +2,11 @@ package semantikCheck;
 
 import semantikCheck.interfaces.IExpr;
 import semantikCheck.interfaces.IStmtExpr;
+import semantikCheck.interfaces.IVar;
 
-public class Field {
+import java.util.List;
+
+public class Field implements IVar {
     private Type type;
     private String name;
     private Access access;
@@ -84,5 +87,10 @@ public class Field {
         program += indent + "Access: " + access.toString(indent + "\t") + "\n";
         program += expression == null ? "" : indent + "Expression: {\n" + expression.toString(indent + "\t") + indent + "}\n";
         return program + indent + "}\n";
+    }
+
+    @Override
+    public void semCheck(List<IVar> vars, List<Class> classes, Class currentClass) {
+
     }
 }

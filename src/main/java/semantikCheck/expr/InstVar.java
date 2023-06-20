@@ -4,6 +4,7 @@ import semantikCheck.*;
 import semantikCheck.Class;
 import semantikCheck.checker.Checker;
 import semantikCheck.interfaces.IExpr;
+import semantikCheck.interfaces.IVar;
 import semantikCheck.stmtexpr.LocalOrFieldVar;
 
 import java.util.List;
@@ -40,8 +41,8 @@ public class InstVar implements IExpr {
     }
 
     @Override
-    public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
-        expression.semCheck(parameters, classes, currentClass);
+    public void semCheck(List<IVar> vars, List<Class> classes, Class currentClass) {
+        expression.semCheck(vars, classes, currentClass);
         if(!(expression instanceof LocalOrFieldVar || expression instanceof This || expression instanceof Super)) {
             Checker.addDereferenceError(currentClass.getName(), type);
         }

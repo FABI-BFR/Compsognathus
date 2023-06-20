@@ -1,10 +1,11 @@
 package semantikCheck;
 
+import semantikCheck.interfaces.IVar;
 import semantikCheck.interfaces.SemChecker;
 
 import java.util.List;
 
-public class Parameter implements SemChecker {
+public class Parameter implements IVar {
     private Type type;
     private String name;
 
@@ -37,7 +38,7 @@ public class Parameter implements SemChecker {
     }
 
     @Override
-    public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
+    public void semCheck(List<IVar> vars, List<Class> classes, Class currentClass) {
 
     }
 }

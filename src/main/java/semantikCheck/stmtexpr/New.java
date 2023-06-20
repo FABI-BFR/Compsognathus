@@ -5,6 +5,7 @@ import semantikCheck.Class;
 import semantikCheck.checker.Checker;
 import semantikCheck.interfaces.IExpr;
 import semantikCheck.interfaces.IStmtExpr;
+import semantikCheck.interfaces.IVar;
 
 import java.util.List;
 
@@ -41,8 +42,8 @@ public class New implements IStmtExpr {
     }
 
     @Override
-    public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
-        expressions.forEach(p -> p.semCheck(parameters, classes, currentClass));
+    public void semCheck(List<IVar> vars, List<Class> classes, Class currentClass) {
+        expressions.forEach(p -> p.semCheck(vars, classes, currentClass));
         Class tempClass = null;
         for (Class c : classes) {
             if (c.getName().equals(type.toString())) {

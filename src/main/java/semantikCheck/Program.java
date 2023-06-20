@@ -1,6 +1,7 @@
 package semantikCheck;
 
 import semantikCheck.checker.Checker;
+import semantikCheck.interfaces.IVar;
 import semantikCheck.interfaces.SemChecker;
 
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ public class Program implements SemChecker
     }*/
 
     @Override
-    public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
+    public void semCheck(List<IVar> vars, List<Class> classes, Class currentClass) {
 
         for (int i = 0; i < classes.size() - 1; i++) {
             for (int j = i + 1; j < classes.size(); j++) {
@@ -73,9 +74,8 @@ public class Program implements SemChecker
             }
         }
         for (Class c : classes) {
-            c.semCheck(parameters, classes, c);
+            c.semCheck(vars, classes, c);
         }
-        int a;
     }
     public String toString(String indent){
         String program = indent +"Program: {\n";

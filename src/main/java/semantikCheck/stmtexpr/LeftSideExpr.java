@@ -1,10 +1,12 @@
 package semantikCheck.stmtexpr;
 
 import semantikCheck.Class;
+import semantikCheck.Field;
 import semantikCheck.Parameter;
 import semantikCheck.Type;
 import semantikCheck.interfaces.IExpr;
 import semantikCheck.interfaces.IStmtExpr;
+import semantikCheck.interfaces.IVar;
 import semantikCheck.interfaces.SemChecker;
 
 import java.util.List;
@@ -42,8 +44,8 @@ public class LeftSideExpr implements IStmtExpr {
     }
 
     @Override
-    public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
-        expression.semCheck(parameters, classes, currentClass);
+    public void semCheck(List<IVar> vars, List<Class> classes, Class currentClass) {
+        expression.semCheck(vars, classes, currentClass);
         type = expression.getType();
     }
 }

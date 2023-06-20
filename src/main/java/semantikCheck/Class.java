@@ -1,6 +1,7 @@
 package semantikCheck;
 
 import bytecode.MethodGenerator;
+import semantikCheck.interfaces.IVar;
 import semantikCheck.interfaces.SemChecker;
 import java.util.ArrayList;
 import semantikCheck.checker.Checker;
@@ -90,7 +91,7 @@ public class Class implements SemChecker {
     }
 
     @Override
-    public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
+    public void semCheck(List<IVar> vars, List<Class> classes, Class currentClass) {
 
         for(int i = 0; i < methods.size()-1; i++){
             for(int j = i + 1; j < methods.size(); j++){
@@ -111,9 +112,10 @@ public class Class implements SemChecker {
                 }
             }
         }
+        vars.addAll((Collection<? extends IVar>) fields);
 
         for (Method m : methods) {
-            m.semCheck(parameters, classes, this);
+            m.semCheck(vars, classes, this);
         }
     }
 

@@ -6,6 +6,7 @@ import semantikCheck.checker.Checker;
 import semantikCheck.interfaces.IExpr;
 import semantikCheck.Type;
 import semantikCheck.interfaces.IStmt;
+import semantikCheck.interfaces.IVar;
 
 import java.util.List;
 
@@ -34,12 +35,12 @@ public class Return implements IStmt {
     }
 
     @Override
-    public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
+    public void semCheck(List<IVar> vars, List<Class> classes, Class currentClass) {
         if (expression == null) {
             type = new Type ("void");
             return;
         }
-        expression.semCheck(parameters, classes, currentClass);
+        expression.semCheck(vars, classes, currentClass);
         type = expression.getType();
     }
 

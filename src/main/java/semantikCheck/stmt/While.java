@@ -6,6 +6,7 @@ import semantikCheck.Type;
 import semantikCheck.checker.Checker;
 import semantikCheck.interfaces.IExpr;
 import semantikCheck.interfaces.IStmt;
+import semantikCheck.interfaces.IVar;
 
 import java.util.List;
 
@@ -47,13 +48,13 @@ public class While implements IStmt {
     }
 
     @Override
-    public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
-        expression.semCheck(parameters, classes, currentClass);
+    public void semCheck(List<IVar> vars, List<Class> classes, Class currentClass) {
+        expression.semCheck(vars, classes, currentClass);
         if(!expression.getType().getType().equals("boolean")) {
             Checker.addIncompatibleTypeError(currentClass.getName(), new Type("boolean"), expression.getType());
         }
 
-        statement.semCheck(parameters, classes, currentClass);
+        statement.semCheck(vars, classes, currentClass);
         type = statement.getType();
     }
 

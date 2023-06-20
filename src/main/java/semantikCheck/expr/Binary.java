@@ -6,6 +6,7 @@ import semantikCheck.Parameter;
 import semantikCheck.Type;
 import semantikCheck.checker.Checker;
 import semantikCheck.interfaces.IExpr;
+import semantikCheck.interfaces.IVar;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class Binary implements IExpr {
     public String operator;
     public IExpr exprLeft;
     public IExpr exprRight;
+    public boolean isBoolOperation ;
     private Type type;
 
     public Binary(String operator, IExpr exprLeft, IExpr exprRight) {
@@ -22,6 +24,22 @@ public class Binary implements IExpr {
         this.exprLeft = exprLeft;
         this.exprRight = exprRight;
 
+    }
+
+    public boolean checkBoolOperator (String operator){
+        switch (operator) {
+            case "==":
+            case "!=":
+            case "&&":
+            case "||":
+            case "<":
+            case ">":
+            case "<=":
+            case ">=":
+                return true;
+            default:
+                return false;
+        }
     }
 
     @Override
@@ -35,13 +53,22 @@ public class Binary implements IExpr {
     }
 
     @Override
-    public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
-        exprLeft.semCheck(parameters, classes, currentClass);
-        exprRight.semCheck(parameters, classes, currentClass);
+    public void semCheck(List<IVar> vars, List<Class> classes, Class currentClass) {
+        exprLeft.semCheck(vars, classes, currentClass);
+        exprRight.semCheck(vars, classes, currentClass);
+
         if(!Checker.upperBound(exprLeft.getType(), exprRight.getType()).equals(exprLeft.getType().getType())) {
             Checker.addBinaryExpressionError(currentClass.getName(), exprLeft.getType().getType(), exprRight.getType().getType(), operator);
         }
-        type = exprLeft.getType();
+
+
+        if(checkBoolOperator(operator)){
+            type = new Type ("boolean");
+        }else{
+            type = exprLeft.getType();
+        }
+
+
     }
 
     public String toString(String indent) {

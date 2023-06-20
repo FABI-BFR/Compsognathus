@@ -3,6 +3,7 @@ import semantikCheck.Class;
 import semantikCheck.Parameter;
 import semantikCheck.Type;
 import  semantikCheck.interfaces.IExpr;
+import semantikCheck.interfaces.IVar;
 
 import java.util.List;
 
@@ -30,8 +31,8 @@ public class Unary implements IExpr {
         this.type = type;
     }
     @Override
-    public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
-        expression.semCheck(parameters, classes, currentClass);
+    public void semCheck(List<IVar> vars, List<Class> classes, Class currentClass) {
+        expression.semCheck(vars, classes, currentClass);
         type = expression.getType();
     }
     public String toString(String indent) {

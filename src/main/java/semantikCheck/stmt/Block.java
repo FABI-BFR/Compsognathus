@@ -1,12 +1,16 @@
 package semantikCheck.stmt;
 
 import semantikCheck.Class;
+import semantikCheck.Field;
 import semantikCheck.Parameter;
 import semantikCheck.Type;
 import semantikCheck.checker.Checker;
 import semantikCheck.interfaces.IStmt;
 import semantikCheck.stmtexpr.Assign;
 import semantikCheck.stmtexpr.LocalVarDecl;
+import semantikCheck.interfaces.IVar;
+import semantikCheck.stmtexpr.Assign;
+import semantikCheck.stmtexpr.LeftSideExpr;
 import semantikCheck.stmtexpr.MethodCall;
 
 import java.util.ArrayList;
@@ -43,10 +47,10 @@ public class Block implements IStmt {
     }
 
     @Override
-    public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
+    public void semCheck(List<IVar> vars, List<Class> classes, Class currentClass) {
 
         for (IStmt statement : statements) {
-            statement.semCheck(parameters, classes, currentClass);
+            statement.semCheck(vars, classes, currentClass);
         }
 
         type = new Type("void");

@@ -4,6 +4,7 @@ import semantikCheck.Class;
 import semantikCheck.Parameter;
 import semantikCheck.Type;
 import semantikCheck.interfaces.IStmt;
+import semantikCheck.interfaces.IVar;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class EmptyStmt implements IStmt {
 
 
     @Override
-    public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
+    public void semCheck(List<IVar> vars, List<Class> classes, Class currentClass) {
         type = new Type("void");
 
     }

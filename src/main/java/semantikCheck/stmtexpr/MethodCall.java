@@ -7,6 +7,7 @@ import semantikCheck.expr.Super;
 import semantikCheck.expr.This;
 import semantikCheck.interfaces.IExpr;
 import semantikCheck.interfaces.IStmtExpr;
+import semantikCheck.interfaces.IVar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,10 +53,10 @@ public class MethodCall implements IStmtExpr {
     }
 
     @Override
-    public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass)
+    public void semCheck(List<IVar> vars, List<Class> classes, Class currentClass)
     {
-        object.semCheck(parameters, classes, currentClass);
-        this.parameters.forEach(p -> p.semCheck(parameters, classes, currentClass));
+        object.semCheck(vars, classes, currentClass);
+        this.parameters.forEach(p -> p.semCheck(vars, classes, currentClass));
         if (!((object instanceof LocalOrFieldVar) || (object instanceof This) || (object instanceof Super))) {
             Checker.addDereferenceError(currentClass.getName(), type);
             this.type = new Type("null");

@@ -1,5 +1,4 @@
 public class Main {
-    int i;
     String temp;
     private int i, b;
 

@@ -97,7 +97,7 @@ public class Checker {
     }
 
     public static void addArgumentError (String className, String methodName) {
-        errors.add("Error in class " + className + ": method" + methodName + " cannot be applied to given types");
+        errors.add("Error in class " + className + ": method " + methodName + " cannot be applied to given types");
     }
 
     public static void addDuplicateSymbolError (String className, String symbolName, String symbol) {

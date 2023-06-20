@@ -4,9 +4,9 @@ import semantikCheck.Class;
 import semantikCheck.Parameter;
 import semantikCheck.Type;
 import semantikCheck.checker.Checker;
-import semantikCheck.expr.LocalOrFieldVar;
 import semantikCheck.interfaces.IStmt;
 import semantikCheck.stmtexpr.Assign;
+import semantikCheck.stmtexpr.LocalVarDecl;
 import semantikCheck.stmtexpr.MethodCall;
 
 import java.util.ArrayList;

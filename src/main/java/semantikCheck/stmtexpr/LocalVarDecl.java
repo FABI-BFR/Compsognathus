@@ -1,4 +1,4 @@
-package semantikCheck.stmt;
+package semantikCheck.stmtexpr;
 
 import semantikCheck.Class;
 import semantikCheck.Parameter;

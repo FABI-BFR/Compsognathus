@@ -3,7 +3,6 @@ package bytecode;
 import bytecode.exceptions.InvalidExpressionException;
 import bytecode.exceptions.InvalidStatementException;
 import bytecode.exceptions.InvalidStatementExpressionException;
-import com.sun.source.tree.EmptyStatementTree;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,10 +15,7 @@ import semantikCheck.interfaces.IExpr;
 import semantikCheck.interfaces.IStmt;
 import semantikCheck.interfaces.IStmtExpr;
 import semantikCheck.stmt.*;
-import semantikCheck.stmtexpr.Assign;
-import semantikCheck.stmtexpr.LeftSideExpr;
-import semantikCheck.stmtexpr.MethodCall;
-import semantikCheck.stmtexpr.New;
+import semantikCheck.stmtexpr.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -399,10 +395,8 @@ public class ByteCodeGenerator
     private void visitAssign(@NotNull MethodGenerator _method,
                              @NotNull Assign _assign){
 
-        var left = (IExpr)_assign.getLeftSideExpr();
-
-        if (left instanceof LocalOrFieldVar) {
-            if (!((LocalOrFieldVar)left).isLocal()) {
+        if (_assign.getLeftSideExpr().expression instanceof LocalVarDecl) {
+            if (!((LocalOrFieldVar)_assign.getLeftSideExpr().expression).isLocal()) {
                 _method.getMethodVisitor().visitVarInsn(Opcodes.ALOAD, 0);
             }
         }
@@ -675,10 +669,10 @@ public class ByteCodeGenerator
         }
     }
 
-    private void visitStmtExprStmt(@NotNull MethodGenerator _method,
-                                   @NotNull StmtExprStmt _stmtExprStmt)
+    private void visitStmtExpr(@NotNull MethodGenerator _method,
+                                   @NotNull IStmtExpr _stmtExpr)
     {
-        resolveStmtExpr(_method, _stmtExprStmt.getExpression());
+        resolveStmtExpr(_method, _stmtExpr);
     }
 
     private void visitEmptyStmt(@NotNull MethodGenerator _method,
@@ -700,15 +694,13 @@ public class ByteCodeGenerator
             visitIfStmt(_method, (If) _stmt);
         } else if (_stmt instanceof Return) {
             visitReturn(_method, (Return) _stmt);
-        } else if (_stmt instanceof StmtExprStmt) {
-            visitStmtExprStmt(_method, (StmtExprStmt) _stmt);
+        } else if (_stmt instanceof IStmtExpr) {
+            visitStmtExpr(_method, (IStmtExpr) _stmt);
         } else if (_stmt instanceof While) {
             visitWhile(_method, (While) _stmt);
         } else if (_stmt instanceof EmptyStmt) {
             visitEmptyStmt(_method, (EmptyStmt) _stmt);
-        } else if (_stmt instanceof LocalVarDecl){
-            visitLocalVarDecl(_method, (LocalVarDecl) _stmt);
-        }else {
+        } else {
             throw new InvalidStatementException(_stmt + " is not a valid Statement!");
         }
     }
@@ -755,6 +747,8 @@ public class ByteCodeGenerator
             visitMethodCall(_method, (MethodCall) _stmtExpr);
         } else if(_stmtExpr instanceof New){
             visitNew(_method, (New) _stmtExpr);
+        } else if (_stmtExpr instanceof LocalVarDecl){
+            visitLocalVarDecl(_method, (LocalVarDecl) _stmtExpr);
         } else {
             throw new InvalidStatementExpressionException(_stmtExpr + " is not a valid Statementexpression!");
         }

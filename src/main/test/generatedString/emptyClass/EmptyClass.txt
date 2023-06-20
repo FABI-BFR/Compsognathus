@@ -1,0 +1,23 @@
+Program: {
+Classes: [
+	Class: {
+	Name: EmptyClass
+	Access: public
+	Fields: [
+	]
+	Methods: [
+	]
+	Constructors: [
+		Constructor: {
+		Name: EmptyClass
+		Access: public
+		Parameter: [
+		]
+		Statement: 
+			Block: {
+			}
+		}
+	]
+	}
+]
+}

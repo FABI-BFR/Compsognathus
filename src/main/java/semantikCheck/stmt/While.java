@@ -49,7 +49,6 @@ public class While implements IStmt {
     @Override
     public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
         expression.semCheck(parameters, classes, currentClass);
-        String e = expression.getType().getType();
         if(!expression.getType().getType().equals("boolean")) {
             Checker.addIncompatibleTypeError(currentClass.getName(), new Type("boolean"), expression.getType());
         }

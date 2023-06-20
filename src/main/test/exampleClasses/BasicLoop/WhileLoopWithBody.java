@@ -4,7 +4,7 @@ public class WhileLoopWithBody {
             doNothing();
         }
     }
-    public void doNothing(){
-        return;
+    public int doNothing(){
+        return 1;
     }
 }

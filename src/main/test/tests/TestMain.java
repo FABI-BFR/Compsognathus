@@ -17,13 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TestMain {
-    /*
-    Bei Compares Type auf Boolean setzen
-Bei Assign von this.temp
-Unary -> StringLit? Bei Statement
-Immer bei expression über unary zu Literal
-     */
-
     public static void main(String[] args) throws IOException {
 
         /*CharStream input = CharStreams.fromFileName("src/main/test/exampleClasses/OneMethod/OneParameters/MethodWithBoolParameter.java");
@@ -34,11 +27,10 @@ Immer bei expression über unary zu Literal
         Compiler_grammarParser.CompilationunitContext tree = parser.compilationunit();
         Program pg = Converter.convertToProgram(tree);*/
 
-
-        //String folderpath = "src/main/test/exampleClasses";
-        //List<File> fileList = listFilesInFolder(folderpath);
-        List<File> fileList = new ArrayList<>();
-        fileList.add(new File("src/main/test/exampleClasses/OneMethod/OneParameters/MethodWithBoolParameter.java"));
+        String folderpath = "src/main/test/exampleClasses";
+        List<File> fileList = listFilesInFolder(folderpath);
+        //List<File> fileList = new ArrayList<>();
+        //fileList.add(new File("src/main/test/exampleClasses/newClass.java"));
         Compiler_grammarLexer lexer;
         CommonTokenStream token;
         Compiler_grammarParser parser;
@@ -66,7 +58,7 @@ Immer bei expression über unary zu Literal
         }
     }
 
-    public static void writeFile(File file, String generatedFiles) {
+    public static void writeFile(File file, String generatedFile) {
         String newPath = file.getPath().replace("exampleClasses", "generatedString");
         newPath = newPath.replace(".java",".txt");
         File newFile = new File(newPath);
@@ -76,7 +68,7 @@ Immer bei expression über unary zu Literal
             Files.createDirectories(Paths.get(directory));
             newFile.createNewFile();
             writer = new FileWriter(newFile);
-            writer.write(generatedFiles);
+            writer.write(generatedFile);
             writer.close();
         } catch (IOException e) {
             throw new RuntimeException(e);

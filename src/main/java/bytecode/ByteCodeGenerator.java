@@ -17,6 +17,7 @@ import semantikCheck.interfaces.IStmt;
 import semantikCheck.interfaces.IStmtExpr;
 import semantikCheck.stmt.*;
 import semantikCheck.stmtexpr.Assign;
+import semantikCheck.stmtexpr.LeftSideExpr;
 import semantikCheck.stmtexpr.MethodCall;
 import semantikCheck.stmtexpr.New;
 
@@ -58,7 +59,7 @@ public class ByteCodeGenerator
                         fieldName,                      // Fieldname
                         type,                           // Type
                         null,
-                        val);
+                        null);
 
                 fv.visitEnd();
             }
@@ -192,6 +193,7 @@ public class ByteCodeGenerator
     @Contract(pure = true)
     private int parseReturnType(@NotNull Type _type)
     {
+        int result;
         String type = _type.getType();
 
         return switch (type)
@@ -200,7 +202,7 @@ public class ByteCodeGenerator
                     case "long" -> Opcodes.LRETURN;
                     case "float" -> Opcodes.FRETURN;
                     case "double" -> Opcodes.DRETURN;
-                    case "void" -> Opcodes.RETURN;
+                    case "void" ->  Opcodes.RETURN;
                     default -> Opcodes.ARETURN;
                 };
     }
@@ -304,17 +306,6 @@ public class ByteCodeGenerator
     }
 
     /**
-     * Resolves a Super Expression
-     * @param _method Object containing method stuff
-     * @param _super Expression to resolve
-     */
-    private void visitSuper(@NotNull MethodGenerator _method,
-                            @NotNull Super _super)
-    {
-        //TODO Implementieren
-    }
-
-    /**
      * Resolves a Expression
      * @param _method Object containing method stuff
      * @param _this Expression to resolve
@@ -330,13 +321,15 @@ public class ByteCodeGenerator
      * @param _method Object containg mehtod stuff
      * @param _stmt Statement to resolve
      */
-    private void visitWhile(@NotNull MethodGenerator _method, @NotNull While _stmt)
+    private void visitWhile(@NotNull MethodGenerator _method,
+                            @NotNull While _stmt)
     {
         Label loop = new Label();
         _method.getMethodVisitor().visitLabel(loop);
         resolveExpr(_method, _stmt.getExpression());
         Label end = new Label();
-        _method.getMethodVisitor().visitJumpInsn(Opcodes.IFNE, end);
+        //TODO check if IFEQ or IFNE
+        _method.getMethodVisitor().visitJumpInsn(Opcodes.IFEQ, end);
         resolveStmt(_method, _stmt.getStatement());
         _method.getMethodVisitor().visitJumpInsn(Opcodes.GOTO, loop);
         _method.getMethodVisitor().visitLabel(end);
@@ -418,9 +411,14 @@ public class ByteCodeGenerator
 
     }
 
+    private void visitLocalVarDecl(@NotNull MethodGenerator _method,
+                                   @NotNull LocalVarDecl _localVarDecl){
+
+    }
+
     private void visitMethodCall(@NotNull MethodGenerator _method,
                                  @NotNull MethodCall _methodCall){
-        resolveExpr(_method, _methodCall);
+        resolveExpr(_method, _methodCall.object);
 
         for (IExpr param : _methodCall.parameters) {
             resolveExpr(_method, param);
@@ -429,11 +427,10 @@ public class ByteCodeGenerator
         int opcode = _methodCall.getType().getType().equals(_method.getClassGenerator().getName())
                 ? Opcodes.INVOKESPECIAL : Opcodes.INVOKEVIRTUAL;
         _method.getMethodVisitor().visitMethodInsn(opcode,
-                _methodCall.getType().getType(),
-                _methodCall.name,
-                parseMethodType(_methodCall.method.getType(),
-                        _methodCall.method.getParameter()),
-                false);
+                                                    _methodCall.object.getType().getType(),
+                                                    _methodCall.name,
+                                                    parseMethodType(_methodCall.method.getType(), _methodCall.method.getParameter()),
+                                            false);
 
         if (!_methodCall.isStored()) {
             _method.getMethodVisitor().visitInsn(Opcodes.POP);
@@ -695,19 +692,22 @@ public class ByteCodeGenerator
      * @param _stmt statement to resolve
      */
     private void resolveStmt(@NotNull MethodGenerator _method,
-                             @NotNull IStmt _stmt){
-        if(_stmt instanceof Block){
-            visitBlockStmt(_method, (Block)_stmt,false);
-        }else if(_stmt instanceof If){
-            visitIfStmt(_method,(If)_stmt);
-        } else if(_stmt instanceof Return){
-            visitReturn(_method,(Return)_stmt);
-        } else if(_stmt instanceof StmtExprStmt){
-            visitStmtExprStmt(_method,(StmtExprStmt)_stmt);
-        }else if(_stmt instanceof While){
-            visitWhile(_method,(While)_stmt);
-        } else if (_stmt instanceof EmptyStmt){
+                             @NotNull IStmt _stmt)
+    {
+        if (_stmt instanceof Block) {
+            visitBlockStmt(_method, (Block) _stmt, false);
+        } else if (_stmt instanceof If) {
+            visitIfStmt(_method, (If) _stmt);
+        } else if (_stmt instanceof Return) {
+            visitReturn(_method, (Return) _stmt);
+        } else if (_stmt instanceof StmtExprStmt) {
+            visitStmtExprStmt(_method, (StmtExprStmt) _stmt);
+        } else if (_stmt instanceof While) {
+            visitWhile(_method, (While) _stmt);
+        } else if (_stmt instanceof EmptyStmt) {
             visitEmptyStmt(_method, (EmptyStmt) _stmt);
+        } else if (_stmt instanceof LocalVarDecl){
+            visitLocalVarDecl(_method, (LocalVarDecl) _stmt);
         }else {
             throw new InvalidStatementException(_stmt + " is not a valid Statement!");
         }
@@ -720,6 +720,7 @@ public class ByteCodeGenerator
      */
     private void resolveExpr(@NotNull MethodGenerator _method,
                              @NotNull IExpr _expr){
+
         if(_expr instanceof Binary){
             visitBinary(_method, (Binary) _expr);
         } else if(_expr instanceof Unary) {
@@ -738,12 +739,8 @@ public class ByteCodeGenerator
             visitLocalOrFieldVar(_method, (LocalOrFieldVar) _expr);
         } else if(_expr instanceof StringLit){
             visitStringExpr(_method, (StringLit) _expr);
-        } else if(_expr instanceof Super){
-            visitSuper(_method, (Super) _expr);
         } else if(_expr instanceof This){
             visitThis(_method, (This) _expr);
-        } else if(_expr instanceof StmtExprStmt){
-            visitStmtExprStmt(_method, (StmtExprStmt) _expr);
         }
         else {
             throw new InvalidExpressionException(_expr + " is not a valid Expression!");

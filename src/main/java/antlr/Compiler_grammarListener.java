@@ -1,4 +1,4 @@
-// Generated from java-escape by ANTLR 4.11.1
+// Generated from C:/Users/Tobias Hahn/IdeaProjects/Compsognathus/src/main/java/antlr\Compiler_grammar.g4 by ANTLR 4.12.0
 package antlr;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -457,6 +457,16 @@ public interface Compiler_grammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitReturnstatement(Compiler_grammarParser.ReturnstatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Compiler_grammarParser#returnexpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterReturnexpression(Compiler_grammarParser.ReturnexpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Compiler_grammarParser#returnexpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitReturnexpression(Compiler_grammarParser.ReturnexpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link Compiler_grammarParser#statementnoshortif1}.
 	 * @param ctx the parse tree

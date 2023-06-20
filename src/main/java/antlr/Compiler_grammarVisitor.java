@@ -1,4 +1,4 @@
-// Generated from java-escape by ANTLR 4.11.1
+// Generated from C:/Users/Tobias Hahn/IdeaProjects/Compsognathus/src/main/java/antlr\Compiler_grammar.g4 by ANTLR 4.12.0
 package antlr;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -280,6 +280,12 @@ public interface Compiler_grammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitReturnstatement(Compiler_grammarParser.ReturnstatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Compiler_grammarParser#returnexpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitReturnexpression(Compiler_grammarParser.ReturnexpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link Compiler_grammarParser#statementnoshortif1}.
 	 * @param ctx the parse tree

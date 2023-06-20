@@ -16,7 +16,6 @@ public class EmptyStmt implements IStmt {
 
     @Override
     public void setType(Type type) {
-
     }
 
 

@@ -98,7 +98,7 @@ public class ByteCodeGenerator
                 visitBlockStmt(method, m.getStatement(), false);
 
                 //return of method
-                mv.visitInsn(parseReturnType(m.getType()));
+                mv.visitInsn(parseReturnType(m.getType().getType()));
 
                 mv.visitMaxs(0,0);
                 mv.visitEnd();
@@ -187,18 +187,13 @@ public class ByteCodeGenerator
      * @return Type as Opcode
      */
     @Contract(pure = true)
-    private int parseReturnType(@NotNull Type _type)
+    private int parseReturnType(@NotNull String _type)
     {
         int result;
-        String type = _type.getType();
 
-        return switch (type)
+        return switch (_type)
                 {
-                    case "boolean", "byte", "char", "short", "int" -> Opcodes.IRETURN;
-                    case "long" -> Opcodes.LRETURN;
-                    case "float" -> Opcodes.FRETURN;
-                    case "double" -> Opcodes.DRETURN;
-                    case "void" ->  Opcodes.RETURN;
+                    case "boolean", "char", "int" -> Opcodes.IRETURN;
                     default -> Opcodes.ARETURN;
                 };
     }
@@ -322,9 +317,12 @@ public class ByteCodeGenerator
     {
         Label loop = new Label();
         _method.getMethodVisitor().visitLabel(loop);
-        resolveExpr(_method, _stmt.getExpression());
+        if(_stmt.getExpression() instanceof IStmtExpr){
+            resolveStmtExpr(_method, (IStmtExpr) _stmt.getExpression());
+        } else {
+            resolveExpr(_method, _stmt.getExpression());
+        }
         Label end = new Label();
-        //TODO check if IFEQ or IFNE
         _method.getMethodVisitor().visitJumpInsn(Opcodes.IFEQ, end);
         resolveStmt(_method, _stmt.getStatement());
         _method.getMethodVisitor().visitJumpInsn(Opcodes.GOTO, loop);
@@ -351,7 +349,7 @@ public class ByteCodeGenerator
                              @NotNull Return _return)
     {
         resolveExpr(method, _return.getExpression());
-        method.getMethodVisitor().visitInsn(parseReturnType(_return.getType()));
+        method.getMethodVisitor().visitInsn(parseReturnType(_return.getType().getType()));
     }
 
     /**
@@ -395,19 +393,45 @@ public class ByteCodeGenerator
     private void visitAssign(@NotNull MethodGenerator _method,
                              @NotNull Assign _assign){
 
-        if (_assign.getLeftSideExpr().expression instanceof LocalVarDecl) {
+        if (_assign.getLeftSideExpr().expression instanceof LocalOrFieldVar) {
             if (!((LocalOrFieldVar)_assign.getLeftSideExpr().expression).isLocal()) {
                 _method.getMethodVisitor().visitVarInsn(Opcodes.ALOAD, 0);
             }
         }
-        resolveExpr(_method, _assign.getExpression());
-        resolveExpr(_method, _assign.getLeftSideExpr().getExpression());
 
+        resolveExpr(_method, _assign.getExpression());
+
+        if(_assign.getLeftSideExpr().expression instanceof IStmtExpr){
+            resolveStmtExpr(_method, (IStmtExpr) _assign.getLeftSideExpr().expression);
+        } else {
+            resolveExpr(_method, _assign.getLeftSideExpr().getExpression());
+        }
     }
 
     private void visitLocalVarDecl(@NotNull MethodGenerator _method,
                                    @NotNull LocalVarDecl _localVarDecl){
 
+        int opcode;
+
+        switch (_localVarDecl.getType().getType()){
+            case "boolean":
+            case "char":
+            case "int":
+                opcode = Opcodes.ISTORE;
+                break;
+            default:
+                opcode = Opcodes.ALOAD;
+                break;
+        }
+
+        if (!_method.getVariables().containsKey(_localVarDecl.localVar.getName())) {
+            _method.getVariables().put(_localVarDecl.localVar.getName(), _method.getVariables().size() + 1);
+        }
+
+        _method.getMethodVisitor().visitVarInsn(opcode,
+                _method.getVariables()
+                        .floorEntry(_localVarDecl.localVar.getName())
+                        .getValue());
     }
 
     private void visitMethodCall(@NotNull MethodGenerator _method,
@@ -433,24 +457,16 @@ public class ByteCodeGenerator
 
     private void visitLocalOrFieldVar(@NotNull MethodGenerator _method,
                                       @NotNull LocalOrFieldVar _localOrFieldVar){
-        int opcode = _localOrFieldVar.isStore() ? Opcodes.ASTORE : Opcodes.ALOAD;
+        int opcode;
 
         switch (_localOrFieldVar.getType().getType()){
             case "boolean":
-            case "byte":
             case "char":
             case "int":
-            case "short":
                 opcode = _localOrFieldVar.isStore() ? Opcodes.ISTORE : Opcodes.ILOAD;
                 break;
-            case "long":
-                opcode = _localOrFieldVar.isStore() ? Opcodes.LSTORE : Opcodes.LLOAD;
-                break;
-            case "float":
-                opcode = _localOrFieldVar.isStore() ? Opcodes.FSTORE : Opcodes.FLOAD;
-                break;
-            case "double":
-                opcode = _localOrFieldVar.isStore() ? Opcodes.DSTORE : Opcodes.DLOAD;
+            default:
+                opcode = _localOrFieldVar.isStore() ? Opcodes.ASTORE : Opcodes.ALOAD;
                 break;
         }
 
@@ -675,6 +691,13 @@ public class ByteCodeGenerator
         resolveStmtExpr(_method, _stmtExpr);
     }
 
+
+    private void visitStmtExprStmt(@NotNull MethodGenerator _method,
+                               @NotNull StmtExprStmt _stmtExpr)
+    {
+        resolveStmtExpr(_method, _stmtExpr.getExpression());
+    }
+
     private void visitEmptyStmt(@NotNull MethodGenerator _method,
                                 @NotNull EmptyStmt _emptyStmt){
         _method.getMethodVisitor().visitInsn(Opcodes.NOP);
@@ -696,6 +719,8 @@ public class ByteCodeGenerator
             visitReturn(_method, (Return) _stmt);
         } else if (_stmt instanceof IStmtExpr) {
             visitStmtExpr(_method, (IStmtExpr) _stmt);
+        } else if (_stmt instanceof StmtExprStmt) {
+            visitStmtExprStmt(_method, (StmtExprStmt)_stmt);
         } else if (_stmt instanceof While) {
             visitWhile(_method, (While) _stmt);
         } else if (_stmt instanceof EmptyStmt) {
@@ -727,8 +752,6 @@ public class ByteCodeGenerator
             visitIntExpr(_method, (IntegerLit) _expr);
         } else if (_expr instanceof JNull){
             visitNullExpr(_method, (JNull) _expr);
-        } else if(_expr instanceof LocalOrFieldVar){
-            visitLocalOrFieldVar(_method, (LocalOrFieldVar) _expr);
         } else if(_expr instanceof StringLit){
             visitStringExpr(_method, (StringLit) _expr);
         } else if(_expr instanceof This){
@@ -749,6 +772,8 @@ public class ByteCodeGenerator
             visitNew(_method, (New) _stmtExpr);
         } else if (_stmtExpr instanceof LocalVarDecl){
             visitLocalVarDecl(_method, (LocalVarDecl) _stmtExpr);
+        }else if(_stmtExpr instanceof LocalOrFieldVar){
+            visitLocalOrFieldVar(_method, (LocalOrFieldVar) _stmtExpr);
         } else {
             throw new InvalidStatementExpressionException(_stmtExpr + " is not a valid Statementexpression!");
         }

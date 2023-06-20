@@ -3,11 +3,9 @@ package semantikCheck.stmtexpr;
 import semantikCheck.*;
 import semantikCheck.Class;
 import semantikCheck.checker.Checker;
-import semantikCheck.expr.LocalOrFieldVar;
 import semantikCheck.expr.Super;
 import semantikCheck.expr.This;
 import semantikCheck.interfaces.IExpr;
-import semantikCheck.interfaces.IStmt;
 import semantikCheck.interfaces.IStmtExpr;
 
 import java.util.ArrayList;

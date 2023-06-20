@@ -4,6 +4,7 @@ import semantikCheck.*;
 import semantikCheck.Class;
 import semantikCheck.checker.Checker;
 import semantikCheck.interfaces.IExpr;
+import semantikCheck.stmtexpr.LocalOrFieldVar;
 
 import java.util.List;
 

@@ -112,7 +112,7 @@ public class Class implements SemChecker {
                 }
             }
         }
-        vars.addAll((Collection<? extends IVar>) fields);
+        vars.addAll(fields);
 
         for (Method m : methods) {
             m.semCheck(vars, classes, this);

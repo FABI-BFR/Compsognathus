@@ -4,6 +4,7 @@ import semantikCheck.Class;
 import semantikCheck.Parameter;
 import semantikCheck.Type;
 import semantikCheck.interfaces.IStmtExpr;
+import semantikCheck.interfaces.IVar;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class LocalVarDecl implements IStmtExpr {
     }
 
     @Override
-    public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
-        parameters.add(localVar);
+    public void semCheck(List<IVar> vars, List<Class> classes, Class currentClass) {
+        vars.add(localVar);
     }
 }

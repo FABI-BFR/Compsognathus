@@ -8,6 +8,7 @@ import semantikCheck.checker.Checker;
 import semantikCheck.interfaces.IExpr;
 import semantikCheck.interfaces.IStmt;
 import semantikCheck.interfaces.IStmtExpr;
+import semantikCheck.interfaces.IVar;
 
 import java.util.List;
 
@@ -45,19 +46,19 @@ public class LocalOrFieldVar implements IStmtExpr {
     }
 
     @Override
-    public void semCheck(List<Parameter> parameters, List<Class> classes, Class currentClass) {
-        Parameter tempParameter = null;
-        for (Parameter p : parameters) {
-            if (p.getName().equals(name)) {
-                tempParameter = p;
+    public void semCheck(List<IVar> vars, List<Class> classes, Class currentClass) {
+        IVar tempvar = null;
+        for (IVar v : vars) {
+            if (v.getName().equals(name)) {
+                tempvar = v;
                 break;
             }
         }
-        if (tempParameter == null) {
+        if (tempvar == null) {
             Checker.addSymbolNotFoundError(currentClass.getName(), name);
         }
         local = true;
-        type = tempParameter.getType();
+        type = tempvar.getType();
     }
     public String toString(String indent) {
         String localOrFieldVar = indent+"LocalOrFieldVar: {\n";

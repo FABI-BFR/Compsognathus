@@ -477,7 +477,7 @@ public class ByteCodeGenerator
         if (_localOrFieldVar.isStore()) {
             if (_localOrFieldVar.isLocal()) {
                 if (!_method.getVariables().containsKey(_localOrFieldVar.name)) {
-                    _method.getVariables().put(_localOrFieldVar.name, _method.getVariables().size() + 1);
+                    _method.getVariables().put(_localOrFieldVar.name, _method.getVariables().size());
                 }
                 _method.getMethodVisitor().visitVarInsn(opcode,
                         _method.getVariables()

@@ -20,7 +20,7 @@ public class LocalVarDecl implements IStmtExpr {
 
     @Override
     public Type getType() {
-        return null;
+        return type;
     }
 
     @Override

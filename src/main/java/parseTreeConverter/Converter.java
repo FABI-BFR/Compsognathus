@@ -6,18 +6,13 @@ import semantikCheck.Class;
 import semantikCheck.expr.*;
 import semantikCheck.interfaces.IExpr;
 import semantikCheck.interfaces.IStmt;
-import semantikCheck.interfaces.IStmtExpr;
 import semantikCheck.stmt.*;
-import semantikCheck.stmtexpr.Assign;
-import semantikCheck.stmtexpr.LeftSideExpr;
-import semantikCheck.stmtexpr.MethodCall;
-import semantikCheck.stmtexpr.New;
+import semantikCheck.stmtexpr.*;
 
 import java.util.ArrayList;
 
 
 import java.util.List;
-import java.util.Locale;
 
 public class Converter {
     public static Program convertToProgram(Compiler_grammarParser.CompilationunitContext parseTree) {

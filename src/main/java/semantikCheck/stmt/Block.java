@@ -4,8 +4,9 @@ import semantikCheck.Class;
 import semantikCheck.Parameter;
 import semantikCheck.Type;
 import semantikCheck.checker.Checker;
-import semantikCheck.expr.LocalOrFieldVar;
 import semantikCheck.interfaces.IStmt;
+import semantikCheck.stmtexpr.Assign;
+import semantikCheck.stmtexpr.LocalVarDecl;
 import semantikCheck.stmtexpr.MethodCall;
 
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class Block implements IStmt {
 
         type = new Type("void");
         for (int i = 0; i< statements.size(); i++) {
-            if (!(statements.get(i) instanceof StmtExprStmt || statements.get(i) instanceof MethodCall || statements.get(i) instanceof LocalOrFieldVar)) {
+            if (!(statements.get(i) instanceof StmtExprStmt || statements.get(i) instanceof MethodCall || statements.get(i) instanceof LocalVarDecl || statements.get(i) instanceof Assign)) {
                 type.setType(Checker.upperBound(type, statements.get(i).getType()));
             }
         }

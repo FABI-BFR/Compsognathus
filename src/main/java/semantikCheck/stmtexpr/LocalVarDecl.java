@@ -1,4 +1,4 @@
-package semantikCheck.stmt;
+package semantikCheck.stmtexpr;
 
 import semantikCheck.Class;
 import semantikCheck.Parameter;
@@ -20,7 +20,7 @@ public class LocalVarDecl implements IStmtExpr {
 
     @Override
     public Type getType() {
-        return null;
+        return type;
     }
 
     @Override

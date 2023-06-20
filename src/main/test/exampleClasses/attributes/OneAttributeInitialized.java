@@ -2,7 +2,7 @@ public class OneAttributeInitialized {
     public int i = 5;
 
     public void check(){
-       int j = 5;
+       int j = 4;
     }
 
 }

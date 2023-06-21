@@ -709,7 +709,10 @@ public class ByteCodeGenerator
 
     private void visitEmptyStmt(@NotNull MethodGenerator _method,
                                 @NotNull EmptyStmt _emptyStmt){
-        _method.getMethodVisitor().visitInsn(Opcodes.NOP);
+
+        _method.getMethodVisitor().visitInsn(Opcodes.RETURN);
+
+        //_method.getMethodVisitor().visitInsn(Opcodes.NOP);
     }
 
     /**

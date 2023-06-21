@@ -3,6 +3,7 @@ public class OneAttributeInitialized {
 
     public void check(){
        int j = 4;
+       String hello = "hello";
     }
 
 }

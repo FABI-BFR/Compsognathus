@@ -1,0 +1,413 @@
+Program: {
+Classes: [
+	Class: {
+	Name: Main
+	Access: public
+	Fields: [
+		Field: {
+		Type: java.lang.String
+		Name: temp
+		Access: public
+		}
+		Field: {
+		Type: int
+		Name: i
+		Access: private
+		}
+		Field: {
+		Type: int
+		Name: b
+		Access: private
+		}
+	]
+	Methods: [
+		Method: {
+		Type: int
+		Name: geti
+		Access: public
+		Parameter: [
+		]
+		Statement: {
+			Block: {
+			Type: int
+				Return: {
+				Type: int
+				Expression: 
+					LocalOrFieldVar: {
+					Type: int
+					Name: i
+					}
+				}
+			}
+		}
+		}
+		Method: {
+		Type: void
+		Name: setStringIf
+		Access: public
+		Parameter: [
+			Parameter: {
+			Type: int
+			Name: a
+			}
+			Parameter: {
+			Type: int
+			Name: b
+			}
+			Parameter: {
+			Type: boolean
+			Name: cond
+			}
+			Parameter: {
+			Type: java.lang.String
+			Name: temp
+			}
+		]
+		Statement: {
+			Block: {
+			Type: void
+				IfStatement: {
+				Type: void
+					Binary: {
+					Type: boolean
+					Operator: &&
+					Leftside: {
+						Binary: {
+						Type: boolean
+						Operator: ==
+						Leftside: {
+							LocalOrFieldVar: {
+							Type: int
+							Name: a
+							}
+						}
+						Rightside: {
+							LocalOrFieldVar: {
+							Type: int
+							Name: b
+							}
+						}
+						}
+					}
+					Rightside: {
+						LocalOrFieldVar: {
+						Type: boolean
+						Name: cond
+						}
+					}
+					}
+				IfBranch: {
+					Block: {
+					Type: void
+						StmtExpr: { 
+						Type: java.lang.String
+							Assignment: {
+							Type: java.lang.String
+							LeftSideExpression: 
+								Expression: 
+								Type: java.lang.String
+									LocalOrFieldVar: {
+									Type: java.lang.String
+									Name: temp
+									}
+							Expression: 
+								LocalOrFieldVar: {
+								Type: java.lang.String
+								Name: temp
+								}
+							}
+						}
+					}
+				}
+				ElseBranch: {
+					IfStatement: {
+					Type: void
+						Binary: {
+						Type: boolean
+						Operator: >
+						Leftside: {
+							LocalOrFieldVar: {
+							Type: int
+							Name: a
+							}
+						}
+						Rightside: {
+							LocalOrFieldVar: {
+							Type: int
+							Name: b
+							}
+						}
+						}
+					IfBranch: {
+						Block: {
+						Type: void
+							StmtExpr: { 
+							Type: java.lang.String
+								Assignment: {
+								Type: java.lang.String
+								LeftSideExpression: 
+									Expression: 
+									Type: java.lang.String
+										LocalOrFieldVar: {
+										Type: java.lang.String
+										Name: temp
+										}
+								Expression: 
+									StringLit: {
+									Type: java.lang.String
+									Value: "fisch"
+									}
+								}
+							}
+						}
+					}
+					ElseBranch: {
+						Block: {
+						Type: void
+							StmtExpr: { 
+							Type: java.lang.String
+								Assignment: {
+								Type: java.lang.String
+								LeftSideExpression: 
+									Expression: 
+									Type: java.lang.String
+										LocalOrFieldVar: {
+										Type: java.lang.String
+										Name: temp
+										}
+								Expression: 
+									StringLit: {
+									Type: java.lang.String
+									Value: "kein fisch"
+									}
+								}
+							}
+						}
+					}
+					}
+				}
+				}
+			}
+		}
+		}
+		Method: {
+		Type: void
+		Name: doABackflip
+		Access: public
+		Parameter: [
+		]
+		Statement: {
+			Block: {
+			Type: void
+				StmtExpr: { 
+				Type: void
+					MethodCall: {
+					Type: void
+					Name: setStringIf
+					Objekt: 
+						This: {}
+					Parameters: [
+						IntegerLit: {
+						Type: int
+						Value: 1
+						}
+						IntegerLit: {
+						Type: int
+						Value: 1
+						}
+						BoolLit: {
+						Type: boolean
+						Value: true
+						}
+						StringLit: {
+						Type: java.lang.String
+						Value: "fischomat"
+						}
+					]
+					}
+				}
+				LocalVarDecl: { 
+					Type: int
+					Name: f
+				}
+				StmtExpr: { 
+				Type: int
+					Assignment: {
+					Type: int
+					LeftSideExpression: 
+						Expression: 
+						Type: int
+							LocalOrFieldVar: {
+							Type: int
+							Name: f
+							}
+					Expression: 
+						MethodCall: {
+						Type: int
+						Name: geti
+						Objekt: 
+							This: {}
+						Parameters: [
+						]
+						}
+					}
+				}
+				While: { 
+				Type: void
+				Expression: 
+					Binary: {
+					Type: boolean
+					Operator: <=
+					Leftside: {
+						LocalOrFieldVar: {
+						Type: int
+						Name: f
+						}
+					}
+					Rightside: {
+						IntegerLit: {
+						Type: int
+						Value: 10
+						}
+					}
+					}
+				Statement: 
+					Block: {
+					Type: void
+						StmtExpr: { 
+						Type: int
+							Assignment: {
+							Type: int
+							LeftSideExpression: 
+								Expression: 
+								Type: int
+									LocalOrFieldVar: {
+									Type: int
+									Name: f
+									}
+							Expression: 
+								Binary: {
+								Type: int
+								Operator: +
+								Leftside: {
+									IntegerLit: {
+									Type: int
+									Value: 1
+									}
+								}
+								Rightside: {
+									LocalOrFieldVar: {
+									Type: int
+									Name: f
+									}
+								}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		}
+	]
+	Constructors: [
+		Constructor: {
+		Name: Main
+		Access: public
+		Parameter: [
+		]
+		Statement: 
+			Block: {
+				StmtExpr: { 
+					Assignment: {
+					LeftSideExpression: 
+						Expression: 
+							LocalOrFieldVar: {
+							Name: i
+							}
+					Expression: 
+						IntegerLit: {
+						Type: int
+						Value: 0
+						}
+					}
+				}
+				StmtExpr: { 
+					Assignment: {
+					LeftSideExpression: 
+						Expression: 
+							LocalOrFieldVar: {
+							Name: temp
+							}
+					Expression: 
+						StringLit: {
+						Type: java.lang.String
+						Value: "null"
+						}
+					}
+				}
+				LocalVarDecl: { 
+					Type: int
+					Name: c
+				}
+			}
+		}
+		Constructor: {
+		Name: Main
+		Access: public
+		Parameter: [
+			Parameter: {
+			Type: int
+			Name: i
+			}
+			Parameter: {
+			Type: java.lang.String
+			Name: temp
+			}
+		]
+		Statement: 
+			Block: {
+				StmtExpr: { 
+					Assignment: {
+					LeftSideExpression: 
+						Expression: 
+							LocalOrFieldVar: {
+							Name: i
+							}
+					Expression: 
+						LocalOrFieldVar: {
+						Name: i
+						}
+					}
+				}
+				StmtExpr: { 
+					Assignment: {
+					LeftSideExpression: 
+						Expression: 
+							LocalOrFieldVar: {
+							Name: temp
+							}
+					Expression: 
+						LocalOrFieldVar: {
+						Name: temp
+						}
+					}
+				}
+				LocalVarDecl: { 
+					Type: int
+					Name: a
+				}
+				LocalVarDecl: { 
+					Type: int
+					Name: b
+				}
+				LocalVarDecl: { 
+					Type: int
+					Name: c
+				}
+			}
+		}
+	]
+	}
+]
+}

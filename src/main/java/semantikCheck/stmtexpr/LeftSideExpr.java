@@ -30,8 +30,9 @@ public class LeftSideExpr implements IStmtExpr {
         this.type = type;
     }
 
-    public String toString(String indent){
-        return indent + "Expression: " + "\n"
+    public String toString(String indent) {
+        return indent + "Expression: " + "\n" +
+                (type == null || type.getType().equals("") ? "" : (indent + "Type: " + type.getType() + "\n"))
                 + expression.toString(indent + "\t");
     }
 

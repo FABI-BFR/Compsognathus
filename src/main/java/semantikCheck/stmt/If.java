@@ -74,6 +74,7 @@ public class If  implements IStmt {
 
     public String toString(String indent){
         String ifstmt = indent +"IfStatement: {\n";
+        ifstmt += (type == null || type.getType().equals("")) ? "" : (indent + "Type: "+type.getType() + "\n");
         ifstmt +=  expression.toString(indent+"\t");
         ifstmt += indent + "IfBranch: {"  + "\n"
                 + ifStmt.toString(indent+"\t")

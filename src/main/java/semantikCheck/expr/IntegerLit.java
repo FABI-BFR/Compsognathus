@@ -15,6 +15,7 @@ public class IntegerLit implements IExpr {
 
     public IntegerLit(int value) {
         this.value = value;
+        type = new Type("int");
     }
 
     @Override
@@ -33,7 +34,7 @@ public class IntegerLit implements IExpr {
     }
     public String toString(String indent) {
         String intlit = indent + "IntegerLit: {\n";
-        intlit += indent + "Type: int\n";
+        intlit += indent + "Type: "+type.getType()+"\n";
         intlit += indent + "Value: " + value + "\n";
         return intlit + indent+"}\n";
     }

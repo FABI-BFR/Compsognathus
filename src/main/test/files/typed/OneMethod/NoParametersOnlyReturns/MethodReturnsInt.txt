@@ -1,0 +1,43 @@
+Program: {
+Classes: [
+	Class: {
+	Name: ClassWithMethodReturnsInt
+	Access: public
+	Fields: [
+	]
+	Methods: [
+		Method: {
+		Type: int
+		Name: getInt
+		Access: public
+		Parameter: [
+		]
+		Statement: {
+			Block: {
+			Type: int
+				Return: {
+				Type: int
+				Expression: 
+					IntegerLit: {
+					Type: int
+					Value: 1
+					}
+				}
+			}
+		}
+		}
+	]
+	Constructors: [
+		Constructor: {
+		Name: ClassWithMethodReturnsInt
+		Access: public
+		Parameter: [
+		]
+		Statement: 
+			Block: {
+			}
+		}
+	]
+	}
+]
+}

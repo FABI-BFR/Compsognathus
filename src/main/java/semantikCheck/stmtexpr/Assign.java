@@ -69,6 +69,7 @@ public class Assign implements IStmtExpr {
 
     public String toString(String indent){
         String assign = indent + "Assignment: {\n";
+        assign += (type == null || type.getType().equals("")) ? "" : (indent + "Type: "+type.getType() + "\n");
         assign += indent + "LeftSideExpression: " + "\n"
                 + leftSideExpr.toString(indent+"\t");
         assign += indent + "Expression: " + "\n"

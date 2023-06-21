@@ -60,6 +60,7 @@ public class While implements IStmt {
 
     public String toString(String indent){
         String whileStmt = indent + "While: { \n";
+        whileStmt += (type == null || type.getType().equals("")) ? "" : (indent + "Type: "+type.getType() + "\n");
         whileStmt += indent + "Expression: \n"
                 + expression.toString(indent+"\t");
         whileStmt += indent + "Statement: \n" + statement.toString(indent+"\t");

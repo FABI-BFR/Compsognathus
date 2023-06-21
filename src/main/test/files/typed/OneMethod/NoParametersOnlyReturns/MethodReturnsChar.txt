@@ -1,0 +1,43 @@
+Program: {
+Classes: [
+	Class: {
+	Name: ClassWithMethodWithoutParametsReturnsChar
+	Access: public
+	Fields: [
+	]
+	Methods: [
+		Method: {
+		Type: char
+		Name: getChar
+		Access: public
+		Parameter: [
+		]
+		Statement: {
+			Block: {
+			Type: char
+				Return: {
+				Type: char
+				Expression: 
+					CharLit: {
+					Type: char
+					Value: '
+					}
+				}
+			}
+		}
+		}
+	]
+	Constructors: [
+		Constructor: {
+		Name: ClassWithMethodWithoutParametsReturnsChar
+		Access: public
+		Parameter: [
+		]
+		Statement: 
+			Block: {
+			}
+		}
+	]
+	}
+]
+}

@@ -1,0 +1,70 @@
+Program: {
+Classes: [
+	Class: {
+	Name: NewClass
+	Access: public
+	Fields: [
+	]
+	Methods: [
+		Method: {
+		Type: void
+		Name: createT
+		Access: public
+		Parameter: [
+		]
+		Statement: {
+			Block: {
+			Type: void
+				Assignment: {
+				Type: Test
+				LeftSideExpression: 
+					Expression: 
+					Type: Test
+						LocalVarDecl: { 
+							Type: Test
+							Name: t
+						}
+				Expression: 
+					New: {
+					Type Test
+					Parameter: [
+					]
+					}
+				}
+			}
+		}
+		}
+	]
+	Constructors: [
+		Constructor: {
+		Name: NewClass
+		Access: public
+		Parameter: [
+		]
+		Statement: 
+			Block: {
+			}
+		}
+	]
+	}
+	Class: {
+	Name: Test
+	Access: private
+	Fields: [
+	]
+	Methods: [
+	]
+	Constructors: [
+		Constructor: {
+		Name: Test
+		Access: public
+		Parameter: [
+		]
+		Statement: 
+			Block: {
+			}
+		}
+	]
+	}
+]
+}

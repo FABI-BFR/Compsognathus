@@ -122,6 +122,7 @@ public class MethodCall implements IStmtExpr {
 
     public String toString(String indent){
         String methodCall = indent + "MethodCall: {\n";
+        methodCall += (type == null || type.getType().equals("")) ? "" : (indent + "Type: "+type.getType() + "\n");
         methodCall += indent + "Name: " + name + "\n";
         methodCall += indent + "Objekt: " + "\n"
                 + object.toString(indent+"\t"); //+"\n"

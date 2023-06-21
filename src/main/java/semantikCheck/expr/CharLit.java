@@ -15,6 +15,7 @@ public class CharLit implements IExpr {
 
     public CharLit(char value) {
         this.value = value;
+        type = new Type("char");
     }
 
     @Override
@@ -34,7 +35,7 @@ public class CharLit implements IExpr {
     }
     public String toString(String indent) {
         String charlit = indent + "CharLit: {\n";
-        charlit += indent + "Type: Char\n";
+        charlit += indent + "Type: "+type.getType()+"\n";
         charlit += indent + "Value: " + value + "\n";
         return charlit + indent+"}\n";
     }

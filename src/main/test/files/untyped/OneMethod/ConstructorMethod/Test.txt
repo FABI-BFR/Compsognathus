@@ -1,0 +1,26 @@
+Program: {
+Classes: [
+	Class: {
+	Name: Test
+	Access: public
+	Fields: [
+	]
+	Methods: [
+	]
+	Constructors: [
+		Constructor: {
+		Name: Test
+		Access: public
+		Parameter: [
+		]
+		Statement: 
+			Block: {
+				EmptyStatement: {
+				Type: void
+				}
+			}
+		}
+	]
+	}
+]
+}

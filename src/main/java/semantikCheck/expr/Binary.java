@@ -73,6 +73,7 @@ public class Binary implements IExpr {
 
     public String toString(String indent) {
         String binary = indent + "Binary: {\n";
+        binary += (type == null || type.getType().equals("")) ? "" : (indent + "Type: "+type.getType() + "\n");
         binary += indent + "Operator: " + operator + "\n";
         binary += indent + "Leftside: {\n"
                 + exprLeft.toString(indent + "\t")

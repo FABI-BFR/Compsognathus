@@ -1,0 +1,78 @@
+Program: {
+Classes: [
+	Class: {
+	Name: WhileLoopWithBody
+	Access: public
+	Fields: [
+	]
+	Methods: [
+		Method: {
+		Type: void
+		Name: doSomething
+		Access: public
+		Parameter: [
+		]
+		Statement: {
+			Block: {
+			Type: void
+				While: { 
+				Type: void
+				Expression: 
+					BoolLit: {
+					Type: boolean
+					Value: true
+					}
+				Statement: 
+					Block: {
+					Type: void
+						StmtExpr: { 
+						Type: int
+							MethodCall: {
+							Type: int
+							Name: doNothing
+							Objekt: 
+								This: {}
+							Parameters: [
+							]
+							}
+						}
+					}
+				}
+			}
+		}
+		}
+		Method: {
+		Type: int
+		Name: doNothing
+		Access: public
+		Parameter: [
+		]
+		Statement: {
+			Block: {
+			Type: int
+				Return: {
+				Type: int
+				Expression: 
+					IntegerLit: {
+					Type: int
+					Value: 1
+					}
+				}
+			}
+		}
+		}
+	]
+	Constructors: [
+		Constructor: {
+		Name: WhileLoopWithBody
+		Access: public
+		Parameter: [
+		]
+		Statement: 
+			Block: {
+			}
+		}
+	]
+	}
+]
+}

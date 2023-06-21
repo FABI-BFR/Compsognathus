@@ -29,7 +29,8 @@ public class Super implements IExpr {
     }
 
     public String toString(String indent) {
-        return indent + "Super: {\n"
+        return indent + "Super: {\n" +
+                ((type == null || type.getType().equals("")) ? "" : (indent + "Type: "+type.getType() + "\n"))
                 + indent + "Type: " + type.toString(indent + "\t") + "\n"
                 + indent + "}\n";
     }

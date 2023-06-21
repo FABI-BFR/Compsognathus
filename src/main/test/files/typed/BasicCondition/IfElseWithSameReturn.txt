@@ -1,0 +1,68 @@
+Program: {
+Classes: [
+	Class: {
+	Name: IfElseWithSameReturn
+	Access: public
+	Fields: [
+	]
+	Methods: [
+		Method: {
+		Type: int
+		Name: doSomething
+		Access: public
+		Parameter: [
+		]
+		Statement: {
+			Block: {
+			Type: int
+				IfStatement: {
+				Type: int
+					BoolLit: {
+					Type: boolean
+					Value: true
+					}
+				IfBranch: {
+					Block: {
+					Type: int
+						Return: {
+						Type: int
+						Expression: 
+							IntegerLit: {
+							Type: int
+							Value: 1
+							}
+						}
+					}
+				}
+				ElseBranch: {
+					Block: {
+					Type: int
+						Return: {
+						Type: int
+						Expression: 
+							IntegerLit: {
+							Type: int
+							Value: 2
+							}
+						}
+					}
+				}
+				}
+			}
+		}
+		}
+	]
+	Constructors: [
+		Constructor: {
+		Name: IfElseWithSameReturn
+		Access: public
+		Parameter: [
+		]
+		Statement: 
+			Block: {
+			}
+		}
+	]
+	}
+]
+}

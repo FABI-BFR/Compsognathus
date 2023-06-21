@@ -1,0 +1,48 @@
+Program: {
+Classes: [
+	Class: {
+	Name: MethodIntBoolParameter
+	Access: public
+	Fields: [
+	]
+	Methods: [
+		Method: {
+		Type: void
+		Name: doSomething
+		Access: public
+		Parameter: [
+			Parameter: {
+			Type: int
+			Name: parameterInt
+			}
+			Parameter: {
+			Type: boolean
+			Name: parameterBoolean
+			}
+		]
+		Statement: {
+			Block: {
+			Type: void
+				Return: {
+				Type: null
+				Expression: 
+					JNull: {}
+				}
+			}
+		}
+		}
+	]
+	Constructors: [
+		Constructor: {
+		Name: MethodIntBoolParameter
+		Access: public
+		Parameter: [
+		]
+		Statement: 
+			Block: {
+			}
+		}
+	]
+	}
+]
+}

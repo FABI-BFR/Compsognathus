@@ -1,0 +1,28 @@
+Program: {
+Classes: [
+	Class: {
+	Name: OneAttribute
+	Access: public
+	Fields: [
+		Field: {
+		Type: java.lang.String
+		Name: attribute
+		Access: public
+		}
+	]
+	Methods: [
+	]
+	Constructors: [
+		Constructor: {
+		Name: OneAttribute
+		Access: public
+		Parameter: [
+		]
+		Statement: 
+			Block: {
+			}
+		}
+	]
+	}
+]
+}

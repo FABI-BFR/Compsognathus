@@ -1,0 +1,48 @@
+Program: {
+Classes: [
+	Class: {
+	Name: MethodStringIntParameter
+	Access: public
+	Fields: [
+	]
+	Methods: [
+		Method: {
+		Type: void
+		Name: doSomething
+		Access: public
+		Parameter: [
+			Parameter: {
+			Type: java.lang.String
+			Name: parameterString
+			}
+			Parameter: {
+			Type: int
+			Name: parameterString
+			}
+		]
+		Statement: {
+			Block: {
+			Type: void
+				Return: {
+				Type: null
+				Expression: 
+					JNull: {}
+				}
+			}
+		}
+		}
+	]
+	Constructors: [
+		Constructor: {
+		Name: MethodStringIntParameter
+		Access: public
+		Parameter: [
+		]
+		Statement: 
+			Block: {
+			}
+		}
+	]
+	}
+]
+}

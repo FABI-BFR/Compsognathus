@@ -140,7 +140,7 @@ public class Converter {
         if (header.type() == null) {
             return new Method(new Type("void"), methodName, parameters, body, ac);
         }
-        return new Method(new Type(header.type().getText()), methodName, parameters, body, ac);
+        return new Method(getType(header.type()), methodName, parameters, body, ac);
     }
 
     private static Block convertToBlock(Compiler_grammarParser.BlockContext blockContext) {

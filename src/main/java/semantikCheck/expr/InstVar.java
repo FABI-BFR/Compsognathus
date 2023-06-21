@@ -73,7 +73,7 @@ public class InstVar implements IExpr {
     }
     public String toString(String indent) {
         String instVar = indent + "Instvar: {\n";
-        instVar += indent +  " Type: " + type.toString(indent+"\t") +"\n";
+        instVar += indent +  " Type: " + type.getType() +"\n";
         instVar += indent + "Name: "+varName+"\n";
         instVar += indent + "Expression: \n"
                 + expression.toString(indent+"\t");

@@ -37,6 +37,7 @@ public class Unary implements IExpr {
     }
     public String toString(String indent) {
         String unary = indent + "Unary: {\n";
+        unary += (type == null || type.getType().equals("")) ? "" : (indent + "Type: "+type.getType() + "\n");
         unary += indent + "Operator: "+operator + "\n";
         unary += indent + "Expression: \n"
                 + expression.toString(indent+"\t");

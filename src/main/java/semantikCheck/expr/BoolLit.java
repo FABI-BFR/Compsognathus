@@ -15,6 +15,7 @@ public class BoolLit implements IExpr {
 
     public BoolLit(boolean value) {
         this.value = value;
+        type = new Type("boolean");
     }
 
     @Override
@@ -37,7 +38,7 @@ public class BoolLit implements IExpr {
 
     public String toString(String indent) {
         String boollit = indent + "BoolLit: {\n";
-        boollit += indent + "Type: Boolean\n";
+        boollit += indent + "Type: "+type.getType()+"\n";
         boollit += indent + "Value: " + value + "\n";
         return boollit + indent +"}\n";
     }

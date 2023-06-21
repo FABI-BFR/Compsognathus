@@ -1,0 +1,58 @@
+Program: {
+Classes: [
+	Class: {
+	Name: IfElseClass
+	Access: public
+	Fields: [
+	]
+	Methods: [
+		Method: {
+		Type: void
+		Name: doSomething
+		Access: public
+		Parameter: [
+		]
+		Statement: {
+			Block: {
+			Type: void
+				IfStatement: {
+				Type: void
+					BoolLit: {
+					Type: boolean
+					Value: false
+					}
+				IfBranch: {
+					Block: {
+					Type: void
+						EmptyStatement: {
+						Type: void
+						}
+					}
+				}
+				ElseBranch: {
+					Block: {
+					Type: void
+						EmptyStatement: {
+						Type: void
+						}
+					}
+				}
+				}
+			}
+		}
+		}
+	]
+	Constructors: [
+		Constructor: {
+		Name: IfElseClass
+		Access: public
+		Parameter: [
+		]
+		Statement: 
+			Block: {
+			}
+		}
+	]
+	}
+]
+}

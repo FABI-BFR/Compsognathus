@@ -1,0 +1,41 @@
+Program: {
+Classes: [
+	Class: {
+	Name: ClassWithMethodWithoutParametsReturnsString
+	Access: public
+	Fields: [
+	]
+	Methods: [
+		Method: {
+		Type: java.lang.String
+		Name: getString
+		Access: public
+		Parameter: [
+		]
+		Statement: {
+			Block: {
+				Return: {
+				Expression: 
+					StringLit: {
+					Type: java.lang.String
+					Value: "Hallo"
+					}
+				}
+			}
+		}
+		}
+	]
+	Constructors: [
+		Constructor: {
+		Name: ClassWithMethodWithoutParametsReturnsString
+		Access: public
+		Parameter: [
+		]
+		Statement: 
+			Block: {
+			}
+		}
+	]
+	}
+]
+}

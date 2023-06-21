@@ -1,0 +1,76 @@
+Program: {
+Classes: [
+	Class: {
+	Name: OneAttributeInitialized
+	Access: public
+	Fields: [
+		Field: {
+		Type: int
+		Name: i
+		Access: public
+		Expression: {
+			IntegerLit: {
+			Type: int
+			Value: 5
+			}
+		}
+		}
+	]
+	Methods: [
+		Method: {
+		Type: void
+		Name: check
+		Access: public
+		Parameter: [
+		]
+		Statement: {
+			Block: {
+			Type: void
+				Assignment: {
+				Type: int
+				LeftSideExpression: 
+					Expression: 
+					Type: int
+						LocalVarDecl: { 
+							Type: int
+							Name: j
+						}
+				Expression: 
+					IntegerLit: {
+					Type: int
+					Value: 4
+					}
+				}
+				Assignment: {
+				Type: java.lang.String
+				LeftSideExpression: 
+					Expression: 
+					Type: java.lang.String
+						LocalVarDecl: { 
+							Type: java.lang.String
+							Name: hello
+						}
+				Expression: 
+					StringLit: {
+					Type: java.lang.String
+					Value: "hello"
+					}
+				}
+			}
+		}
+		}
+	]
+	Constructors: [
+		Constructor: {
+		Name: OneAttributeInitialized
+		Access: public
+		Parameter: [
+		]
+		Statement: 
+			Block: {
+			}
+		}
+	]
+	}
+]
+}

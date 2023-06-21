@@ -51,9 +51,9 @@ public class CompsognathusCompiler
 
 
                     // Saving class files
-                    String direcotry = "src/main/test/compiledClasses/";
+                    String directory = arg.substring(0, arg.lastIndexOf("\\") + 1);
                     for(ClassFile classFile: myClassFiles){
-                        File tmpFile = new File(direcotry + classFile.getFileName());
+                        File tmpFile = new File(directory + classFile.getFileName());
                         storeDataInFile(tmpFile, classFile.getBytecode());
                     }
 

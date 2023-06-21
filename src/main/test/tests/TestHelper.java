@@ -24,24 +24,20 @@ public class TestHelper {
     }
 
     public List<File> listFilesInFolder(String folderPath) {
-        List<File> tempFile = new ArrayList<>();
-        tempFile.add(new File("src/main/test/files/input/newClass.java"));
-        return tempFile;
+        List<File> fileList = new ArrayList<>();
+        File folder = new File(folderPath);
+        File[] files = folder.listFiles();
 
-//        List<File> fileList = new ArrayList<>();
-//        File folder = new File(folderPath);
-//        File[] files = folder.listFiles();
-//
-//        if (files != null) {
-//            for (File file : files) {
-//                if (file.isFile()) {
-//                    fileList.add(file);
-//                } else if (file.isDirectory()) {
-//                    fileList.addAll(listFilesInFolder(folderPath + "/" + file.getName()));
-//                }
-//            }
-//        }
-//        return fileList;
+        if (files != null) {
+            for (File file : files) {
+                if (file.isFile()) {
+                    fileList.add(file);
+                } else if (file.isDirectory()) {
+                    fileList.addAll(listFilesInFolder(folderPath + "/" + file.getName()));
+                }
+            }
+        }
+        return fileList;
     }
     public String getFileContent(File f, String original, String replacement){
         String newPath = f.getPath().replace(original, replacement);

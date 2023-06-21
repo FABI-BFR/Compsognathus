@@ -1,7 +1,7 @@
 Program: {
 Classes: [
 	Class: {
-	Name: ClassWithMethodWithoutParametersReturnsVoid
+	Name: MethodReturnsVoid
 	Access: public
 	Fields: [
 	]
@@ -26,7 +26,7 @@ Classes: [
 	]
 	Constructors: [
 		Constructor: {
-		Name: ClassWithMethodWithoutParametersReturnsVoid
+		Name: MethodReturnsVoid
 		Access: public
 		Parameter: [
 		]

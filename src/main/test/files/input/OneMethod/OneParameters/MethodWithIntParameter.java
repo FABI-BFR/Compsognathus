@@ -1,4 +1,4 @@
-public class ClassWithMethdWithParameter {
+public class MethodWithIntParameter {
     public void doSomething(int parameterInt) {
         return;
     }

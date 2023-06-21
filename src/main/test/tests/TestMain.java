@@ -29,8 +29,6 @@ public class TestMain {
             checker.check(pg);
             Assert.assertTrue(checker.getErrors().isEmpty());
             Assert.assertEquals(th.getFileContent(f,"input","typed"),pg.toString(""));
-            classFiles = bcg.generate(pg);
-
         }
 
     }

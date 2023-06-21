@@ -22,15 +22,22 @@ public class TestInitializer {
         String typedPath = "typed";
         Checker checker = new Checker();
         ByteCodeGenerator bcg = new ByteCodeGenerator();
+        int uncompilableFiles = 0;
         for (File f : th.listFilesInFolder(pathToFolder + inputPath)) {
             Program p = th.convertFileToProgram(f);
             writeFile(f, p.toString(""), inputPath, untypedPath);
             checker.check(p);
             checker.getErrors().forEach(System.out::println);
             writeFile(f, p.toString(""), inputPath, typedPath);
-            saveClassFiles(f, bcg.generate(p));
-
+            try {
+                saveClassFiles(f, bcg.generate(p));
+            }catch (Exception e){
+                System.out.println("File: " + f.getPath() + " couldn't be compiled into bytecode, as:\n"+
+                        e.getMessage());
+                uncompilableFiles++;
+            }
         }
+        System.out.println("\n\n"+uncompilableFiles + " files didn't compile.");
     }
 
     public void writeFile(File file, String generatedFile, String inputFolder, String targetFolder) {

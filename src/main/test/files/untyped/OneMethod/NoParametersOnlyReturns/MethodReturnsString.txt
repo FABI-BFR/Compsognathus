@@ -1,7 +1,7 @@
 Program: {
 Classes: [
 	Class: {
-	Name: ClassWithMethodWithoutParametsReturnsString
+	Name: MethodReturnsString
 	Access: public
 	Fields: [
 	]
@@ -27,7 +27,7 @@ Classes: [
 	]
 	Constructors: [
 		Constructor: {
-		Name: ClassWithMethodWithoutParametsReturnsString
+		Name: MethodReturnsString
 		Access: public
 		Parameter: [
 		]

@@ -1,3 +1,3 @@
-public class ClassWithMethodWithoutParametersReturnsVoid {
+public class MethodReturnsVoid {
     public void doNothing(){return;}
 }

@@ -1,7 +1,7 @@
 Program: {
 Classes: [
 	Class: {
-	Name: ClassWithMethdWithParameter
+	Name: MethodWithIntParameter
 	Access: public
 	Fields: [
 	]
@@ -28,7 +28,7 @@ Classes: [
 	]
 	Constructors: [
 		Constructor: {
-		Name: ClassWithMethdWithParameter
+		Name: MethodWithIntParameter
 		Access: public
 		Parameter: [
 		]

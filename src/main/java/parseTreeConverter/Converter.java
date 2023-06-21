@@ -246,20 +246,18 @@ public class Converter {
         if (statementexpressionContext.preincrementexpression() != null) {
             return new Assign(new LeftSideExpr(new LocalOrFieldVar(new Type(""),statementexpressionContext.preincrementexpression().name().getText())),
                     new Binary("+", new IntegerLit(1), new LocalOrFieldVar(new Type("int"), statementexpressionContext.preincrementexpression().name().getText())));
-//            return new Binary("+", new IntegerLit(1),
-//                    new LocalOrFieldVar(new Type("int"), statementexpressionContext.preincrementexpression().name().getText()));
         }
         if (statementexpressionContext.predecrementexpression() != null) {
-            return new Binary("-",
-                    new LocalOrFieldVar(new Type("int"), statementexpressionContext.predecrementexpression().name().getText()), new IntegerLit(1));
+            return new Assign(new LeftSideExpr(new LocalOrFieldVar(new Type(""),statementexpressionContext.preincrementexpression().name().getText())),
+                    new Binary("-", new IntegerLit(1), new LocalOrFieldVar(new Type("int"), statementexpressionContext.predecrementexpression().name().getText())));
         }
         if (statementexpressionContext.postincrementexpression() != null) {
-            return new Binary("+", new IntegerLit(1),
-                    new LocalOrFieldVar(new Type("int"), statementexpressionContext.postincrementexpression().name().getText()));
+            return new Assign(new LeftSideExpr(new LocalOrFieldVar(new Type(""),statementexpressionContext.preincrementexpression().name().getText())),
+                    new Binary("+", new IntegerLit(1), new LocalOrFieldVar(new Type("int"), statementexpressionContext.postincrementexpression().name().getText())));
         }
         if (statementexpressionContext.postdecrementexpression() != null) {
-            return new Binary("-",
-                    new LocalOrFieldVar(new Type("int"), statementexpressionContext.postdecrementexpression().name().getText()), new IntegerLit(1));
+            return new Assign(new LeftSideExpr(new LocalOrFieldVar(new Type(""),statementexpressionContext.preincrementexpression().name().getText())),
+                    new Binary("-", new IntegerLit(1), new LocalOrFieldVar(new Type("int"), statementexpressionContext.postdecrementexpression().name().getText())));
         }
         if (statementexpressionContext.methodcallexpression() != null) {
             return convertToMethodCall(statementexpressionContext.methodcallexpression());

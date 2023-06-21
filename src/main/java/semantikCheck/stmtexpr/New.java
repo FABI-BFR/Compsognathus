@@ -7,6 +7,7 @@ import semantikCheck.interfaces.IExpr;
 import semantikCheck.interfaces.IStmtExpr;
 import semantikCheck.interfaces.IVar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class New implements IStmtExpr {
@@ -18,23 +19,27 @@ public class New implements IStmtExpr {
 
     public New(Type type, List<IExpr> expressions, boolean methodStored) {
         this.type = type;
-        this.expressions = expressions;
+        if(expressions == null){
+            this.expressions = new ArrayList<>();
+        }else{
+            this.expressions = expressions;
+        }
+
         this.methodStored = methodStored;
     }
 
     public New(Type type, List<IExpr> expressions) {
-        this.type = type;
-        this.expressions = expressions;
+        this (type, expressions, false);
     }
 
     @Override
     public Type getType() {
-        return null;
+        return type;
     }
 
     @Override
     public void setType(Type type) {
-
+        this.type = type;
     }
 
     public boolean isStored() {
@@ -43,27 +48,28 @@ public class New implements IStmtExpr {
 
     @Override
     public void semCheck(List<IVar> vars, List<Class> classes, Class currentClass) {
-        expressions.forEach(p -> p.semCheck(vars, classes, currentClass));
+        expressions.forEach(ex -> ex.semCheck(vars, classes, currentClass));
+
         Class tempClass = null;
         for (Class c : classes) {
-            if (c.getName().equals(type.toString())) {
+            if (c.getName().equals(type.getType())) {
                 tempClass = c;
                 break;
             }
         }
 
         if (tempClass == null) {
-            Checker.addSymbolNotFoundError(currentClass.getName(), "class" + type);
+            Checker.addSymbolNotFoundError(currentClass.getName(), "class " + type.getType());
             this.type = new Type("null");
             return;
         }
 
         Constructor tempConstructor = null;
         for (Constructor c : tempClass.getConstructors()) {
-            if (c.getParameter().size() == this.expressions.size() && Checker.checkArgument(this.expressions, c.getParameter())) {
-                tempConstructor = c;
-                break;
-            }
+                if (c.getParameter().size() == this.expressions.size() && Checker.checkArgument(this.expressions, c.getParameter())) {
+                    tempConstructor = c;
+                    break;
+                }
         }
 
         if (tempConstructor == null) {

@@ -280,11 +280,11 @@ public class Converter {
         if (newexpressionContext.argumentlist() != null && newexpressionContext.name() != null) {
             return new New(new Type(newexpressionContext.name().getText()), convertToArgumentList(newexpressionContext.argumentlist()));
         } else if (newexpressionContext.argumentlist() == null && newexpressionContext.name() != null){
-            return new New(new Type(newexpressionContext.name().getText()), null);
+            return new New(new Type(newexpressionContext.name().getText()), new ArrayList<IExpr>());
         } else if (newexpressionContext.argumentlist() != null && newexpressionContext.CLASSIDENTIFIER() != null){
             return  new New(new Type(newexpressionContext.CLASSIDENTIFIER().getText()), convertToArgumentList(newexpressionContext.argumentlist()));
         } else {
-            return new New(new Type(newexpressionContext.CLASSIDENTIFIER().getText()), null);
+            return new New(new Type(newexpressionContext.CLASSIDENTIFIER().getText()), new ArrayList<IExpr>());
         }
     }
 

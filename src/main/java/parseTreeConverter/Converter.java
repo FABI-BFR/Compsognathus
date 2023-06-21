@@ -248,15 +248,15 @@ public class Converter {
                     new Binary("+", new IntegerLit(1), new LocalOrFieldVar(new Type("int"), statementexpressionContext.preincrementexpression().name().getText())));
         }
         if (statementexpressionContext.predecrementexpression() != null) {
-            return new Assign(new LeftSideExpr(new LocalOrFieldVar(new Type(""),statementexpressionContext.preincrementexpression().name().getText())),
+            return new Assign(new LeftSideExpr(new LocalOrFieldVar(new Type(""),statementexpressionContext.predecrementexpression().name().getText())),
                     new Binary("-", new IntegerLit(1), new LocalOrFieldVar(new Type("int"), statementexpressionContext.predecrementexpression().name().getText())));
         }
         if (statementexpressionContext.postincrementexpression() != null) {
-            return new Assign(new LeftSideExpr(new LocalOrFieldVar(new Type(""),statementexpressionContext.preincrementexpression().name().getText())),
+            return new Assign(new LeftSideExpr(new LocalOrFieldVar(new Type(""),statementexpressionContext.postincrementexpression().name().getText())),
                     new Binary("+", new IntegerLit(1), new LocalOrFieldVar(new Type("int"), statementexpressionContext.postincrementexpression().name().getText())));
         }
         if (statementexpressionContext.postdecrementexpression() != null) {
-            return new Assign(new LeftSideExpr(new LocalOrFieldVar(new Type(""),statementexpressionContext.preincrementexpression().name().getText())),
+            return new Assign(new LeftSideExpr(new LocalOrFieldVar(new Type(""),statementexpressionContext.postdecrementexpression().name().getText())),
                     new Binary("-", new IntegerLit(1), new LocalOrFieldVar(new Type("int"), statementexpressionContext.postdecrementexpression().name().getText())));
         }
         if (statementexpressionContext.methodcallexpression() != null) {

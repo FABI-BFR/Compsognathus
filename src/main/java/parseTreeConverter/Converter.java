@@ -244,8 +244,10 @@ public class Converter {
             return convertToAssignment(statementexpressionContext.assignment());
         }
         if (statementexpressionContext.preincrementexpression() != null) {
-            return new Binary("+", new IntegerLit(1),
-                    new LocalOrFieldVar(new Type("int"), statementexpressionContext.preincrementexpression().name().getText()));
+            return new Assign(new LeftSideExpr(new LocalOrFieldVar(new Type(""),statementexpressionContext.preincrementexpression().name().getText())),
+                    new Binary("+", new IntegerLit(1), new LocalOrFieldVar(new Type("int"), statementexpressionContext.preincrementexpression().name().getText())));
+//            return new Binary("+", new IntegerLit(1),
+//                    new LocalOrFieldVar(new Type("int"), statementexpressionContext.preincrementexpression().name().getText()));
         }
         if (statementexpressionContext.predecrementexpression() != null) {
             return new Binary("-",

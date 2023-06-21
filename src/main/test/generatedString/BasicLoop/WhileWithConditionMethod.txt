@@ -16,9 +16,12 @@ Classes: [
 			Block: {
 				While: { 
 				Expression: 
-					LocalOrFieldVar: {
-					Type:Boolean
-					Name: isTrue()
+					MethodCall: {
+					Name: isTrue
+					Objekt: 
+						This: {}
+					Parameters: [
+					]
 					}
 				Statement: 
 					Block: {

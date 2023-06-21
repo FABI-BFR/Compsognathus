@@ -350,7 +350,11 @@ public class ByteCodeGenerator
     private void visitReturn(@NotNull MethodGenerator method,
                              @NotNull Return _return)
     {
-        resolveExpr(method, _return.getExpression());
+        if(_return.getExpression() instanceof IStmtExpr){
+            resolveStmtExpr(method, (IStmtExpr) _return.getExpression());
+        }else{
+            resolveExpr(method, _return.getExpression());
+        }
         method.getMethodVisitor().visitInsn(parseReturnType(_return.getType().getType()));
     }
 
@@ -445,11 +449,14 @@ public class ByteCodeGenerator
 
     private void visitMethodCall(@NotNull MethodGenerator _method,
                                  @NotNull MethodCall _methodCall){
+
         resolveExpr(_method, _methodCall.object);
 
+        /*
         for (IExpr param : _methodCall.parameters) {
             resolveExpr(_method, param);
-        }
+        }*/
+
 
         int opcode = _methodCall.getType().getType().equals(_method.getClassGenerator().getName())
                 ? Opcodes.INVOKESPECIAL : Opcodes.INVOKEVIRTUAL;
@@ -458,6 +465,7 @@ public class ByteCodeGenerator
                                                     _methodCall.name,
                                                     parseMethodType(_methodCall.method.getType(), _methodCall.method.getParameter()),
                                             false);
+
 
         if (!_methodCall.isStored()) {
             _method.getMethodVisitor().visitInsn(Opcodes.POP);
@@ -547,92 +555,160 @@ public class ByteCodeGenerator
         switch (_binary.operator)
         {
             case "+" -> {
-                resolveExpr(_method, _binary.exprLeft);
+                if(_binary.exprLeft instanceof IStmtExpr){
+                    resolveStmtExpr(_method, (IStmtExpr) _binary.exprLeft);
+                } else{
+                    resolveExpr(_method, _binary.exprLeft);
+                }
                 resolveExpr(_method, _binary.exprRight);
                 _method.getMethodVisitor().visitInsn(Opcodes.IADD);
             }
             case "-" -> {
-                resolveExpr(_method, _binary.exprLeft);
+                if(_binary.exprLeft instanceof IStmtExpr){
+                    resolveStmtExpr(_method, (IStmtExpr) _binary.exprLeft);
+                } else{
+                    resolveExpr(_method, _binary.exprLeft);
+                }
                 resolveExpr(_method, _binary.exprRight);
                 _method.getMethodVisitor().visitInsn(Opcodes.ISUB);
             }
             case "*" -> {
-                resolveExpr(_method, _binary.exprLeft);
+                if(_binary.exprLeft instanceof IStmtExpr){
+                    resolveStmtExpr(_method, (IStmtExpr) _binary.exprLeft);
+                } else{
+                    resolveExpr(_method, _binary.exprLeft);
+                }
                 resolveExpr(_method, _binary.exprRight);
                 _method.getMethodVisitor().visitInsn(Opcodes.IMUL);
             }
             case "/" -> {
-                resolveExpr(_method, _binary.exprLeft);
+                if(_binary.exprLeft instanceof IStmtExpr){
+                    resolveStmtExpr(_method, (IStmtExpr) _binary.exprLeft);
+                } else{
+                    resolveExpr(_method, _binary.exprLeft);
+                }
                 resolveExpr(_method, _binary.exprRight);
                 _method.getMethodVisitor().visitInsn(Opcodes.IDIV);
             }
             case "%" -> {
-                resolveExpr(_method, _binary.exprLeft);
+                if(_binary.exprLeft instanceof IStmtExpr){
+                    resolveStmtExpr(_method, (IStmtExpr) _binary.exprLeft);
+                } else{
+                    resolveExpr(_method, _binary.exprLeft);
+                }
                 resolveExpr(_method, _binary.exprRight);
                 _method.getMethodVisitor().visitInsn(Opcodes.IREM);
             }
             case "<<" -> {
-                resolveExpr(_method, _binary.exprLeft);
+                if(_binary.exprLeft instanceof IStmtExpr){
+                    resolveStmtExpr(_method, (IStmtExpr) _binary.exprLeft);
+                } else{
+                    resolveExpr(_method, _binary.exprLeft);
+                }
                 resolveExpr(_method, _binary.exprRight);
                 _method.getMethodVisitor().visitInsn(Opcodes.ISHL);
             }
             case ">>" -> {
-                resolveExpr(_method, _binary.exprLeft);
+                if(_binary.exprLeft instanceof IStmtExpr){
+                    resolveStmtExpr(_method, (IStmtExpr) _binary.exprLeft);
+                } else{
+                    resolveExpr(_method, _binary.exprLeft);
+                }
                 resolveExpr(_method, _binary.exprRight);
                 _method.getMethodVisitor().visitInsn(Opcodes.ISHR);
             }
             case ">>>" -> {
-                resolveExpr(_method, _binary.exprLeft);
+                if(_binary.exprLeft instanceof IStmtExpr){
+                    resolveStmtExpr(_method, (IStmtExpr) _binary.exprLeft);
+                } else{
+                    resolveExpr(_method, _binary.exprLeft);
+                }
                 resolveExpr(_method, _binary.exprRight);
                 _method.getMethodVisitor().visitInsn(Opcodes.IUSHR);
             }
             case "&" -> {
-                resolveExpr(_method, _binary.exprLeft);
+                if(_binary.exprLeft instanceof IStmtExpr){
+                    resolveStmtExpr(_method, (IStmtExpr) _binary.exprLeft);
+                } else{
+                    resolveExpr(_method, _binary.exprLeft);
+                }
                 resolveExpr(_method, _binary.exprRight);
                 _method.getMethodVisitor().visitInsn(Opcodes.IAND);
             }
             case "|" -> {
-                resolveExpr(_method, _binary.exprLeft);
+                if(_binary.exprLeft instanceof IStmtExpr){
+                    resolveStmtExpr(_method, (IStmtExpr) _binary.exprLeft);
+                } else{
+                    resolveExpr(_method, _binary.exprLeft);
+                }
                 resolveExpr(_method, _binary.exprRight);
                 _method.getMethodVisitor().visitInsn(Opcodes.IOR);
             }
             case "^" -> {
-                resolveExpr(_method, _binary.exprLeft);
+                if(_binary.exprLeft instanceof IStmtExpr){
+                    resolveStmtExpr(_method, (IStmtExpr) _binary.exprLeft);
+                } else{
+                    resolveExpr(_method, _binary.exprLeft);
+                }
                 resolveExpr(_method, _binary.exprRight);
                 _method.getMethodVisitor().visitInsn(Opcodes.IXOR);
             }
             case "<" -> {
-                resolveExpr(_method, _binary.exprLeft);
+                if(_binary.exprLeft instanceof IStmtExpr){
+                    resolveStmtExpr(_method, (IStmtExpr) _binary.exprLeft);
+                } else{
+                    resolveExpr(_method, _binary.exprLeft);
+                }
                 resolveExpr(_method, _binary.exprRight);
                 isComparison = true;
                 opcode = Opcodes.IF_ICMPLT;
             }
             case "<=" -> {
-                resolveExpr(_method, _binary.exprLeft);
+                if(_binary.exprLeft instanceof IStmtExpr){
+                    resolveStmtExpr(_method, (IStmtExpr) _binary.exprLeft);
+                } else{
+                    resolveExpr(_method, _binary.exprLeft);
+                }
                 resolveExpr(_method, _binary.exprRight);
                 isComparison = true;
                 opcode = Opcodes.IF_ICMPLE;
             }
             case ">" -> {
-                resolveExpr(_method, _binary.exprLeft);
+                if(_binary.exprLeft instanceof IStmtExpr){
+                    resolveStmtExpr(_method, (IStmtExpr) _binary.exprLeft);
+                } else{
+                    resolveExpr(_method, _binary.exprLeft);
+                }
                 resolveExpr(_method, _binary.exprRight);
                 isComparison = true;
                 opcode = Opcodes.IF_ICMPGT;
             }
             case ">=" -> {
-                resolveExpr(_method, _binary.exprLeft);
+                if(_binary.exprLeft instanceof IStmtExpr){
+                    resolveStmtExpr(_method, (IStmtExpr) _binary.exprLeft);
+                } else{
+                    resolveExpr(_method, _binary.exprLeft);
+                }
                 resolveExpr(_method, _binary.exprRight);
                 isComparison = true;
                 opcode = Opcodes.IF_ICMPGE;
             }
             case "==" -> {
-                resolveExpr(_method, _binary.exprLeft);
+                if(_binary.exprLeft instanceof IStmtExpr){
+                    resolveStmtExpr(_method, (IStmtExpr) _binary.exprLeft);
+                } else{
+                    resolveExpr(_method, _binary.exprLeft);
+                }
                 resolveExpr(_method, _binary.exprRight);
                 isComparison = true;
                 opcode = Opcodes.IF_ICMPEQ;
             }
             case "&&" -> {
-                resolveExpr(_method, _binary.exprLeft);
+                if(_binary.exprLeft instanceof IStmtExpr){
+                    resolveStmtExpr(_method, (IStmtExpr) _binary.exprLeft);
+                } else{
+                    resolveExpr(_method, _binary.exprLeft);
+                }
                 Label returnFalse = new Label();
                 _method.getMethodVisitor().visitJumpInsn(Opcodes.IFNE, returnFalse);
                 resolveExpr(_method, _binary.exprRight);
@@ -645,7 +721,11 @@ public class ByteCodeGenerator
                 _method.getMethodVisitor().visitLabel(end);
             }
             case "||" -> {
-                resolveExpr(_method, _binary.exprLeft);
+                if(_binary.exprLeft instanceof IStmtExpr){
+                    resolveStmtExpr(_method, (IStmtExpr) _binary.exprLeft);
+                } else{
+                    resolveExpr(_method, _binary.exprLeft);
+                }
                 Label returnTrue = new Label();
                 _method.getMethodVisitor().visitJumpInsn(Opcodes.IFEQ, returnTrue);
                 resolveExpr(_method, _binary.exprRight);

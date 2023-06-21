@@ -12,10 +12,6 @@ import java.util.List;
 @RunWith(Parameterized.class)
 public class TestMain {
 
-//    public static void main(String[] args){
-//        TestInitializer ti = new TestInitializer();
-//        ti.initialize();
-//    }
     @Parameterized.Parameters
     public static List<File> data(){
         return new TestHelper().listFilesInFolder("src/main/test/files/input");

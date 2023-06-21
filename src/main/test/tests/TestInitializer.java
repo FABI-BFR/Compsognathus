@@ -33,7 +33,7 @@ public class TestInitializer {
                 saveClassFiles(f, bcg.generate(p));
             }catch (Exception e){
                 System.out.println("File: " + f.getPath() + " couldn't be compiled into bytecode, as:\n"+
-                        e.getMessage());
+                        e.getMessage() + "\n");
                 uncompilableFiles++;
             }
         }
@@ -61,7 +61,6 @@ public class TestInitializer {
         String path = file.getPath().replace("input","bytecode");
         if (classFiles.size() == 1) {
             path = path.replace(".java", ".class");
-
             writeClassFile(new File(path), classFiles.get(0).getBytecode());
             return;
         }
@@ -74,7 +73,6 @@ public class TestInitializer {
     public void writeClassFile(File f, byte[] content) {
         try {
             Files.createDirectories(f.getParentFile().toPath());
-            //f.createNewFile();
             FileOutputStream fos = new FileOutputStream(f);
             fos.write(content);
             fos.close();

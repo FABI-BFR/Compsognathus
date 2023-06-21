@@ -1,3 +1,5 @@
+import bytecode.ByteCodeGenerator;
+import bytecode.ClassFile;
 import org.junit.Assert;
 import org.junit.Test;
 import semantikCheck.Program;
@@ -12,7 +14,6 @@ public class TestMain {
     public static void main(String[] args) throws IOException {
         TestInitializer ti = new TestInitializer();
         ti.initialize();
-
     }
     @Test
     public void testFiles(){
@@ -20,12 +21,17 @@ public class TestMain {
         List<File> files = th.listFilesInFolder("src/main/test/files/input");
         Program pg;
         Checker checker = new Checker();
+        ByteCodeGenerator bcg = new ByteCodeGenerator();
+        List<ClassFile> classFiles;
         for(File f : files){
             pg = th.convertFileToProgram(f);
             Assert.assertEquals(th.getFileContent(f,"input","untyped"),pg.toString(""));
             checker.check(pg);
             Assert.assertTrue(checker.getErrors().isEmpty());
             Assert.assertEquals(th.getFileContent(f,"input","typed"),pg.toString(""));
+            classFiles = bcg.generate(pg);
+
         }
+
     }
 }

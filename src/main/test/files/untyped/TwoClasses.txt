@@ -1,0 +1,42 @@
+Program: {
+Classes: [
+	Class: {
+	Name: ClassOne
+	Access: public
+	Fields: [
+	]
+	Methods: [
+	]
+	Constructors: [
+		Constructor: {
+		Name: ClassOne
+		Access: public
+		Parameter: [
+		]
+		Statement: 
+			Block: {
+			}
+		}
+	]
+	}
+	Class: {
+	Name: ClassTwo
+	Access: public
+	Fields: [
+	]
+	Methods: [
+	]
+	Constructors: [
+		Constructor: {
+		Name: ClassTwo
+		Access: public
+		Parameter: [
+		]
+		Statement: 
+			Block: {
+			}
+		}
+	]
+	}
+]
+}
